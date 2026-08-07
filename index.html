@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>System Portfolio OS</title>
+  <!-- 98.css library for native Windows 98 styling -->
+  <link rel="stylesheet" href="https://unpkg.com/98.css" />
+  <style>
+    body {
+      background-color: #008080; /* Classic Win98 Teal */
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+      font-family: "Pixelated MS Sans Serif", Arial, sans-serif;
+    }
+
+    #desktop {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    /* Start Menu Popup Container */
+    .start-menu {
+      display: none; /* Hidden by default */
+      position: fixed;
+      bottom: 38px; /* Positioned directly on top of the taskbar */
+      left: 0;
+      width: 320px;
+      height: 280px;
+      background: #2b5b84;
+      border: 2px solid #002b49;
+      border-radius: 5px 5px 0 0;
+      box-shadow: 4px 4px 12px rgba(0,0,0,0.5);
+      z-index: 2000;
+    }
+
+    /* Left Pane (Light background) */
+    .start-menu-left {
+      width: 50%;
+      background: #ffffff;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      border-right: 1px solid #999;
+    }
+
+    /* Right Pane (Dark blue background) */
+    .start-menu-right {
+      width: 50%;
+      background: #1e3d59;
+      color: white;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    /* User Account Header Block */
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .profile-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 4px;
+      object-fit: cover; /* Keeps image proportions intact */
+      border: 1px solid #ffffff; /* Adds a crisp Windows border accent */
+      box-sizing: border-box;
+    }
+
+    .user-name {
+      font-weight: bold;
+      font-size: 13px;
+      color: #ffffff;
+    }
+
+    /* Hover effects for menu choices */
+    .menu-item, .menu-item-dark {
+      padding: 4px 6px;
+      cursor: pointer;
+      border-radius: 3px;
+      font-size: 12px;
+    }
+
+    .menu-item:hover {
+      background: #2980b9;
+      color: white;
+    }
+
+    .menu-item-dark:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .desktop-icon {
+      width: 70px;
+      text-align: center;
+      color: white;
+      cursor: pointer;
+      text-shadow: 1px 1px 1px black;
+      background: transparent;
+      border: none;
+    }
+
+    .desktop-icon:hover {
+      background-color: rgba(0, 0, 128, 0.4);
+    }
+
+    .icon-img {
+      width: 32px;
+      height: 32px;
+      display: block;
+      margin: 0 auto 4px auto;
+    }
+
+    .window {
+      position: absolute;
+      width: 340px;
+      top: 60px;
+      left: 120px;
+      z-index: 10;
+    }
+
+    .title-bar {
+      cursor: move;
+      user-select: none;
+    }
+
+    #taskbar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 38px;
+      background: #c0c0c0;
+      border-top: 2px solid #fff;
+      display: flex;
+      align-items: center;
+      padding: 2px 6px;
+      justify-content: space-between;
+      box-sizing: border-box;
+      z-index: 1000;
+    }
+
+    .taskbar-left {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Desktop Icons -->
+  <div id="desktop">
+    <div class="desktop-icon" onclick="openWindow('resume-window')">
+      <img src="https://win98icons.alexmeub.com/icons/png/notepad-0.png" alt="Resume" class="icon-img" />
+      <span>Resume.txt</span>
+    </div>
+    <div class="desktop-icon" onclick="openWindow('clues-window')">
+      <img src="https://win98icons.alexmeub.com/icons/png/search_file-2.png" alt="Mission Briefing" class="icon-img" />
+      <span>MISSION_BRIEFING.txt</span>
+    </div>
+
+    <div class="desktop-icon" onclick="openWindow('browser-window')">
+      <img src="https://raw.githubusercontent.com/alrra/browser-logos/main/src/edge/edge_32x32.png" alt="Edge" class="icon-img" />
+      <span>Edge</span>
+    </div>
+  </div>
+
+  <!-- Window 1: Resume / Fast Pass -->
+  <div class="window" id="resume-window">
+    <div class="title-bar">
+      <div class="title-bar-text">Resume.txt - Notepad</div>
+      <div class="title-bar-controls">
+        <button aria-label="Close" onclick="closeWindow('resume-window')"></button>
+      </div>
+    </div>
+    <div class="window-body">
+      <p>Looking for quick info without playing the puzzle?</p>
+      <a href="resume.pdf" download>
+        <button>Download Official PDF Resume</button>
+      </a>
+    </div>
+  </div>
+
+  <!-- Window 2: OSINT Clues -->
+  <div class="window" id="clues-window" style="top: 140px; left: 200px;">
+    <div class="title-bar">
+      <div class="title-bar-text">MISSION_BRIEFING.txt - Notepad</div>
+      <div class="title-bar-controls">
+        <button aria-label="Close" onclick="closeWindow('clues-window')"></button>
+      </div>
+    </div>
+    <div class="window-body">
+      <p><strong>MISSION:</strong> Uncover the secrets locked inside this PC to learn about me.</p>
+      <p><strong>Step 1:</strong> Find my full name, open Edge, and navigate to <strong>oasis.com</strong> to verify my degree records.</p>
+      <hr />
+      <div style="margin-top: 8px;">
+        <button id="hint-btn" onclick="toggleHint()">Show Hint</button>
+        <p id="hint-text" style="display: none; margin-top: 8px; color: #333;">
+          <em>Hint 1:</em> Click the Start button at the bottom left to view the account owner's full name...
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Simulated Web Browser Window -->
+  <div class="window" id="browser-window" style="width: 680px; height: 500px; display: none;">
+    <div class="title-bar">
+      <div class="title-bar-text" id="browser-title">Microsoft Edge - Start Page</div>
+      <div class="title-bar-controls">
+        <button aria-label="Close" onclick="closeWindow('browser-window')"></button>
+      </div>
+    </div>
+    <div class="window-body" style="display: flex; flex-direction: column; height: calc(100% - 36px); gap: 6px;">
+
+      <!-- Address Bar Controls -->
+      <div style="display: flex; gap: 4px; align-items: center;">
+        <button onclick="resetBrowserHome()">🏠</button>
+        <input type="text" id="address-bar" value="https://www.google.com" placeholder="Type URL (e.g. oasis.com)..." style="flex-grow: 1;" onkeydown="if(event.key === 'Enter') navigateToUrl()" />
+        <button onclick="navigateToUrl()" style="font-weight: bold;">Go</button>
+      </div>
+
+      <!-- Embedded Local Page Content -->
+      <iframe id="browser-frame" src="start_page.html" style="width: 100%; flex-grow: 1; border: 2px inset #dfdfdf; background: white;"></iframe>
+
+    </div>
+  </div>
+
+  <!-- Start Menu Popup -->
+  <div id="start-menu" class="start-menu">
+    <!-- Left White Column (Programs & Apps) -->
+    <div class="start-menu-left">
+      <div class="menu-item" onclick="openWindow('resume-window'); toggleStartMenu();">
+        <span>📝</span> Resume.txt
+      </div>
+      <div class="menu-item" onclick="openWindow('browser-window'); toggleStartMenu();">
+        <span>🌐</span> Browser.exe
+      </div>
+      <div class="menu-item" onclick="openWindow('clues-window'); toggleStartMenu();">
+        <span>🕵️</span> OSINT Briefing
+      </div>
+    </div>
+
+    <!-- Right Dark Column (User Account & System Folders) -->
+    <div class="start-menu-right">
+      <!-- User Profile Header -->
+      <div class="user-profile">
+        <img src="user_profile_pic.png" alt="Tybo Verslype" class="profile-avatar" />
+        <span class="user-name">Tybo Verslype</span>
+      </div>
+
+      <!-- Quick Navigation Links -->
+      <div class="menu-item-dark" onclick="openWindow('resume-window'); toggleStartMenu();">
+        📁 My Documents
+      </div>
+      <div class="menu-item-dark" onclick="alert('Access Restricted: Admin Privileges Required');">
+        ⚙️ Control Panel
+      </div>
+      <div class="menu-item-dark" onclick="alert('Session Locked');">
+        🔒 Log Off
+      </div>
+    </div>
+  </div>
+
+  <!-- Fixed Taskbar -->
+  <div id="taskbar">
+    <div class="taskbar-left">
+      <!-- Start Button with PNG Windows Flag -->
+      <button id="start-button" onclick="toggleStartMenu()" style="display: flex; align-items: center; justify-content: center; padding: 3px 6px; cursor: pointer;" aria-label="Start Menu">
+        <img src="windows_logo.png" alt="Start" style="height: 22px; width: auto; display: block;" />
+      </button>
+    </div>
+    <!-- Direct link so recruiters can bypass gameplay instantly -->
+    <a href="resume.pdf" target="_blank">
+      <button style="color: darkblue; font-weight: bold;">Recruiter Fast-Pass (PDF)</button>
+    </a>
+  </div>
+
+  <script>
+    // Step 1 Completion Handler
+    let step1Done = false;
+
+    // Add this inside the <script> block of your main desktop HTML
+    window.addEventListener('message', (event) => {
+      if (event.data && event.data.type === 'STEP_1_COMPLETE') {
+        completeStep1();
+      }
+    });
+
+    function completeStep1() {
+      if (step1Done) return; // Prevent repeating popup if already completed
+      step1Done = true;
+
+      // 1. Bring Mission Briefing window to the front
+      openWindow('clues-window');
+
+      // 2. Update the contents of MISSION_BRIEFING.txt to show Step 2
+      const briefingBody = document.querySelector('#clues-window .window-body');
+      briefingBody.innerHTML = `
+        <p><strong>MISSION:</strong> Uncover the secrets locked inside this PC to learn about me.</p>
+        <p style="color: green; font-weight: bold;">Step 1 Complete: You found Tybo's verified Ghent University records!</p>
+        <p><strong>Step 2:</strong> ...</p>
+        <hr />
+        <div style="margin-top: 8px;">
+          <button id="hint-btn" onclick="toggleHint()">Show Hint</button>
+          <p id="hint-text" style="display: none; margin-top: 8px; color: #333;">
+            <em>Hint 2:</em> ...
+          </p>
+        </div>
+      `;
+    }
+
+    // Browser URL Routing Logic
+    function navigateToUrl() {
+      const input = document.getElementById('address-bar').value.trim().toLowerCase();
+      const frame = document.getElementById('browser-frame');
+      const title = document.getElementById('browser-title');
+
+      // Reset srcdoc if navigating
+      frame.removeAttribute('srcdoc');
+
+      if (input.includes('oasis')) {
+        frame.src = 'oasis.html';
+        document.getElementById('address-bar').value = 'https://oasis.ugent.be/portal';
+        title.innerText = 'Microsoft Edge - Ghent University OASIS Portal';
+      } else {
+        // Fallback 404 page for any unhandled URLs
+        frame.srcdoc = `
+          <html>
+            <body style="font-family: Arial, sans-serif; padding: 20px; text-align: center; color: #555;">
+              <h2>⚠️ 404 - Server Not Found</h2>
+              <p>The address <strong>${input}</strong> could not be reached.</p>
+            </body>
+          </html>`;
+        title.innerText = 'Microsoft Edge - 404 Not Found';
+      }
+    }
+
+    function resetBrowserHome() {
+      const frame = document.getElementById('browser-frame');
+      document.getElementById('address-bar').value = 'https://www.google.com';
+      document.getElementById('browser-title').innerText = 'Microsoft Edge - Start Page';
+      frame.removeAttribute('srcdoc');
+      frame.src = 'start_page.html';
+    }
+
+    // Toggle Hint visibility in Mission Briefing
+    function toggleHint() {
+      const hintText = document.getElementById('hint-text');
+      const hintBtn = document.getElementById('hint-btn');
+
+      if (hintText.style.display === 'none') {
+        hintText.style.display = 'block';
+        hintBtn.innerText = 'Hide Hint';
+      } else {
+        hintText.style.display = 'none';
+        hintBtn.innerText = 'Show Hint';
+      }
+    }
+
+    // Toggle Start Menu visibility
+    function toggleStartMenu() {
+      const menu = document.getElementById('start-menu');
+      if (menu.style.display === 'flex') {
+        menu.style.display = 'none';
+      } else {
+        menu.style.display = 'flex';
+      }
+    }
+
+    // Automatically close the Start Menu when clicking anywhere else on the desktop
+    document.addEventListener('click', (event) => {
+      const menu = document.getElementById('start-menu');
+      const button = document.getElementById('start-button');
+
+      if (menu && button) {
+        if (!menu.contains(event.target) && !button.contains(event.target)) {
+          menu.style.display = 'none';
+        }
+      }
+    });
+
+    // Window Dragging Logic
+    document.querySelectorAll('.window').forEach(win => {
+      const titleBar = win.querySelector('.title-bar');
+      let isDragging = false;
+      let offsetX = 0, offsetY = 0;
+
+      titleBar.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        offsetX = e.clientX - win.offsetLeft;
+        offsetY = e.clientY - win.offsetTop;
+
+        // Bring clicked window to top
+        document.querySelectorAll('.window').forEach(w => w.style.zIndex = '10');
+        win.style.zIndex = '100';
+      });
+
+      document.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        win.style.left = `${e.clientX - offsetX}px`;
+        win.style.top = `${e.clientY - offsetY}px`;
+      });
+
+      document.addEventListener('mouseup', () => isDragging = false);
+    });
+
+    function closeWindow(id) {
+      document.getElementById(id).style.display = 'none';
+    }
+
+    function openWindow(id) {
+      const win = document.getElementById(id);
+      win.style.display = 'block';
+      win.style.zIndex = '100';
+    }
+  </script>
+</body>
+</html>

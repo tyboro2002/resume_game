@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OASIS - Ghent University</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #ffffff;
+      color: #333333;
+    }
+
+    /* Top Layout Header */
+    .top-header {
+      display: flex;
+      align-items: center;
+      height: 90px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .ugent-logo-container {
+      width: 220px;
+      padding-left: 25px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .ugent-crest-svg {
+      width: 42px;
+      height: 48px;
+    }
+
+    .ugent-text {
+      color: #1e64c8;
+      font-size: 15px;
+      font-weight: bold;
+      line-height: 1.1;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .oasis-banner {
+      flex-grow: 1;
+      height: 100%;
+      background-color: #1e64c8; /* Ghent University Blue */
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 35px;
+    }
+
+    .oasis-title {
+      font-size: 38px;
+      font-weight: 300;
+      letter-spacing: 1px;
+    }
+
+    .banner-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-size: 13px;
+    }
+
+    .user-name-display {
+      font-weight: bold;
+      color: #ffffff;
+      display: none;
+    }
+
+    .lang-link {
+      color: white;
+      text-decoration: none;
+      font-size: 12px;
+    }
+
+    /* Main Container */
+    .main-container {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 30px 20px;
+    }
+
+    .welcome-title {
+      color: #1e64c8;
+      font-size: 34px;
+      font-weight: 400;
+      margin-bottom: 45px;
+      text-align: center;
+    }
+
+    .columns {
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+    }
+
+    .column {
+      flex: 1;
+      max-width: 440px;
+    }
+
+    .column-header {
+      color: #1e64c8;
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .card-box {
+      border: 1px solid #d0d0d0;
+      padding: 24px 20px;
+      background-color: #fafafa;
+      min-height: 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-ugent {
+      background-color: #1e64c8;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 13px;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 2px;
+      width: 85%;
+      transition: background-color 0.2s;
+    }
+
+    .btn-ugent:hover {
+      background-color: #154da0;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 90%;
+      align-items: center;
+    }
+
+    .login-input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #1e64c8;
+      border-radius: 2px;
+      font-size: 13px;
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    .error-msg {
+      color: #d9534f;
+      font-size: 12px;
+      margin-top: 8px;
+      display: none;
+      font-weight: bold;
+    }
+
+    .footer-text {
+      max-width: 920px;
+      margin: 45px auto 0 auto;
+      font-size: 11px;
+      color: #666;
+      text-align: left;
+      line-height: 1.5;
+    }
+
+    .footer-text a {
+      color: #1e64c8;
+      text-decoration: underline;
+    }
+
+    /* OASIS Results View */
+    #records-screen {
+      display: none;
+      text-align: left;
+    }
+
+    .nav-category {
+      color: #1e64c8;
+      font-size: 16px;
+      font-weight: bold;
+      border-bottom: 2px solid #1e64c8;
+      display: inline-block;
+      padding-bottom: 4px;
+      margin-bottom: 25px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .page-section-title {
+      color: #1e64c8;
+      font-size: 22px;
+      font-weight: 400;
+      margin: 0 0 6px 0;
+    }
+
+    .page-subtitle {
+      font-size: 13px;
+      color: #555555;
+      margin: 0 0 25px 0;
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .degree-card {
+      border: 1px solid #d0d0d0;
+      background-color: #ffffff;
+      padding: 22px 24px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .degree-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+
+    .degree-year {
+      color: #1e64c8;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .degree-title {
+      color: #222222;
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    .degree-institution {
+      font-size: 13px;
+      color: #1e64c8;
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+
+    .badge-certified {
+      background-color: #28a745;
+      color: white;
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 3px;
+      font-weight: bold;
+      display: inline-block;
+    }
+
+    .ugent-crest-img {
+      height: 48px;
+      width: auto;
+      display: block;
+      object-fit: contain;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+    <div class="top-header">
+      <div class="ugent-logo-container">
+        <img src="ugent.png" alt="Ghent University" class="ugent-crest-img" />
+        <div class="ugent-text">
+          Ghent<br>University
+        </div>
+      </div>
+      <div class="oasis-banner">
+        <div class="oasis-title">OASIS</div>
+        <div class="banner-right">
+          <span id="user-display" class="user-name-display">Tybo Verslype</span>
+        </div>
+      </div>
+    </div>
+
+  <!-- Main Content Body -->
+  <div class="main-container">
+
+    <!-- Login Screen -->
+    <div id="login-screen">
+      <h1 class="welcome-title">Welcome at Ghent University</h1>
+      <div class="columns">
+        <div class="column">
+          <div class="column-header">Existing user</div>
+          <div class="card-box">
+            <div class="input-group">
+              <input type="text" id="full-name-input" class="login-input" placeholder="Enter Full Name" onkeydown="if(event.key === 'Enter') authenticateUser()" />
+              <button class="btn-ugent" onclick="authenticateUser()">Log in with Full Name</button>
+            </div>
+            <div id="error-msg" class="error-msg">❌ Access Denied: Student record not found.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-text">
+        When you log in with Full Name Authentication, we will obtain your Ghent University student record, degree details, and academic transcripts. This data is processed in accordance with our privacy policy (<a href="https://www.ugent.be/en/administration/privacy" target="_blank">https://www.ugent.be/en/administration/privacy</a>).
+      </div>
+    </div>
+
+    <!-- Verified Academic Dossier Results -->
+    <div id="records-screen">
+      <div class="nav-category">STUDENT</div>
+
+      <h2 class="page-section-title">Academic Records</h2>
+      <p class="page-subtitle">Verified educational credentials registered under Ghent University.</p>
+
+      <div class="results-grid">
+
+        <!-- Card 1: Master of Science -->
+        <div class="degree-card">
+          <div>
+            <div class="degree-header-row">
+              <span class="degree-year">2026</span>
+              <span class="badge-certified">Certified</span>
+            </div>
+            <div class="degree-title">Master of Science - MS, Computer Science</div>
+            <div class="degree-institution">Ghent University</div>
+          </div>
+        </div>
+
+        <!-- Card 2: Bachelor of Science -->
+        <div class="degree-card">
+          <div>
+            <div class="degree-header-row">
+              <span class="degree-year">2024</span>
+              <span class="badge-certified">Certified</span>
+            </div>
+            <div class="degree-title">Bachelor of Science - BS, Computer Science</div>
+            <div class="degree-institution">Ghent University</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function authenticateUser() {
+        const input = document.getElementById('full-name-input').value.trim().toLowerCase();
+        const errorMsg = document.getElementById('error-msg');
+        const loginScreen = document.getElementById('login-screen');
+        const recordsScreen = document.getElementById('records-screen');
+        const userDisplay = document.getElementById('user-display');
+
+        // Remove leading/trailing spaces, reduce multiple inner spaces to 1, and make case-insensitive
+        const sanitizedInput = input.trim().replace(/\s+/g, ' ').toLowerCase();
+
+        if (sanitizedInput === 'tybo verslype') {
+          errorMsg.style.display = 'none';
+          loginScreen.style.display = 'none';
+          recordsScreen.style.display = 'block';
+          userDisplay.style.display = 'inline-block';
+
+          // Notify main desktop OS that Step 1 is complete
+          window.parent.postMessage({ type: 'STEP_1_COMPLETE' }, '*');
+        } else {
+          errorMsg.style.display = 'block';
+        }
+    }
+  </script>
+
+</body>
+</html>
