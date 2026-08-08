@@ -1,0 +1,198 @@
+<style>
+  .calendar-container {
+    padding: 8px;
+    font-size: 12px;
+    user-select: none;
+  }
+  .calendar-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #000080;
+    color: white;
+    padding: 4px 6px;
+    font-weight: bold;
+    margin-bottom: 6px;
+    gap: 6px;
+  }
+  .calendar-nav button {
+    min-width: 0 !important;
+    min-height: 0 !important;
+    height: 22px !important;
+    padding: 0 6px !important;
+    font-size: 11px !important;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    text-align: center;
+    background: #808080;
+    border: 2px inset #dfdfdf;
+    padding: 2px;
+  }
+  .cal-day-header {
+    font-weight: bold;
+    background: #c0c0c0;
+    padding: 4px 0;
+  }
+  .cal-day {
+    background: white;
+    padding: 6px 0;
+    border: 1px solid #e0e0e0;
+    cursor: pointer;
+    min-height: 20px;
+  }
+  .cal-day:hover {
+    background: #000080;
+    color: white;
+  }
+  .cal-day.empty {
+    background: #d4d0c8;
+    cursor: default;
+    border: none;
+  }
+  .cal-day.today {
+    border: 2px solid #000080;
+    font-weight: bold;
+  }
+  .cal-day.selected {
+    outline: 2px solid #000;
+  }
+  .cal-day.birthday {
+    background: #ffe066;
+    font-weight: bold;
+    color: #000;
+  }
+  .event-card {
+    margin-top: 8px;
+    padding: 8px;
+    border: 2px inset #dfdfdf;
+    background: #fffff0;
+    min-height: 48px;
+  }
+</style>
+
+<div class="calendar-container">
+  <div class="calendar-nav">
+    <button onclick="changeCalMonth(-1)">◄</button>
+    <span id="cal-month-title" style="flex-grow: 1; text-align: center;">June 2026</span>
+    <div style="display: flex; gap: 4px; align-items: center;">
+      <button onclick="resetCalToday()">Today</button>
+      <button onclick="changeCalMonth(1)">►</button>
+    </div>
+  </div>
+
+  <div class="calendar-grid" id="cal-grid"></div>
+
+  <div id="cal-event-box" class="event-card"></div>
+</div>
+
+<script>
+  (function() {
+    let currentCalDate = new Date();
+    const birthYear = 2002;
+    const birthMonth = 5; // June (0-indexed)
+    const birthDay = 22;
+
+    window.changeCalMonth = function(offset) {
+      currentCalDate.setMonth(currentCalDate.getMonth() + offset);
+      renderCalendar();
+    };
+
+    window.resetCalToday = function() {
+      currentCalDate = new Date();
+      renderCalendar();
+    };
+
+    window.selectCalDay = function(day) {
+      const year = currentCalDate.getFullYear();
+      const month = currentCalDate.getMonth();
+      const eventBox = document.getElementById('cal-event-box');
+
+      document.querySelectorAll('.cal-day').forEach(el => el.classList.remove('selected'));
+      const dayEl = document.getElementById(`cal-day-${day}`);
+      if (dayEl) dayEl.classList.add('selected');
+
+      if (month === birthMonth && day === birthDay) {
+        const age = year - birthYear;
+        eventBox.innerHTML = `
+          <div style="font-weight: bold; color: navy; margin-bottom: 4px;">🎂 Birthday Event</div>
+          <div style="font-size: 11px; color: #333;">
+            Already <strong>${age} years</strong> today... 2002 feels like yesterday!
+          </div>
+        `;
+      } else {
+        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        eventBox.innerHTML = `
+          <div style="font-weight: bold; color: #555; margin-bottom: 4px;">📅 ${monthNames[month]} ${day}, ${year}</div>
+          <div style="font-size: 11px; color: #777; font-style: italic;">No scheduled events for this date.</div>
+        `;
+      }
+    };
+
+    function renderCalendar() {
+      const year = currentCalDate.getFullYear();
+      const month = currentCalDate.getMonth();
+      const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+      document.getElementById('cal-month-title').innerText = `${monthNames[month]} ${year}`;
+
+      const grid = document.getElementById('cal-grid');
+      grid.innerHTML = `
+        <div class="cal-day-header">Mo</div>
+        <div class="cal-day-header">Tu</div>
+        <div class="cal-day-header">We</div>
+        <div class="cal-day-header">Th</div>
+        <div class="cal-day-header">Fr</div>
+        <div class="cal-day-header">Sa</div>
+        <div class="cal-day-header">Su</div>
+      `;
+
+      let firstDayIndex = new Date(year, month, 1).getDay() - 1;
+      if (firstDayIndex === -1) firstDayIndex = 6;
+
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const today = new Date();
+
+      for (let i = 0; i < firstDayIndex; i++) {
+        const emptyDiv = document.createElement('div');
+        emptyDiv.className = 'cal-day empty';
+        grid.appendChild(emptyDiv);
+      }
+
+      for (let d = 1; d <= daysInMonth; d++) {
+        const dayDiv = document.createElement('div');
+        dayDiv.id = `cal-day-${d}`;
+        dayDiv.className = 'cal-day';
+
+        const isToday = (today.getFullYear() === year && today.getMonth() === month && today.getDate() === d);
+        const isBirthday = (month === birthMonth && d === birthDay);
+
+        if (isToday) dayDiv.classList.add('today');
+        if (isBirthday) {
+          dayDiv.classList.add('birthday');
+          dayDiv.innerHTML = `🎂 ${d}`;
+        } else {
+          dayDiv.innerText = d;
+        }
+
+        dayDiv.onclick = () => selectCalDay(d);
+        grid.appendChild(dayDiv);
+      }
+
+      // Default selection logic: select today's date if viewing the current month, else default to day 1
+      if (today.getFullYear() === year && today.getMonth() === month) {
+        selectCalDay(today.getDate());
+      } else {
+        selectCalDay(1);
+      }
+    }
+
+    renderCalendar();
+  })();
+</script>

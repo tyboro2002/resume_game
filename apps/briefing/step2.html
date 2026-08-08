@@ -1,0 +1,50 @@
+<p><strong>MISSION:</strong> Uncover the secrets locked inside this PC to learn about me.</p>
+<p style="color: green; font-weight: bold;">Step 1 Complete: You found Tybo's verified Ghent University records!</p>
+<p><strong>Step 2:</strong> Find Tybo's birthdate to decrypt the project vault archive.</p>
+<hr />
+<div style="margin-top: 8px;">
+  <button id="hint-btn" onclick="showNextHint()">Show Hint (1/3)</button>
+  <div id="hints-container" style="margin-top: 8px; color: #333; font-size: 11px;"></div>
+</div>
+
+<script>
+  (function() {
+    const hints = [
+      "<em>Hint 1:</em> Try checking the System Tray clock at the bottom-right corner of the taskbar.",
+      "<em>Hint 2:</em> Clicking the clock opens Tybo's personal Calendar app.",
+      "<em>Hint 3:</em> Look for a special birthday event highlighted in the month of June!",
+      "<strong style='color: #b22222;'>Answer:</strong> Tybo's birthdate is <strong>22/06/2002</strong> (Enter <code>22062002</code> in Vault.exe)."
+    ];
+    let currentHintIndex = 0;
+
+    window.showNextHint = function() {
+      const container = document.getElementById('hints-container');
+      const btn = document.getElementById('hint-btn');
+      const totalHints = hints.length - 1; // Exclude answer from hint count
+
+      if (currentHintIndex < hints.length) {
+        // Append the next hint or answer
+        const p = document.createElement('p');
+        p.style.margin = '4px 0';
+        p.innerHTML = hints[currentHintIndex];
+        container.appendChild(p);
+
+        currentHintIndex++;
+
+        // Update button text based on progression stage
+        if (currentHintIndex < totalHints) {
+          btn.innerText = `Show Next Hint (${currentHintIndex + 1}/${totalHints})`;
+        } else if (currentHintIndex === totalHints) {
+          btn.innerText = "Reveal Answer";
+        } else {
+          btn.innerText = "Hide Hints & Answer";
+        }
+      } else {
+        // Reset view
+        container.innerHTML = '';
+        currentHintIndex = 0;
+        btn.innerText = `Show Hint (1/${totalHints})`;
+      }
+    };
+  })();
+</script>

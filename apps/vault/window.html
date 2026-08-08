@@ -1,0 +1,119 @@
+<style>
+  .vault-container {
+    padding: 12px;
+    font-size: 12px;
+  }
+  .vault-lockscreen {
+    text-align: center;
+    padding: 10px;
+  }
+  .vault-input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .vault-unlocked {
+    display: none;
+    padding: 8px;
+  }
+  .error-text {
+    color: red;
+    font-size: 11px;
+    margin-top: 6px;
+    display: none;
+  }
+</style>
+
+<div class="vault-container">
+
+  <!-- Password Screen -->
+  <div id="vault-lockscreen" class="vault-lockscreen">
+    <img src="https://win98icons.alexmeub.com/icons/png/key_padlock-0.png" alt="Lock" style="width: 32px; height: 32px;" />
+    <p style="margin: 8px 0 4px 0;"><strong>Access Restricted: Identity Verification Required</strong></p>
+    <p style="font-size: 11px; color: #555; margin: 0;">Enter passcode to decrypt this file.</p>
+
+    <div class="vault-input-group">
+      <!-- Input + Eye Toggle Container -->
+      <div style="display: flex; gap: 4px; align-items: center; justify-content: center;">
+          <input
+            type="password"
+            id="vault-pass-input"
+            placeholder="e.g. 12345678"
+            style="width: 180px; text-align: center;"
+            onkeydown="if(event.key==='Enter') unlockVault()"
+          />
+          <button
+            type="button"
+            id="vault-vis-btn"
+            onclick="togglePasswordVisibility()"
+            style="min-width: 0 !important; min-height: 0 !important; height: 23px !important; padding: 0 6px !important; font-size: 11px !important; cursor: pointer;"
+            title="Toggle Password Visibility"
+          >
+            Show
+          </button>
+      </div>
+
+      <button onclick="unlockVault()" style="font-weight: bold; margin-top: 4px;">Decrypt Vault</button>
+    </div>
+    <div id="vault-error" class="error-text">Incorrect PIN</div>
+  </div>
+
+  <!-- Decrypted Vault Content -->
+  <div id="vault-content" class="vault-unlocked">
+    <div style="background: #000080; color: white; padding: 4px 8px; font-weight: bold; margin-bottom: 8px;">
+      🔓 UNLOCKED: Confidential Project Vault
+    </div>
+    <p><strong>Federal Police OSINT Solution</strong></p>
+    <p style="font-size: 11px; color: #333;">
+      Full-stack intelligence scraper & secure dashboard developed for criminal investigations during summer 2025.
+    </p>
+  </div>
+
+</div>
+
+<script>
+  (function() {
+    window.unlockVault = function() {
+      const input = document.getElementById('vault-pass-input').value.trim().replace(/[^0-9]/g, '');
+      const err = document.getElementById('vault-error');
+
+      // Enforce prerequisite step progression
+      if (typeof window.step1Done !== 'undefined' && !window.step1Done) {
+        err.innerText = "Access Denied: Complete Step 1 first!";
+        err.style.display = 'block';
+        return;
+      }
+
+      // Accepts DDMMYYYY format for 22/06/2002 -> "22062002"
+      if (input === '22062002') {
+        err.style.display = 'none';
+        document.getElementById('vault-lockscreen').style.display = 'none';
+        document.getElementById('vault-content').style.display = 'block';
+
+        // Trigger Step 2 Handler
+        if (typeof window.completeStep2 === 'function') {
+          window.completeStep2();
+        }
+      } else {
+        err.innerText = "Incorrect PIN";
+        err.style.display = 'block';
+      }
+    };
+
+    window.togglePasswordVisibility = function() {
+      const input = document.getElementById('vault-pass-input');
+      const btn = document.getElementById('vault-vis-btn');
+      if (input && btn) {
+        if (input.type === 'password') {
+          input.type = 'text';
+          btn.innerText = 'Hide';
+        } else {
+          input.type = 'password';
+          btn.innerText = 'Show';
+        }
+      }
+    };
+  })();
+</script>
