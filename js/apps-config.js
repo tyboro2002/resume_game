@@ -30,7 +30,7 @@ const APPS_CONFIG = [
   {
     id: "browser-window",
     title: "Internet Explorer - Start Page",
-    icon: "https://win98icons.alexmeub.com/icons/png/msie1-0.png",
+    icon: "assets/images/internet_explorer.png",
     label: "Internet Explorer",
     type: "browser",
     startPage: "apps/browser/start_page.html",
