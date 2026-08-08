@@ -29,9 +29,9 @@ const APPS_CONFIG = [
   },
   {
     id: "browser-window",
-    title: "Microsoft Edge - Start Page",
-    icon: "https://raw.githubusercontent.com/alrra/browser-logos/main/src/edge/edge_32x32.png",
-    label: "Edge",
+    title: "Internet Explorer - Start Page",
+    icon: "https://win98icons.alexmeub.com/icons/png/msie1-0.png",
+    label: "Internet Explorer",
     type: "browser",
     startPage: "apps/browser/start_page.html",
     width: "680px",
