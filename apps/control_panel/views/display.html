@@ -1,0 +1,125 @@
+<div class="window-body" style="margin: 0; padding: 0; display: flex; flex-direction: column; height: 100%; box-sizing: border-box;">
+  <!-- Tab Header -->
+  <menu role="tablist" style="margin: 0; padding-left: 6px; display: flex;">
+    <li role="tab" aria-selected="true" onclick="
+      var w = this.closest('.window-body');
+      w.querySelectorAll('[role=tab]').forEach(function(t){ t.setAttribute('aria-selected', 'false'); });
+      this.setAttribute('aria-selected', 'true');
+      w.querySelector('#panel-background').style.display = 'block';
+      w.querySelector('#panel-appearance').style.display = 'none';
+      w.querySelector('#panel-settings').style.display = 'none';
+    "><a href="#background" onclick="return false;">Background</a></li>
+
+    <li role="tab" aria-selected="false" onclick="
+      var w = this.closest('.window-body');
+      w.querySelectorAll('[role=tab]').forEach(function(t){ t.setAttribute('aria-selected', 'false'); });
+      this.setAttribute('aria-selected', 'true');
+      w.querySelector('#panel-background').style.display = 'none';
+      w.querySelector('#panel-appearance').style.display = 'block';
+      w.querySelector('#panel-settings').style.display = 'none';
+    "><a href="#appearance" onclick="return false;">Appearance</a></li>
+
+    <li role="tab" aria-selected="false" onclick="
+      var w = this.closest('.window-body');
+      w.querySelectorAll('[role=tab]').forEach(function(t){ t.setAttribute('aria-selected', 'false'); });
+      this.setAttribute('aria-selected', 'true');
+      w.querySelector('#panel-background').style.display = 'none';
+      w.querySelector('#panel-appearance').style.display = 'none';
+      w.querySelector('#panel-settings').style.display = 'block';
+    "><a href="#settings" onclick="return false;">Settings</a></li>
+  </menu>
+
+  <!-- Tab Contents Window -->
+  <div class="window" style="position: static; border-top: none; padding: 12px; background: #c0c0c0; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+    <div>
+      <!-- 1. Background Panel -->
+      <div id="panel-background" style="display: block;">
+        <fieldset style="margin-bottom: 10px;">
+          <legend>Desktop Wallpaper &amp; Patterns</legend>
+          <p style="margin: 4px 0 8px 0; color: #444;">Select a visual motif for the portfolio interface backdrop:</p>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <div style="width: 90px; height: 70px; background: #008080; border: 2px inset #dfdfdf; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 10px; font-weight: bold;">Classic Teal</div>
+            <div style="flex-grow: 1;">
+              <div class="field-row-stacked" style="margin-bottom: 8px;">
+                <label style="font-weight: bold;">Wallpaper Pattern:</label>
+                <select style="width: 100%; background: #fff; color: #000;">
+                  <option selected>(None) - Windows 98 Teal</option>
+                  <option>Retro Blueprint Grid</option>
+                  <option>Matrix Terminal Dark</option>
+                </select>
+              </div>
+              <div style="display: flex; gap: 6px;">
+                <button disabled style="min-width: 60px;">Browse...</button>
+                <button disabled style="min-width: 60px;">Display</button>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+
+      <!-- 2. Appearance Panel -->
+      <div id="panel-appearance" style="display: none;">
+        <fieldset style="margin-bottom: 10px;">
+          <legend>Window Scheme &amp; UI Theme</legend>
+          <p style="margin: 4px 0 8px 0; color: #444;">Configure system-wide color palettes and widget dimensions:</p>
+          <div class="field-row-stacked" style="margin-bottom: 8px;">
+            <label style="font-weight: bold;">Color Scheme:</label> Lettuce
+            <select style="width: 100%; background: #fff; color: #000;">
+              <option selected>Windows 98 Classic (Default)</option>
+              <option>High Contrast Dark Terminal</option>
+              <option>Emerald Phoenix</option>
+            </select>
+          </div>
+          <div class="field-row-stacked">
+            <label style="font-weight: bold;">Item Element:</label>
+            <input type="text" value="Active Window Title Bar" readonly style="width: 100%; background: #e0e0e0; color: #000;" />
+          </div>
+        </fieldset>
+      </div>
+
+      <!-- 3. Settings Panel -->
+      <div id="panel-settings" style="display: none;">
+        <fieldset style="margin-bottom: 10px;">
+          <legend>Display Resolution &amp; Colors</legend>
+          <p style="margin: 4px 0 8px 0; color: #444;">Monitor color depth and viewport grid configuration:</p>
+          <div style="background: #fff; border: 2px inset #dfdfdf; padding: 10px; margin-bottom: 8px; text-align: center;">
+            <div style="font-weight: bold; margin-bottom: 4px;">[ 1024 x 768 Pixels ]</div>
+            <div style="font-size: 11px; color: #555;">True Color (32 bit) — 85Hz Refresh Rate</div>
+          </div>
+          <div class="field-row-stacked">
+            <label style="font-weight: bold;">Font Size Options:</label>
+            <select style="width: 100%; background: #fff; color: #000;">
+              <option selected>Small Fonts (Standard 96 DPI)</option>
+              <option>Large Fonts (120 DPI)</option>
+            </select>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div style="display: flex; justify-content: flex-end; gap: 6px; margin-top: 8px;">
+      <button onclick="
+        var c = this.closest('.cp-container');
+        if (c) {
+          c.querySelector('#cp-grid-container').style.display = 'grid';
+          c.querySelector('#cp-prop-container').style.display = 'none';
+          c.querySelector('#cp-addr-field').innerHTML = '<img src=\'https://win98icons.alexmeub.com/icons/png/settings_gear_cool-0.png\' alt=\'\' style=\'width: 16px; height: 16px; vertical-align: middle; image-rendering: pixelated; margin-right: 4px;\'> Control Panel';
+          c.querySelector('#cp-info-box').innerHTML = 'Use the settings in Control Panel to personalize your system.<br><br>Select an item to view its description.';
+        }
+      " style="font-weight: bold; width: 75px;">OK</button>
+
+      <button onclick="
+        var c = this.closest('.cp-container');
+        if (c) {
+          c.querySelector('#cp-grid-container').style.display = 'grid';
+          c.querySelector('#cp-prop-container').style.display = 'none';
+          c.querySelector('#cp-addr-field').innerHTML = '<img src=\'https://win98icons.alexmeub.com/icons/png/settings_gear_cool-0.png\' alt=\'\' style=\'width: 16px; height: 16px; vertical-align: middle; image-rendering: pixelated; margin-right: 4px;\'> Control Panel';
+          c.querySelector('#cp-info-box').innerHTML = 'Use the settings in Control Panel to personalize your system.<br><br>Select an item to view its description.';
+        }
+      " style="width: 75px;">Cancel</button>
+
+      <button disabled style="width: 75px;">Apply</button>
+    </div>
+  </div>
+</div>

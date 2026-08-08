@@ -1,0 +1,22 @@
+From: Digidokter Support <support@digidokter.be>
+To: verslypetybo@gmail.com
+Date: July 15, 2026
+Subject: System diagnostic alert - Action Required
+
+Dear Tybo,
+
+Digidokter Automated System Health Monitor has detected an unusual signature anomaly within your local core runtime environment on System Portfolio OS.
+
+--- ANOMALY DETAILS ---
+Target Node: C:\Windows\System32\core_script.dll
+Severity Level: CRITICAL (Potential Payload Risk)
+Source IP: Localhost Loopback
+-----------------------
+
+We strongly advise running a full system diagnostic scan immediately via your local security manager or executing the emergency script utility to cleanse potential registry corruption.
+
+If you notice unexpected pop-up windows or system stuttering, do not panic—run the Digidokter diagnostic tool to isolate the malicious process.
+
+Stay safe,
+The Digidokter Diagnostic Team
+https://digidokter.be/support

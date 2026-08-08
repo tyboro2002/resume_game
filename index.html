@@ -16,11 +16,16 @@
     }
 
     #desktop {
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      align-items: flex-start;
+      padding: 10px;
+      display: grid;
+      grid-auto-flow: column;
+      grid-template-rows: repeat(8, 72px);
+      grid-template-columns: repeat(auto-fit, 86px);
+      gap: 4px 8px;
+      height: calc(100vh - 46px);
+      align-content: start;
+      justify-content: start;
+      box-sizing: border-box;
     }
 
     .start-menu {
@@ -35,16 +40,25 @@
       border-radius: 5px 5px 0 0;
       box-shadow: 4px 4px 12px rgba(0,0,0,0.5);
       z-index: 2000;
+      box-sizing: border-box;
+    }
+
+    .start-menu-container {
+      display: flex;
+      height: 100%;
+      width: 100%;
     }
 
     .start-menu-left {
       width: 50%;
       background: #ffffff;
-      padding: 8px;
+      padding: 4px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 4px;
       border-right: 1px solid #999;
+      box-sizing: border-box;
+      overflow-y: auto;
     }
 
     .start-menu-right {
@@ -55,6 +69,7 @@
       display: flex;
       flex-direction: column;
       gap: 8px;
+      box-sizing: border-box;
     }
 
     .user-profile {
@@ -166,7 +181,6 @@
       background: #d4d4d4;
     }
 
-    /* Modular Notification Toast Shell */
     .notification-toast {
       position: fixed;
       bottom: 48px;
@@ -203,24 +217,69 @@
     <div class="window-body" id="notification-body"></div>
   </div>
 
+  <!-- Modular Win98 Error Modal Shell -->
+  <div id="control-panel-error" class="window" style="width: 320px; top: 180px; left: 220px; z-index: 4000; display: none;">
+    <div class="title-bar" style="background: darkred;">
+      <div class="title-bar-text">System Error - Restricted Access</div>
+      <div class="title-bar-controls">
+        <button aria-label="Close" onclick="closeWindow('control-panel-error')"></button>
+      </div>
+    </div>
+    <div class="window-body"></div>
+  </div>
+
+  <!-- Unlocked Control Panel Shell -->
+  <div id="control-panel-unlocked" class="window" style="width: 630px; height: 450px; top: 70px; left: 140px; z-index: 3000; display: none;">
+    <div class="title-bar">
+      <div class="title-bar-text">⚙️ Control Panel - Administrator Mode</div>
+      <div class="title-bar-controls">
+        <button aria-label="Close" onclick="closeWindow('control-panel-unlocked')"></button>
+      </div>
+    </div>
+    <div class="window-body" style="height: calc(100% - 36px); padding: 0;"></div>
+  </div>
+
+  <!-- Victory / Game Completion Window -->
+  <div id="victory-window" class="window" style="width: 480px; top: 120px; left: 200px; z-index: 6000; display: none;">
+    <div class="title-bar" style="background: navy; color: white;">
+      <div class="title-bar-text">🏆 System Portfolio OS - Mission Complete</div>
+      <div class="title-bar-controls">
+        <button aria-label="Close" onclick="closeWindow('victory-window')"></button>
+      </div>
+    </div>
+    <div class="window-body" style="background: #c0c0c0; padding: 12px; text-align: center;">
+      <img src="https://win98icons.alexmeub.com/icons/png/computer_explorer-0.png" alt="Trophy" style="width: 48px; height: 48px; margin-bottom: 8px;" />
+      <h3 style="margin: 0 0 8px 0; color: #000;">Congratulations, Tybo Verslype!</h3>
+      <p style="font-size: 11px; color: #333; text-align: left; background: #fff; padding: 10px; border: 2px inset #dfdfdf; margin-bottom: 12px;">
+        You have successfully completed the OSINT investigation on Tybo Verslype! By tracking digital footprints, uncovering hidden clues, and analyzing target records, you have fully mapped the profile.
+        <br><br>
+        Investigation successfully closed. Thank you for playing this interactive OSINT experience!
+      </p>
+      <button onclick="closeWindow('victory-window')" style="padding: 4px 16px; font-weight: bold;">Close Session</button>
+    </div>
+  </div>
+
   <!-- Start Menu Popup -->
   <div id="start-menu" class="start-menu">
-    <div class="start-menu-left"></div>
+    <div class="start-menu-container">
+      <div class="start-menu-left"></div>
 
-    <div class="start-menu-right">
-      <div class="user-profile">
-        <img src="assets/images/user_profile_pic.png" alt="Tybo Verslype" class="profile-avatar" />
-        <span class="user-name">Tybo Verslype</span>
-      </div>
+      <div class="start-menu-right">
+        <div class="user-profile">
+          <img src="assets/images/user_profile_pic.png" alt="Tybo Verslype" class="profile-avatar" />
+          <span class="user-name">Tybo Verslype</span>
+        </div>
 
-      <div class="menu-item-dark" onclick="openWindow('resume-window'); toggleStartMenu();">
-        📁 My Documents
-      </div>
-      <div class="menu-item-dark" onclick="alert('Access Restricted: Admin Privileges Required');">
-        ⚙️ Control Panel
-      </div>
-      <div class="menu-item-dark" onclick="alert('Session Locked');">
-        🔒 Log Off
+        <div class="menu-item-dark" onclick="openWindow('resume-window'); toggleStartMenu();">
+          📁 My Documents
+        </div>
+        <div class="menu-item-dark" onclick="openControlPanel(); toggleStartMenu();">
+          ⚙️ Control Panel
+        </div>
+        <!-- Hidden by default until step 5 / Digidokter mail is read -->
+        <div class="menu-item-dark" id="logoff-menu-item" style="display: none;" onclick="openWindow('victory-window'); toggleStartMenu();">
+          🔒 Log Off
+        </div>
       </div>
     </div>
   </div>
@@ -237,29 +296,107 @@
       </a>
     </div>
 
-    <!-- System Tray with Clock & Calendar Trigger -->
+    <!-- System Tray -->
     <div class="system-tray" onclick="openWindow('calendar-window')" title="Click to open Calendar">
       <img src="https://win98icons.alexmeub.com/icons/png/calendar-0.png" alt="Calendar" style="width: 16px; height: 16px;" />
       <span id="tray-clock">12:00 PM</span>
     </div>
   </div>
 
-  <!-- Load External App Configuration -->
+  <!-- Modular Win98 Info Modal Shell -->
+  <div id="info-modal" class="window" style="width: 320px; top: 180px; left: 220px; z-index: 4000; display: none;">
+    <div class="title-bar">
+      <div class="title-bar-text">Properties - Local Disk (C:)</div>
+      <div class="title-bar-controls">
+        <button aria-label="Close" onclick="closeWindow('info-modal')"></button>
+      </div>
+    </div>
+    <div class="window-body"></div>
+  </div>
+
   <script src="js/apps-config.js"></script>
 
   <script>
     // State Tracking
     window.step1Done = false;
     window.step2Done = false;
+    window.step3Done = false;
+    window.step4Done = false;
+    window.step5Done = false;
+    window.isAdminUnlocked = false;
+    window.isGameWon = false;
 
-    // Cross-origin message listener for iframe events
-    window.addEventListener('message', (event) => {
-      if (event.data && event.data.type === 'STEP_1_COMPLETE') {
-        completeStep1();
+    let sharedAudioCtx = null;
+
+    function getAudioContext() {
+      if (!sharedAudioCtx) {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (AudioCtx) sharedAudioCtx = new AudioCtx();
       }
+      if (sharedAudioCtx && sharedAudioCtx.state === 'suspended') {
+        sharedAudioCtx.resume();
+      }
+      return sharedAudioCtx;
+    }
+
+    document.addEventListener('click', () => { getAudioContext(); }, { once: true });
+
+    function playErrorSound() {
+      try {
+        const ctx = getAudioContext();
+        if (!ctx) return;
+
+        [140, 180, 220].forEach(freq => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(freq, ctx.currentTime);
+
+          gain.gain.setValueAtTime(0.2, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.25);
+
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+
+          osc.start();
+          osc.stop(ctx.currentTime + 0.25);
+        });
+      } catch (e) {
+        console.warn('Audio error', e);
+      }
+    }
+
+    function playNotificationSound() {
+      try {
+        const ctx = getAudioContext();
+        if (!ctx) return;
+
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(587.33, ctx.currentTime);
+        osc.frequency.setValueAtTime(880, ctx.currentTime + 0.08);
+
+        gain.gain.setValueAtTime(0.25, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start();
+        osc.stop(ctx.currentTime + 0.35);
+      } catch (e) {
+        console.warn('Audio error', e);
+      }
+    }
+
+    window.addEventListener('message', (event) => {
+      if (event.data && event.data.type === 'STEP_1_COMPLETE') completeStep1();
+      if (event.data && event.data.type === 'STEP_3_COMPLETE') completeStep3();
     });
 
-    // Helper function to fetch and load HTML files into any window
     function loadWindowContent(windowId, contentUrl) {
       const win = document.getElementById(windowId);
       if (!win) return;
@@ -272,8 +409,6 @@
         .then(res => res.text())
         .then(html => {
           winBody.innerHTML = html;
-
-          // Re-trigger script execution for fetched modular app content
           winBody.querySelectorAll('script').forEach(oldScript => {
             const newScript = document.createElement('script');
             Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
@@ -282,41 +417,10 @@
           });
         })
         .catch(() => {
-          winBody.innerHTML = `<p style="color: red;">Error loading app content.</p>`;
+          winBody.innerHTML = `<p style="color: red;">Error loading content.</p>`;
         });
     }
 
-    // Web Audio API Retro System Notification Chime
-    function playNotificationSound() {
-      try {
-        const AudioCtx = window.AudioContext || window.webkitAudioContext;
-        if (!AudioCtx) return;
-
-        const ctx = new AudioCtx();
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-
-        // Classic retro dual-tone ding (D5 -> A5)
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(587.33, ctx.currentTime);
-        osc.frequency.setValueAtTime(880, ctx.currentTime + 0.08);
-
-        // Fade out volume
-        gain.gain.setValueAtTime(0.25, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
-
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-
-        osc.start();
-        osc.stop(ctx.currentTime + 0.35);
-      } catch (e) {
-        // Browsers block autoplay until the first user click
-        console.warn('Audio playback waiting for user interaction.', e);
-      }
-    }
-
-    // Dynamic Notification Launcher
     function showNotification(contentUrl, title = '💬 Message from The Boss') {
       const notif = document.getElementById('boss-notification');
       const notifTitle = document.getElementById('notification-title');
@@ -326,28 +430,86 @@
 
       if (title) notifTitle.innerText = title;
 
+      playNotificationSound();
+      notifBody.innerHTML = '<p style="padding: 10px; margin: 0;">Loading...</p>';
+      notif.style.display = 'block';
+
       fetch(contentUrl)
         .then(res => res.text())
-        .then(html => {
-          notifBody.innerHTML = html;
-          notif.style.display = 'block';
-          playNotificationSound(); // Play notification chime
-        })
-        .catch(() => {
-          notifBody.innerHTML = '<p style="color: red; padding: 10px;">Error loading notification content.</p>';
-          notif.style.display = 'block';
-          playNotificationSound(); // Play notification chime
-        });
+        .then(html => { notifBody.innerHTML = html; })
+        .catch(() => { notifBody.innerHTML = '<p style="color: red; padding: 10px;">Error loading notification.</p>'; });
     }
 
     function closeNotification() {
       const notif = document.getElementById('boss-notification');
-      if (notif) {
-        notif.style.display = 'none';
+      if (notif) notif.style.display = 'none';
+    }
+
+    // Dynamic Control Panel Router with Prerequisite Check
+    function openControlPanel() {
+      if (!window.step1Done || !window.step2Done) {
+        showControlPanelPrereqError();
+      } else if (window.isAdminUnlocked) {
+        const win = document.getElementById('control-panel-unlocked');
+        if (win) {
+          loadWindowContent('control-panel-unlocked', 'apps/control_panel/main.html');
+          win.style.display = 'block';
+          win.style.zIndex = '3000';
+        }
+      } else {
+        showControlPanelError();
       }
     }
 
-    // System Tray Clock Logic
+    function showControlPanelPrereqError() {
+      const modal = document.getElementById('control-panel-error');
+      if (!modal) return;
+
+      playErrorSound();
+      modal.style.display = 'block';
+      modal.style.zIndex = '5000';
+
+      const winBody = modal.querySelector('.window-body');
+      if (winBody) {
+        winBody.innerHTML = `
+          <div style="display: flex; gap: 12px; align-items: center; padding: 8px;">
+            <img src="https://win98icons.alexmeub.com/icons/png/msg_warning-0.png" alt="Warning" style="width: 32px; height: 32px;" />
+            <div>
+              <p style="margin: 0; font-weight: bold; color: darkred;">Prerequisites Unmet</p>
+              <p style="margin: 4px 0 0 0; font-size: 11px; color: #333;">
+                Complete previous challenge steps before configuring system administrative settings.
+              </p>
+            </div>
+          </div>
+          <div style="text-align: right; padding: 8px 0 0 0;">
+            <button onclick="closeWindow('control-panel-error')">OK</button>
+          </div>
+        `;
+      }
+    }
+
+    function showControlPanelError() {
+      const modal = document.getElementById('control-panel-error');
+      if (!modal) return;
+
+      playErrorSound();
+      modal.style.display = 'block';
+      modal.style.zIndex = '5000';
+      loadWindowContent('control-panel-error', 'apps/control_panel/error.html');
+    }
+
+    function showRecycleBinError() {
+      const modal = document.getElementById('control-panel-error');
+      if (!modal) return;
+
+      playErrorSound();
+      modal.style.display = 'block';
+      modal.style.zIndex = '5000';
+      loadWindowContent('control-panel-error', 'apps/recycle_bin/error.html');
+    }
+
+    window.showRecycleBinError = showRecycleBinError;
+
     function updateTrayClock() {
       const now = new Date();
       let hours = now.getHours();
@@ -356,46 +518,51 @@
       hours = hours % 12 || 12;
 
       const clockElement = document.getElementById('tray-clock');
-      if (clockElement) {
-        clockElement.innerText = `${hours}:${minutes} ${ampm}`;
-      }
+      if (clockElement) clockElement.innerText = `${hours}:${minutes} ${ampm}`;
     }
 
-    // Initialize OS Interface
     function initOS() {
       const desktop = document.getElementById('desktop');
       const startMenuLeft = document.querySelector('.start-menu-left');
       const windowsContainer = document.getElementById('windows-container');
 
       APPS_CONFIG.forEach(app => {
-        // 1. Desktop Icon
+        const appLabel = app.label || app.title;
+
         if (app.showOnDesktop !== false) {
           const iconDiv = document.createElement('div');
           iconDiv.className = 'desktop-icon';
-          iconDiv.onclick = () => openWindow(app.id);
-          iconDiv.innerHTML = `
-            <img src="${app.icon}" alt="${app.label}" class="icon-img" />
-            <span>${app.label}</span>
-          `;
+          iconDiv.onclick = () => {
+            if (app.action) {
+              app.action();
+            } else {
+              openWindow(app.id);
+            }
+          };
+          iconDiv.innerHTML = `<img src="${app.icon}" alt="${appLabel}" class="icon-img" /><span>${appLabel}</span>`;
           desktop.appendChild(iconDiv);
         }
 
-        // 2. Start Menu Link
         if (app.showInStartMenu !== false) {
           const menuItem = document.createElement('div');
           menuItem.className = 'menu-item';
           menuItem.style.display = 'flex';
           menuItem.style.alignItems = 'center';
           menuItem.style.gap = '6px';
-          menuItem.onclick = () => { openWindow(app.id); toggleStartMenu(); };
-          menuItem.innerHTML = `
-            <img src="${app.icon}" alt="${app.label}" style="width: 16px; height: 16px;" />
-            <span>${app.label}</span>
-          `;
+          menuItem.onclick = () => {
+            if (app.action) {
+              app.action();
+            } else {
+              openWindow(app.id);
+            }
+            toggleStartMenu();
+          };
+          menuItem.innerHTML = `<img src="${app.icon}" alt="${appLabel}" style="width: 16px; height: 16px;" /><span>${appLabel}</span>`;
           startMenuLeft.appendChild(menuItem);
         }
 
-        // 3. App Window Shell
+        if (app.action) return;
+
         const winDiv = document.createElement('div');
         winDiv.className = 'window';
         winDiv.id = app.id;
@@ -415,12 +582,11 @@
             <div class="window-body" style="display: flex; flex-direction: column; height: calc(100% - 36px); gap: 6px;">
               <div style="display: flex; gap: 4px; align-items: center;">
                 <button onclick="resetBrowserHome()">🏠</button>
-                <input type="text" id="address-bar" value="https://www.google.com" placeholder="Type URL (e.g. oasis.com)..." style="flex-grow: 1;" onkeydown="if(event.key === 'Enter') navigateToUrl()" />
+                <input type="text" id="address-bar" value="https://www.google.com" placeholder="Type URL..." style="flex-grow: 1;" onkeydown="if(event.key === 'Enter') navigateToUrl()" />
                 <button onclick="navigateToUrl()" style="font-weight: bold;">Go</button>
               </div>
               <iframe id="browser-frame" src="${app.startPage}" style="width: 100%; flex-grow: 1; border: 2px inset #dfdfdf; background: white;"></iframe>
-            </div>
-          `;
+            </div>`;
         } else {
           winDiv.innerHTML = `
             <div class="title-bar">
@@ -429,19 +595,13 @@
                 <button aria-label="Close" onclick="closeWindow('${app.id}')"></button>
               </div>
             </div>
-            <div class="window-body"></div>
-          `;
+            <div class="window-body"></div>`;
         }
 
         windowsContainer.appendChild(winDiv);
 
-        if (app.type !== 'browser' && app.contentUrl) {
-          loadWindowContent(app.id, app.contentUrl);
-        }
-
-        if (app.autoOpen) {
-          openWindow(app.id);
-        }
+        if (app.type !== 'browser' && app.contentUrl) loadWindowContent(app.id, app.contentUrl);
+        if (app.autoOpen) openWindow(app.id);
       });
 
       setupDragging();
@@ -449,31 +609,63 @@
       setInterval(updateTrayClock, 1000);
     }
 
-    // Step 1 Completion Handler
     function completeStep1() {
       if (window.step1Done) return;
       window.step1Done = true;
-
       openWindow('clues-window');
       loadWindowContent('clues-window', 'apps/briefing/step2.html');
-      showNotification('apps/notifications/step1_complete.html');
+      showNotification('apps/notifications/step1_complete.html', '💬 Message from The Boss');
     }
 
-    // Step 2 Completion Handler
     function completeStep2() {
-      // Prevents completion out of order or if already completed
       if (!window.step1Done || window.step2Done) return;
       window.step2Done = true;
-
-      // Update briefing window to Step 3
       openWindow('clues-window');
       loadWindowContent('clues-window', 'apps/briefing/step3.html');
-
-      // Trigger notification
       showNotification('apps/notifications/step2_complete.html', '💬 Message from The Boss');
     }
 
-    // Browser URL Routing Logic
+    function completeStep3() {
+      if (!window.step1Done || !window.step2Done || window.step3Done) return;
+      window.step3Done = true;
+      window.isAdminUnlocked = true;
+
+      closeWindow('control-panel-error');
+      loadWindowContent('clues-window', 'apps/briefing/step4.html');
+      showNotification('apps/notifications/step3_complete.html', '💬 Message from The Boss');
+    }
+
+    function completeStep4() {
+      if (!window.step1Done || !window.step2Done || !window.step3Done || window.step4Done) return;
+      window.step4Done = true;
+      loadWindowContent('clues-window', 'apps/briefing/step5.html');
+      showNotification('apps/notifications/step4_complete.html', '💬 Message from The Boss');
+    }
+
+    // Trigger Final Victory and Step 5 Completion when Digidokter mail is read
+    function triggerFinalVictory() {
+      if (window.isGameWon) return;
+
+      // Check that all previous steps are fully completed
+      if (!window.step1Done || !window.step2Done || !window.step3Done || !window.step4Done) return;
+
+      window.step5Done = true;
+      window.isGameWon = true;
+
+      // Use the showNotification function with step 5 complete notification file
+      showNotification('apps/notifications/step5_complete.html', '💬 Message from The Boss');
+
+      // Reveal the logout button in the Start Menu
+      const logoffItem = document.getElementById('logoff-menu-item');
+      if (logoffItem) {
+        logoffItem.style.display = 'block';
+      }
+    }
+
+    window.completeStep3 = completeStep3;
+    window.completeStep4 = completeStep4;
+    window.triggerFinalVictory = triggerFinalVictory;
+
     function navigateToUrl() {
       const input = document.getElementById('address-bar').value.trim().toLowerCase();
       const frame = document.getElementById('browser-frame');
@@ -484,58 +676,66 @@
       if (input.includes('oasis')) {
         frame.src = 'apps/browser/oasis.html';
         document.getElementById('address-bar').value = 'https://oasis.ugent.be/portal';
-        title.innerText = 'Microsoft Edge - Ghent University OASIS Portal';
+        title.innerText = 'Internet Explorer - Ghent University OASIS Portal';
+      } else if (input.includes('http://www.retro-soft.be/downloads.html')) {
+        frame.src = 'apps/browser/downloads.html';
+        document.getElementById('address-bar').value = 'http://www.retro-soft.be/downloads.html';
+        title.innerText = 'Internet Explorer - RetroSoft Software';
+      } else if (
+        input.includes('81.246.12.34') ||
+        input.includes('192.168.1.104') ||
+        input.includes('ip-lookup') ||
+        input.includes('iplookup') ||
+        input.includes('ip lookup') ||
+        input.includes('whois') ||
+        input.includes('geoip')
+      ) {
+        frame.src = 'apps/browser/ip_lookup.html';
+        document.getElementById('address-bar').value = 'https://ip-lookup.com/search';
+        title.innerText = 'Internet Explorer - GeoIP Lookup Result';
+      } else if (
+        input.includes('zeus') ||
+        input.includes('zeus wpi') ||
+        input.includes('zeuswpi') ||
+        input.includes('zeus.gent') ||
+        input.includes('zeus.ugent.be')
+      ) {
+        frame.src = 'apps/browser/zeus.html';
+        document.getElementById('address-bar').value = 'https://zeus.ugent.be/';
+        title.innerText = 'Internet Explorer - Zeus WPI site';
       } else {
         frame.srcdoc = `
           <html>
             <body style="font-family: Arial, sans-serif; padding: 20px; text-align: center; color: #555;">
-              <h2>⚠️ 404 - Server Not Found</h2>
+              <h2>404 - Server Not Found</h2>
               <p>The address <strong>${input}</strong> could not be reached.</p>
             </body>
           </html>`;
-        title.innerText = 'Microsoft Edge - 404 Not Found';
+        title.innerText = 'Internet Explorer - 404 Not Found';
       }
     }
 
     function resetBrowserHome() {
       const frame = document.getElementById('browser-frame');
       document.getElementById('address-bar').value = 'https://www.google.com';
-      document.getElementById('browser-title').innerText = 'Microsoft Edge - Start Page';
+      document.getElementById('browser-title').innerText = 'Internet Explorer - Start Page';
       frame.removeAttribute('srcdoc');
       frame.src = 'apps/browser/start_page.html';
     }
 
-    // Toggle Hint visibility in Mission Briefing
-    function toggleHint() {
-      const hintText = document.getElementById('hint-text');
-      const hintBtn = document.getElementById('hint-btn');
-
-      if (hintText.style.display === 'none') {
-        hintText.style.display = 'block';
-        hintBtn.innerText = 'Hide Hint';
-      } else {
-        hintText.style.display = 'none';
-        hintBtn.innerText = 'Show Hint';
-      }
-    }
-
-    // Start Menu Visibility Toggle
     function toggleStartMenu() {
       const menu = document.getElementById('start-menu');
       menu.style.display = (menu.style.display === 'flex') ? 'none' : 'flex';
     }
 
-    // Dismiss Start Menu on background click
     document.addEventListener('click', (event) => {
       const menu = document.getElementById('start-menu');
       const button = document.getElementById('start-button');
-
       if (menu && button && !menu.contains(event.target) && !button.contains(event.target)) {
         menu.style.display = 'none';
       }
     });
 
-    // Window Dragging Functionality
     function setupDragging() {
       document.querySelectorAll('.window').forEach(win => {
         const titleBar = win.querySelector('.title-bar');
@@ -548,7 +748,6 @@
           isDragging = true;
           offsetX = e.clientX - win.offsetLeft;
           offsetY = e.clientY - win.offsetTop;
-
           document.querySelectorAll('.window').forEach(w => w.style.zIndex = '10');
           win.style.zIndex = '100';
         });
@@ -574,6 +773,204 @@
         win.style.zIndex = '100';
       }
     }
+
+    let notepadInstanceCounter = 0;
+    function openNotepad(title = 'Untitled - Notepad', initialContent = '') {
+      notepadInstanceCounter++;
+      const winId = 'notepad-win-' + notepadInstanceCounter;
+      const windowsContainer = document.getElementById('windows-container');
+      if (!windowsContainer) return;
+
+      fetch('apps/notepad/main.html')
+        .then(res => res.text())
+        .then(html => {
+          const tempDiv = document.createElement('div');
+          tempDiv.innerHTML = html.trim();
+          const winDiv = tempDiv.firstChild;
+
+          if (!winDiv || !winDiv.classList.contains('window')) return;
+
+          winDiv.id = winId;
+          winDiv.style.top = (70 + (notepadInstanceCounter * 25)) + 'px';
+          winDiv.style.left = (120 + (notepadInstanceCounter * 25)) + 'px';
+
+          const titleTextEl = winDiv.querySelector('.notepad-title-text');
+          if (titleTextEl) titleTextEl.innerText = title;
+
+          const closeBtn = winDiv.querySelector('.notepad-close-btn');
+          if (closeBtn) {
+            closeBtn.setAttribute('onclick', `closeWindow('${winId}')`);
+          }
+
+          const textarea = winDiv.querySelector('.notepad-textarea');
+          if (textarea && initialContent) {
+            textarea.value = initialContent;
+          }
+
+          windowsContainer.appendChild(winDiv);
+          setupDragging();
+          openWindow(winId);
+        })
+        .catch(err => {
+          console.warn('Error loading notepad template:', err);
+        });
+    }
+
+    window.openNotepad = openNotepad;
+
+    function showCapacityProperties() {
+      const modal = document.getElementById('info-modal');
+      if (!modal) return;
+
+      modal.style.display = 'block';
+      modal.style.zIndex = '5000';
+      loadWindowContent('info-modal', 'apps/file_explorer/properties.html');
+    }
+
+    window.showCapacityProperties = showCapacityProperties;
+
+    function unlockMailApp() {
+      const desktop = document.getElementById('desktop');
+      const startMenuLeft = document.querySelector('.start-menu-left');
+
+      const iconDiv = document.createElement('div');
+      iconDiv.className = 'desktop-icon';
+      iconDiv.onclick = () => openWindow('mail-window');
+      iconDiv.innerHTML = `
+        <img src="https://win98icons.alexmeub.com/icons/png/envelope_closed-0.png" alt="Outlook Express" class="icon-img" />
+        <span>Outlook Express</span>
+      `;
+      desktop.appendChild(iconDiv);
+
+      const menuItem = document.createElement('div');
+      menuItem.className = 'menu-item';
+      menuItem.style.display = 'flex';
+      menuItem.style.alignItems = 'center';
+      menuItem.style.gap = '6px';
+      menuItem.onclick = () => {
+        openWindow('mail-window');
+        toggleStartMenu();
+      };
+      menuItem.innerHTML = `
+        <img src="https://win98icons.alexmeub.com/icons/png/envelope_closed-0.png" alt="Outlook Express" style="width: 16px; height: 16px;" />
+        <span>Outlook Express</span>
+      `;
+      startMenuLeft.appendChild(menuItem);
+    }
+
+    window.unlockMailApp = unlockMailApp;
+
+    function triggerVirusSpamAndModal(mail, onComplete) {
+      if (typeof playErrorSound === 'function') {
+        playErrorSound();
+      }
+
+      fetch('apps/mail/virus_error_popup.html')
+        .then(res => {
+          if (!res.ok) throw new Error('Failed to fetch virus_error_popup.html');
+          return res.text();
+        })
+        .then(templateHtml => {
+          spawnPopupSequence(templateHtml, onComplete);
+        })
+        .catch(err => {
+          console.error('Error loading virus error popup template file:', err);
+        });
+    }
+
+    function spawnPopupSequence(templateHtml, onComplete) {
+      const popupCount = 15;
+
+      for (let i = 0; i < popupCount; i++) {
+        setTimeout(() => {
+          const tempDiv = document.createElement('div');
+          tempDiv.innerHTML = templateHtml.trim();
+          const errorPopup = tempDiv.firstElementChild;
+
+          if (!errorPopup) return;
+
+          errorPopup.style.position = 'fixed';
+          errorPopup.style.zIndex = `${90000 + i}`;
+          errorPopup.style.display = 'block';
+
+          const popupWidth = 300;
+          const popupHeight = 180;
+          const maxX = Math.max(20, window.innerWidth - popupWidth - 20);
+          const maxY = Math.max(20, window.innerHeight - popupHeight - 60);
+
+          const randomX = Math.floor(Math.random() * maxX) + 10;
+          const randomY = Math.floor(Math.random() * maxY) + 10;
+
+          errorPopup.style.top = `${randomY}px`;
+          errorPopup.style.left = `${randomX}px`;
+
+          document.body.appendChild(errorPopup);
+
+          if (typeof playErrorSound === 'function') {
+            playErrorSound();
+          }
+
+          setTimeout(() => {
+            errorPopup.remove();
+          }, 1200 + (i * 100));
+
+        }, i * 150);
+      }
+
+      setTimeout(() => {
+        showDigidokterModal();
+        if (typeof onComplete === 'function') {
+          onComplete();
+        }
+      }, popupCount * 150 + 400);
+    }
+
+    function showDigidokterModal() {
+      const existing = document.getElementById('digidokter-global-modal');
+      if (existing) existing.remove();
+
+      fetch('apps/mail/digidokter_modal.html')
+        .then(res => {
+          if (!res.ok) throw new Error('Failed to fetch digidokter_modal.html');
+          return res.text();
+        })
+        .then(html => {
+          const tempDiv = document.createElement('div');
+          tempDiv.innerHTML = html.trim();
+          const modal = tempDiv.firstElementChild;
+          if (modal) {
+            modal.style.display = 'block';
+            document.body.appendChild(modal);
+          }
+        })
+        .catch(err => {
+          console.error('Error loading digidokter modal template file:', err);
+        });
+    }
+
+    function closeDigidokterModal() {
+      const modal = document.getElementById('digidokter-global-modal');
+      if (modal) modal.remove();
+
+      // Trigger the incoming Digidokter email in Outlook Express when the modal closes
+      if (typeof window.receiveDigidokterMail === 'function') {
+        window.receiveDigidokterMail();
+      }
+
+      // Load the pending clicked email content once the modal is closed
+      if (window.pendingMailToLoad && typeof window.loadMailContentBody === 'function') {
+        window.loadMailContentBody(window.pendingMailToLoad);
+        window.pendingMailToLoad = null;
+      }
+
+      // Directly trigger final victory and reveal the Log Off button when closing the modal
+      if (typeof window.triggerFinalVictory === 'function') {
+        window.triggerFinalVictory();
+      }
+    }
+
+    window.triggerVirusSpamAndModal = triggerVirusSpamAndModal;
+    window.closeDigidokterModal = closeDigidokterModal;
 
     document.addEventListener('DOMContentLoaded', initOS);
   </script>

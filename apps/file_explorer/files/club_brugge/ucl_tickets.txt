@@ -1,0 +1,10 @@
+UEFA Champions League Ticket Booking Confirmation
+--------------------------------------------------
+Match: Club Brugge KV vs. Manchester United
+Status: CONFIRMED - Sector North
+Section: Block 112
+Row: 1, Seat: 12
+Gate: North Entrance (Jan Breydel Stadium)
+
+Important Instructions:
+Please present your digital season card or printed PDF ticket at the turnstile. Mobile NFC entry is fully supported. Enjoy the match!

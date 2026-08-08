@@ -1,0 +1,158 @@
+<div class="window-body" style="margin: 0; padding: 0; display: flex; flex-direction: column; height: 100%; box-sizing: border-box;">
+  <!-- Tab Header -->
+  <menu role="tablist" style="margin: 0; padding-left: 6px; display: flex;">
+    <li role="tab" aria-selected="true" onclick="
+      var w = this.closest('.window-body');
+      w.querySelectorAll('[role=tab]').forEach(function(t){ t.setAttribute('aria-selected', 'false'); });
+      this.setAttribute('aria-selected', 'true');
+      w.querySelector('#panel-languages').style.display = 'block';
+      w.querySelector('#panel-regional').style.display = 'none';
+      w.querySelector('#panel-input').style.display = 'none';
+    "><a href="#languages" onclick="return false;">Languages</a></li>
+
+    <li role="tab" aria-selected="false" onclick="
+      var w = this.closest('.window-body');
+      w.querySelectorAll('[role=tab]').forEach(function(t){ t.setAttribute('aria-selected', 'false'); });
+      this.setAttribute('aria-selected', 'true');
+      w.querySelector('#panel-languages').style.display = 'none';
+      w.querySelector('#panel-regional').style.display = 'block';
+      w.querySelector('#panel-input').style.display = 'none';
+    "><a href="#regional" onclick="return false;">Regional Options</a></li>
+
+    <li role="tab" aria-selected="false" onclick="
+      var w = this.closest('.window-body');
+      w.querySelectorAll('[role=tab]').forEach(function(t){ t.setAttribute('aria-selected', 'false'); });
+      this.setAttribute('aria-selected', 'true');
+      w.querySelector('#panel-languages').style.display = 'none';
+      w.querySelector('#panel-regional').style.display = 'none';
+      w.querySelector('#panel-input').style.display = 'block';
+    "><a href="#input" onclick="return false;">Input Locales</a></li>
+  </menu>
+
+  <!-- Tab Contents Window -->
+  <div class="window" style="position: static; border-top: none; padding: 12px; background: #c0c0c0; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+    <div>
+      <!-- 1. Languages Panel -->
+      <div id="panel-languages" style="display: block;">
+        <fieldset style="margin-bottom: 10px;">
+          <legend>System Language Configuration</legend>
+          <p style="margin: 4px 0 8px 0; color: #444;">Installed language packs and evaluated fluency parameters:</p>
+
+          <div class="field-row-stacked" style="margin-bottom: 8px;">
+            <label for="lang-dutch" style="font-weight: bold;">Primary Locale (Native):</label>
+            <div style="display: flex; gap: 6px;">
+              <input id="lang-dutch" type="text" value="Dutch" readonly style="flex-grow: 1; background: #e0e0e0; color: #000;" />
+              <select disabled style="width: 130px; background: #e0e0e0; color: #000;">
+                <option selected>Mother Tongue</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field-row-stacked" style="margin-bottom: 8px;">
+            <label for="lang-english" style="font-weight: bold;">Secondary Input Protocol:</label>
+            <div style="display: flex; gap: 6px;">
+              <input id="lang-english" type="text" value="English" readonly style="flex-grow: 1; background: #e0e0e0; color: #000;" />
+              <select disabled style="width: 130px; background: #e0e0e0; color: #000;">
+                <option selected>C1 (Advanced)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field-row-stacked">
+            <label for="lang-french" style="font-weight: bold;">Auxiliary Input Protocol:</label>
+            <div style="display: flex; gap: 6px;">
+              <input id="lang-french" type="text" value="French" readonly style="flex-grow: 1; background: #e0e0e0; color: #000;" />
+              <select disabled style="width: 130px; background: #e0e0e0; color: #000;">
+                <option selected>B1 (Intermediate)</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+
+      <!-- 2. Regional Options Panel -->
+      <div id="panel-regional" style="display: none;">
+        <fieldset style="margin-bottom: 10px;">
+          <legend>Regional Settings</legend>
+          <p style="margin: 4px 0 8px 0; color: #444;">Customize numerical, currency, and temporal formatting presets:</p>
+
+          <div class="field-row-stacked" style="margin-bottom: 8px;">
+            <label style="font-weight: bold;">Locale Presets:</label>
+            <select style="width: 100%; background: #fff; color: #000;">
+              <option selected>Dutch (Belgium) - Western Europe</option>
+              <option>English (United States)</option>
+              <option>French (Belgium)</option>
+            </select>
+          </div>
+
+          <div class="field-row-stacked" style="margin-bottom: 8px;">
+            <label style="font-weight: bold;">Time Zone Protocol:</label>
+            <input type="text" value="Central European Time (GMT+1)" readonly style="width: 100%; background: #e0e0e0; color: #000;" />
+          </div>
+
+          <div class="field-row-stacked">
+            <label style="font-weight: bold;">Active Format Previews:</label>
+            <div style="background: #fff; border: 2px inset #dfdfdf; padding: 6px; font-size: 11px; color: #000;">
+              <div>Time Format: 17:09:12</div>
+              <div>Short Date: 08/08/2026</div>
+              <div>Currency Standard: € 1.234,56</div>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+
+      <!-- 3. Input Locales Panel -->
+      <div id="panel-input" style="display: none;">
+        <fieldset style="margin-bottom: 10px;">
+          <legend>Installed Input Locales</legend>
+          <p style="margin: 4px 0 8px 0; color: #444;">Input languages and active keyboard layout protocols:</p>
+
+          <div style="background: #fff; border: 2px inset #dfdfdf; height: 105px; overflow-y: auto; padding: 2px; margin-bottom: 8px;">
+            <div style="display: flex; justify-content: space-between; padding: 3px 6px; background: #000080; color: #fff;">
+              <span>EN English (United States)</span>
+              <span>US Standard Keyboard</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 3px 6px; color: #000;">
+              <span>NL Dutch (Belgium)</span>
+              <span>Belgian Period (AZERTY)</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 3px 6px; color: #000;">
+              <span>FR French (Belgium)</span>
+              <span>Belgian (AZERTY)</span>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 6px; justify-content: flex-end;">
+            <button disabled style="min-width: 65px;">Add...</button>
+            <button disabled style="min-width: 65px;">Properties...</button>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div style="display: flex; justify-content: flex-end; gap: 6px; margin-top: 8px;">
+      <button onclick="
+        var c = this.closest('.cp-container');
+        if (c) {
+          c.querySelector('#cp-grid-container').style.display = 'grid';
+          c.querySelector('#cp-prop-container').style.display = 'none';
+          c.querySelector('#cp-addr-field').innerText = '⚙️ Control Panel';
+          c.querySelector('#cp-info-box').innerHTML = 'Use the settings in Control Panel to personalize your system.<br><br>Select an item to view its description.';
+        }
+      " style="font-weight: bold; width: 75px;">OK</button>
+
+      <button onclick="
+        var c = this.closest('.cp-container');
+        if (c) {
+          c.querySelector('#cp-grid-container').style.display = 'grid';
+          c.querySelector('#cp-prop-container').style.display = 'none';
+          c.querySelector('#cp-addr-field').innerText = '⚙️ Control Panel';
+          c.querySelector('#cp-info-box').innerHTML = 'Use the settings in Control Panel to personalize your system.<br><br>Select an item to view its description.';
+        }
+      " style="width: 75px;">Cancel</button>
+
+      <button disabled style="width: 75px;">Apply</button>
+    </div>
+  </div>
+</div>

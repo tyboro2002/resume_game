@@ -1,0 +1,20 @@
+From: GitHub Security <support@github.com>
+To: verslypetybo@gmail.com
+Date: July 25, 2026
+Subject: [GitHub] New personal access token generated
+
+Hi Tybo,
+
+A new personal access token (SystemPortfolioOS_Deploy_Key) was recently generated from your account.
+
+Details:
+- Scope(s): repo, workflow, write:packages
+- Fingerprint: SHA256:a9F8b2C7dE4gH1jK3lM6nP9qR0sT2vW4xY5z
+
+If you generated this token during your system deployment and portfolio configuration, no further action is required.
+
+If you did not generate this token, please revoke it immediately and review your account security settings.
+
+Stay secure,
+The GitHub Security Team
+https://github.com/settings/tokens

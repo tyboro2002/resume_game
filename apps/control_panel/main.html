@@ -1,0 +1,375 @@
+<style>
+  .cp-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    background: #c0c0c0;
+    font-size: 11px;
+    color: #000;
+    user-select: none;
+    box-sizing: border-box;
+  }
+
+  .cp-menu-bar {
+    display: flex;
+    gap: 12px;
+    padding: 2px 6px;
+    background: #c0c0c0;
+    border-bottom: 1px solid #808080;
+  }
+  .cp-menu-item { cursor: pointer; color: #000; }
+
+  .cp-address-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 6px;
+    background: #c0c0c0;
+    border-bottom: 2px inset #fff;
+  }
+  .cp-address-input {
+    flex-grow: 1;
+    background: #fff;
+    border: 2px inset #dfdfdf;
+    padding: 1px 4px;
+    font-size: 11px;
+    color: #000;
+  }
+
+  .cp-body {
+    display: flex;
+    flex-grow: 1;
+    min-height: 330px;
+    background: #fff;
+    border: 2px inset #dfdfdf;
+    overflow: hidden;
+  }
+
+  .cp-sidebar {
+    width: 170px;
+    min-width: 170px;
+    background: linear-gradient(180deg, #a6c8e0 0%, #ffffff 100%);
+    padding: 12px 10px;
+    border-right: 1px solid #808080;
+    box-sizing: border-box;
+  }
+  .cp-sidebar-title {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .cp-sidebar-title h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
+    line-height: 1.1;
+  }
+  .cp-sidebar-desc {
+    font-size: 11px;
+    color: #333;
+    line-height: 1.3;
+  }
+  .cp-sidebar-divider {
+    border-top: 1px solid #808080;
+    margin: 12px 0;
+  }
+
+  .cp-content {
+    flex-grow: 1;
+    padding: 12px;
+    overflow-y: auto;
+    background: #ffffff;
+    color: #000000;
+  }
+
+  .cp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 16px 12px;
+  }
+  .cp-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    padding: 6px 4px;
+    border: 1px solid transparent;
+    color: #000000;
+  }
+  .cp-item:hover {
+    background-color: #000080;
+    color: #ffffff;
+  }
+  .cp-item-icon {
+    font-size: 28px;
+    margin-bottom: 4px;
+    line-height: 1;
+  }
+  .cp-item-label {
+    font-size: 11px;
+    word-break: break-word;
+    line-height: 1.2;
+  }
+
+  .cp-properties-view {
+    display: none;
+    height: 100%;
+    flex-direction: column;
+  }
+
+  .cp-status-bar {
+    display: flex;
+    justify-content: space-between;
+    padding: 2px 6px;
+    background: #c0c0c0;
+    border-top: 1px solid #fff;
+    font-size: 11px;
+    color: #000;
+  }
+</style>
+
+<!-- Automatic trigger for completing step 3 upon load -->
+<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+     onload="if(typeof window.completeStep3==='function') window.completeStep3(); this.remove();"
+     style="display:none;" />
+
+<div class="cp-container">
+  <div class="cp-menu-bar">
+    <span class="cp-menu-item"><u>F</u>ile</span>
+    <span class="cp-menu-item"><u>E</u>dit</span>
+    <span class="cp-menu-item"><u>V</u>iew</span>
+    <span class="cp-menu-item"><u>G</u>o</span>
+    <span class="cp-menu-item">F<u>a</u>vorites</span>
+    <span class="cp-menu-item"><u>H</u>elp</span>
+  </div>
+
+  <div class="cp-address-bar">
+    <span>Address</span>
+    <div class="cp-address-input" id="cp-addr-field">
+      <img src="https://win98icons.alexmeub.com/icons/png/settings_gear_cool-0.png" alt="" style="width: 16px; height: 16px; vertical-align: middle; image-rendering: pixelated; margin-right: 4px;"> Control Panel
+    </div>
+  </div>
+
+  <div class="cp-body">
+    <div class="cp-sidebar">
+      <div class="cp-sidebar-title">
+        <img src="https://win98icons.alexmeub.com/icons/png/settings_gear-4.png" alt="Settings" style="width: 28px; height: 28px; vertical-align: middle; image-rendering: pixelated;">
+        <h2>Control Panel</h2>
+      </div>
+      <div class="cp-sidebar-desc" id="cp-info-box">
+        Use the settings in Control Panel to personalize your system.<br><br>
+        Select an item to view its description or configure parameters.
+      </div>
+      <div class="cp-sidebar-divider"></div>
+      <div style="color: #0000ff; text-decoration: underline; cursor: pointer;"
+       onclick="
+         var c = this.closest('.cp-container');
+         c.querySelector('#cp-grid-container').style.display = 'grid';
+         c.querySelector('#cp-prop-container').style.display = 'none';
+         c.querySelector('#cp-addr-field').innerHTML = '<img src=\'https://win98icons.alexmeub.com/icons/png/settings_gear_cool-0.png\' alt=\'\' style=\'width: 16px; height: 16px; vertical-align: middle; image-rendering: pixelated; margin-right: 4px;\'> Control Panel';
+         c.querySelector('#cp-info-box').innerHTML = 'Use the settings in Control Panel to personalize your system.<br><br>Select an item to view its description.';
+       ">
+        Control Panel Home
+      </div>
+    </div>
+
+    <div class="cp-content">
+      <div class="cp-grid" id="cp-grid-container">
+        <!-- Regional Settings -->
+        <div class="cp-item"
+           onmouseover="var b=this.closest('.cp-container').querySelector('#cp-info-box'); if(b) b.innerHTML='Customize language locales, input parameters, and linguistic proficiency profiles.';"
+           onclick="
+             var c = this.closest('.cp-container');
+             var g = c.querySelector('#cp-grid-container');
+             var p = c.querySelector('#cp-prop-container');
+             var a = c.querySelector('#cp-addr-field');
+             g.style.display = 'none';
+             p.style.display = 'flex';
+             p.innerHTML = '<p style=\'padding:10px; margin:0; color:#000;\'>Loading parameters...</p>';
+             if(a) a.innerHTML = '<img src=\'https://win98icons.alexmeub.com/icons/png/settings_gear_cool-0.png\' alt=\'\' style=\'width: 16px; height: 16px; vertical-align: middle; image-rendering: pixelated; margin-right: 4px;\'> Control Panel\\Regional Settings';
+             fetch('apps/control_panel/views/regional.html')
+               .then(function(r){ if(!r.ok) throw new Error(); return r.text(); })
+               .then(function(html){ p.innerHTML = html; })
+               .catch(function(){ p.innerHTML = '<div style=\'padding:16px; text-align:center; color:#000;\'><p style=\'color:darkred; font-weight:bold; margin:0 0 6px 0;\'>Utility Offline</p><p style=\'font-size:11px; color:#555; margin:0 0 12px 0;\'>apps/control_panel/views/regional.html</p></div>'; });
+           ">
+          <div class="cp-item-icon">
+            <img src="https://win98icons.alexmeub.com/icons/png/world-2.png" alt="World" style="width: 24px; height: 24px; vertical-align: middle; image-rendering: pixelated;">
+          </div>
+          <span class="cp-item-label">Regional Settings</span>
+        </div>
+
+        <!-- Display -->
+        <div class="cp-item"
+         onmouseover="var b=this.closest('.cp-container').querySelector('#cp-info-box'); if(b) b.innerHTML='Change desktop patterns, colors, and visual performance settings.';"
+         onclick="
+           var c = this.closest('.cp-container');
+           var g = c.querySelector('#cp-grid-container');
+           var p = c.querySelector('#cp-prop-container');
+           var a = c.querySelector('#cp-addr-field');
+           g.style.display = 'none';
+           p.style.display = 'flex';
+           p.innerHTML = '<p style=\'padding:10px; margin:0; color:#000;\'>Loading parameters...</p>';
+           if(a) a.innerHTML = '<img src=\'https://win98icons.alexmeub.com/icons/png/settings_gear_cool-0.png\' alt=\'\' style=\'width: 16px; height: 16px; vertical-align: middle; image-rendering: pixelated; margin-right: 4px;\'> Control Panel\\Display';
+           fetch('apps/control_panel/views/display.html')
+             .then(function(r){ if(!r.ok) throw new Error(); return r.text(); })
+             .then(function(html){ p.innerHTML = html; })
+             .catch(function(){ p.innerHTML = '<div style=\'padding:16px; text-align:center; color:#000;\'><p style=\'color:darkred; font-weight:bold; margin:0 0 6px 0;\'>Utility Offline</p></div>'; });
+         ">
+          <div class="cp-item-icon">
+            <img src="https://win98icons.alexmeub.com/icons/png/computer_explorer_2k-2.png" alt="Display" style="width: 24px; height: 24px; vertical-align: middle; image-rendering: pixelated;">
+          </div>
+          <span class="cp-item-label">Display</span>
+        </div>
+
+        <!-- System -->
+        <div class="cp-item"
+         onmouseover="var b=this.closest('.cp-container').querySelector('#cp-info-box'); if(b) b.innerHTML='View system specs, hardware configuration, and device status.';"
+         onclick="
+           var c = this.closest('.cp-container');
+           var g = c.querySelector('#cp-grid-container');
+           var p = c.querySelector('#cp-prop-container');
+           var a = c.querySelector('#cp-addr-field');
+           g.style.display = 'none';
+           p.style.display = 'flex';
+           p.innerHTML = '<p style=\'padding:10px; margin:0; color:#000;\'>Loading parameters...</p>';
+           if(a) a.innerHTML = '<img src=\'https://win98icons.alexmeub.com/icons/png/settings_gear_cool-0.png\' alt=\'\' style=\'width: 16px; height: 16px; vertical-align: middle; image-rendering: pixelated; margin-right: 4px;\'> Control Panel\\System';
+           fetch('apps/control_panel/views/system.html')
+             .then(function(r){ if(!r.ok) throw new Error(); return r.text(); })
+             .then(function(html){ p.innerHTML = html; })
+             .catch(function(){ p.innerHTML = '<div style=\'padding:16px; text-align:center; color:#000;\'><p style=\'color:darkred; font-weight:bold; margin:0 0 6px 0;\'>Utility Offline</p></div>'; });
+         ">
+          <div class="cp-item-icon">
+            <img src="https://win98icons.alexmeub.com/icons/png/computer-5.png" alt="System" style="width: 24px; height: 24px; vertical-align: middle; image-rendering: pixelated;">
+          </div>
+          <span class="cp-item-label">System</span>
+        </div>
+
+        <!-- Passwords -->
+        <div class="cp-item"
+         onmouseover="var b=this.closest('.cp-container').querySelector('#cp-info-box'); if(b) b.innerHTML='Manage administrative credentials and security tokens.';"
+         onclick="
+           var c = this.closest('.cp-container');
+           var g = c.querySelector('#cp-grid-container');
+           var p = c.querySelector('#cp-prop-container');
+           var a = c.querySelector('#cp-addr-field');
+           g.style.display = 'none';
+           p.style.display = 'flex';
+           p.innerHTML = '<p style=\'padding:10px; margin:0; color:#000;\'>Loading parameters...</p>';
+           if(a) a.innerHTML = '<img src=\'https://win98icons.alexmeub.com/icons/png/settings_gear_cool-0.png\' alt=\'\' style=\'width: 16px; height: 16px; vertical-align: middle; image-rendering: pixelated; margin-right: 4px;\'> Control Panel\\Passwords';
+           fetch('apps/control_panel/views/passwords.html')
+             .then(function(r){ if(!r.ok) throw new Error(); return r.text(); })
+             .then(function(html){ p.innerHTML = html; })
+             .catch(function(){ p.innerHTML = '<div style=\'padding:16px; text-align:center; color:#000;\'><p style=\'color:darkred; font-weight:bold; margin:0 0 6px 0;\'>Utility Offline</p></div>'; });
+         ">
+          <div class="cp-item-icon">
+            <img src="https://win98icons.alexmeub.com/icons/png/keys-4.png" alt="Passwords" style="width: 24px; height: 24px; vertical-align: middle; image-rendering: pixelated;">
+          </div>
+          <span class="cp-item-label">Passwords</span>
+        </div>
+
+        <!-- Network -->
+        <div class="cp-item"
+           onmouseover="var b=this.closest('.cp-container').querySelector('#cp-info-box'); if(b) b.innerHTML='Configure local subnet protocols and network interfaces.';"
+           onclick="
+             var c = this.closest('.cp-container');
+             var g = c.querySelector('#cp-grid-container');
+             var p = c.querySelector('#cp-prop-container');
+             var a = c.querySelector('#cp-addr-field');
+             g.style.display = 'none';
+             p.style.display = 'flex';
+             p.innerHTML = '<p style=\'padding:10px; margin:0; color:#000;\'>Loading parameters...</p>';
+             if(a) a.innerHTML = '<img src=\'https://win98icons.alexmeub.com/icons/png/settings_gear_cool-0.png\' alt=\'\' style=\'width: 16px; height: 16px; vertical-align: middle; image-rendering: pixelated; margin-right: 4px;\'> Control Panel\\Network';
+             fetch('apps/control_panel/views/network.html')
+               .then(function(r){ if(!r.ok) throw new Error(); return r.text(); })
+               .then(function(html){ p.innerHTML = html; })
+               .catch(function(){ p.innerHTML = '<div style=\'padding:16px; text-align:center; color:#000;\'><p style=\'color:darkred; font-weight:bold; margin:0 0 6px 0;\'>Utility Offline</p></div>'; });
+           ">
+          <div class="cp-item-icon">
+            <img src="https://win98icons.alexmeub.com/icons/png/channels-3.png" alt="Network" style="width: 24px; height: 24px; vertical-align: middle; image-rendering: pixelated;">
+          </div>
+          <span class="cp-item-label">Network</span>
+        </div>
+
+        <!-- Keyboard -->
+        <div class="cp-item"
+         onmouseover="var b=this.closest('.cp-container').querySelector('#cp-info-box'); if(b) b.innerHTML='Adjust typing input rates and hardware character response.';"
+         onclick="
+           var c = this.closest('.cp-container');
+           var g = c.querySelector('#cp-grid-container');
+           var p = c.querySelector('#cp-prop-container');
+           var a = c.querySelector('#cp-addr-field');
+           g.style.display = 'none';
+           p.style.display = 'flex';
+           p.innerHTML = '<p style=\'padding:10px; margin:0; color:#000;\'>Loading parameters...</p>';
+           if(a) a.innerHTML = '<img src=\'https://win98icons.alexmeub.com/icons/png/settings_gear_cool-0.png\' alt=\'\' style=\'width: 16px; height: 16px; vertical-align: middle; image-rendering: pixelated; margin-right: 4px;\'> Control Panel\\Keyboard';
+           fetch('apps/control_panel/views/keyboard.html')
+             .then(function(r){ if(!r.ok) throw new Error(); return r.text(); })
+             .then(function(html){ p.innerHTML = html; })
+             .catch(function(){ p.innerHTML = '<div style=\'padding:16px; text-align:center; color:#000;\'><p style=\'color:darkred; font-weight:bold; margin:0 0 6px 0;\'>Utility Offline</p></div>'; });
+         ">
+          <div class="cp-item-icon">
+            <img src="https://win98icons.alexmeub.com/icons/png/keyboard-3.png" alt="Keyboard" style="width: 24px; height: 24px; vertical-align: middle; image-rendering: pixelated;">
+          </div>
+          <span class="cp-item-label">Keyboard</span>
+        </div>
+
+        <!-- Mouse -->
+        <div class="cp-item"
+           onmouseover="var b=this.closest('.cp-container').querySelector('#cp-info-box'); if(b) b.innerHTML='Configure pointer speed, buttons, and double-click sensitivity.';"
+           onclick="
+             var c = this.closest('.cp-container');
+             var g = c.querySelector('#cp-grid-container');
+             var p = c.querySelector('#cp-prop-container');
+             var a = c.querySelector('#cp-addr-field');
+             g.style.display = 'none';
+             p.style.display = 'flex';
+             p.innerHTML = '<p style=\'padding:10px; margin:0; color:#000;\'>Loading parameters...</p>';
+             if(a) a.innerHTML = '<img src=\'https://win98icons.alexmeub.com/icons/png/settings_gear_cool-0.png\' alt=\'\' style=\'width: 16px; height: 16px; vertical-align: middle; image-rendering: pixelated; margin-right: 4px;\'> Control Panel\\Mouse';
+             fetch('apps/control_panel/views/mouse.html')
+               .then(function(r){ if(!r.ok) throw new Error(); return r.text(); })
+               .then(function(html){ p.innerHTML = html; })
+               .catch(function(){ p.innerHTML = '<div style=\'padding:16px; text-align:center; color:#000;\'><p style=\'color:darkred; font-weight:bold; margin:0 0 6px 0;\'>Utility Offline</p></div>'; });
+           ">
+          <div class="cp-item-icon">
+            <img src="https://win98icons.alexmeub.com/icons/png/mouse-4.png" alt="Mouse" style="width: 24px; height: 24px; vertical-align: middle; image-rendering: pixelated;">
+          </div>
+          <span class="cp-item-label">Mouse</span>
+        </div>
+
+        <!-- Sounds -->
+        <div class="cp-item"
+           onmouseover="var b=this.closest('.cp-container').querySelector('#cp-info-box'); if(b) b.innerHTML='Customize system audio alerts and event sound schemes.';"
+           onclick="
+             var c = this.closest('.cp-container');
+             var g = c.querySelector('#cp-grid-container');
+             var p = c.querySelector('#cp-prop-container');
+             var a = c.querySelector('#cp-addr-field');
+             g.style.display = 'none';
+             p.style.display = 'flex';
+             p.innerHTML = '<p style=\'padding:10px; margin:0; color:#000;\'>Loading parameters...</p>';
+             if(a) a.innerHTML = '<img src=\'https://win98icons.alexmeub.com/icons/png/settings_gear_cool-0.png\' alt=\'\' style=\'width: 16px; height: 16px; vertical-align: middle; image-rendering: pixelated; margin-right: 4px;\'> Control Panel\\Sounds';
+             fetch('apps/control_panel/views/sounds.html')
+               .then(function(r){ if(!r.ok) throw new Error(); return r.text(); })
+               .then(function(html){ p.innerHTML = html; })
+               .catch(function(){ p.innerHTML = '<div style=\'padding:16px; text-align:center; color:#000;\'><p style=\'color:darkred; font-weight:bold; margin:0 0 6px 0;\'>Utility Offline</p></div>'; });
+           ">
+          <div class="cp-item-icon">
+            <img src="https://win98icons.alexmeub.com/icons/png/soundgrn-4.png" alt="Sounds" style="width: 24px; height: 24px; vertical-align: middle; image-rendering: pixelated;">
+          </div>
+          <span class="cp-item-label">Sounds</span>
+        </div>
+      </div>
+
+      <div class="cp-properties-view" id="cp-prop-container"></div>
+    </div>
+  </div>
+
+  <div class="cp-status-bar">
+    <span>8 object(s)</span>
+    <span>🖥️ My Computer</span>
+  </div>
+</div>

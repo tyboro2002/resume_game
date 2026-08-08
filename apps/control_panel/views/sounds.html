@@ -1,0 +1,98 @@
+<div class="window-body" style="margin: 0; padding: 0; display: flex; flex-direction: column; height: 100%; box-sizing: border-box;">
+  <!-- Tab Header -->
+  <menu role="tablist" style="margin: 0; padding-left: 6px; display: flex;">
+    <li role="tab" aria-selected="true" onclick="
+      var w = this.closest('.window-body');
+      w.querySelectorAll('[role=tab]').forEach(function(t){ t.setAttribute('aria-selected', 'false'); });
+      this.setAttribute('aria-selected', 'true');
+      w.querySelector('#panel-sounds').style.display = 'block';
+    "><a href="#sounds" onclick="return false;">Audio Schemes</a></li>
+  </menu>
+
+  <!-- Tab Contents Window -->
+  <div class="window" style="position: static; border-top: none; padding: 12px; background: #c0c0c0; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+    <div>
+      <!-- Sounds Panel -->
+      <div id="panel-sounds" style="display: block;">
+        <fieldset style="margin-bottom: 10px;">
+          <legend>Event Sound Schemes</legend>
+          <p style="margin: 4px 0 8px 0; color: #444; font-size: 11px;">Click any sound event below to preview its audio trigger:</p>
+
+          <div class="field-row-stacked" style="margin-bottom: 8px;">
+            <label style="font-weight: bold;">Sound Scheme:</label>
+            <select style="width: 100%; background: #fff; color: #000;">
+              <option selected>Windows 98 Standard Retro Scheme</option>
+              <option>(None - Muted Terminal)</option>
+            </select>
+          </div>
+
+          <div style="background: #fff; border: 2px inset #dfdfdf; height: 110px; overflow-y: auto; padding: 2px; margin-bottom: 8px; font-size: 11px; cursor: pointer;">
+
+            <div style="display: flex; justify-content: space-between; padding: 3px 4px; color: #000;"
+                 onmouseover="this.style.background='#000080'; this.style.color='#fff';"
+                 onmouseout="this.style.background='transparent'; this.style.color='#000';"
+                 onclick="if (typeof playNotificationSound === 'function') playNotificationSound();">
+              <span>🗂️ Minimize Window</span>
+              <span style="color: #666;">min.wav</span>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; padding: 3px 4px; color: #000;"
+                 onmouseover="this.style.background='#000080'; this.style.color='#fff';"
+                 onmouseout="this.style.background='transparent'; this.style.color='#000';"
+                 onclick="if (typeof playErrorSound === 'function') playErrorSound();">
+              <span>⚠️ System Error</span>
+              <span style="color: #666;">chord.wav</span>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; padding: 3px 4px; color: #000;"
+                 onmouseover="this.style.background='#000080'; this.style.color='#fff';"
+                 onmouseout="this.style.background='transparent'; this.style.color='#000';"
+                 onclick="if (typeof playNotificationSound === 'function') playNotificationSound();">
+              <span>🏁 Windows Startup</span>
+              <span style="color: #666;">startup.wav</span>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; padding: 3px 4px; color: #000;"
+                 onmouseover="this.style.background='#000080'; this.style.color='#fff';"
+                 onmouseout="this.style.background='transparent'; this.style.color='#000';"
+                 onclick="if (typeof playErrorSound === 'function') playErrorSound();">
+              <span>❌ Close Window</span>
+              <span style="color: #666;">close.wav</span>
+            </div>
+
+          </div>
+
+          <div class="field-row">
+            <input type="checkbox" id="enable-sounds" checked disabled />
+            <label for="enable-sounds">Enable system audio feedback loops</label>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div style="display: flex; justify-content: flex-end; gap: 6px; margin-top: 8px;">
+      <button onclick="
+        var c = this.closest('.cp-container');
+        if (c) {
+          c.querySelector('#cp-grid-container').style.display = 'grid';
+          c.querySelector('#cp-prop-container').style.display = 'none';
+          c.querySelector('#cp-addr-field').innerHTML = '<img src=\'https://win98icons.alexmeub.com/icons/png/settings_gear_cool-0.png\' alt=\'\' style=\'width: 16px; height: 16px; vertical-align: middle; image-rendering: pixelated; margin-right: 4px;\'> Control Panel';
+          c.querySelector('#cp-info-box').innerHTML = 'Use the settings in Control Panel to personalize your system.<br><br>Select an item to view its description.';
+        }
+      " style="font-weight: bold; width: 75px;">OK</button>
+
+      <button onclick="
+        var c = this.closest('.cp-container');
+        if (c) {
+          c.querySelector('#cp-grid-container').style.display = 'grid';
+          c.querySelector('#cp-prop-container').style.display = 'none';
+          c.querySelector('#cp-addr-field').innerHTML = '<img src=\'https://win98icons.alexmeub.com/icons/png/settings_gear_cool-0.png\' alt=\'\' style=\'width: 16px; height: 16px; vertical-align: middle; image-rendering: pixelated; margin-right: 4px;\'> Control Panel';
+          c.querySelector('#cp-info-box').innerHTML = 'Use the settings in Control Panel to personalize your system.<br><br>Select an item to view its description.';
+        }
+      " style="width: 75px;">Cancel</button>
+
+      <button disabled style="width: 75px;">Apply</button>
+    </div>
+  </div>
+</div>

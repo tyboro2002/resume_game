@@ -1,0 +1,88 @@
+<style>
+  .terminal-container {
+    background: #000;
+    color: #00ff00;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 12px;
+    padding: 10px;
+    height: 260px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  .terminal-output {
+    flex-grow: 1;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+  .terminal-input-line {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
+  }
+  .terminal-input {
+    background: transparent;
+    border: none;
+    color: #00ff00;
+    font-family: inherit;
+    font-size: 12px;
+    flex-grow: 1;
+    outline: none;
+  }
+</style>
+
+<div class="terminal-container" onclick="document.getElementById('cmd-input').focus()">
+  <div class="terminal-output" id="cmd-output">
+Microsoft(R) Windows 98
+(C)Copyright Microsoft Corp 1981-1998.
+
+Type 'help' for available commands.
+  </div>
+  <div class="terminal-input-line">
+    <span>C:\></span>
+    <input type="text" id="cmd-input" class="terminal-input" autofocus onkeydown="handleCmdKey(event)" />
+  </div>
+</div>
+
+<script>
+  (function() {
+    window.handleCmdKey = function(e) {
+      if (e.key === 'Enter') {
+        const input = document.getElementById('cmd-input');
+        const output = document.getElementById('cmd-output');
+        const cmd = input.value.trim();
+        input.value = '';
+
+        output.innerHTML += `\nC:\\> ${cmd}`;
+
+        const parts = cmd.toLowerCase().split(' ');
+        const mainCmd = parts[0];
+        const arg = parts[1];
+
+        if (mainCmd === 'help') {
+          output.innerHTML += `\nAvailable commands:\n  ipconfig    - View system IP address\n  admin <pwd> - Elevate session to Administrator\n  cls         - Clear terminal screen`;
+        } else if (mainCmd === 'ipconfig') {
+          output.innerHTML += `\nWindows IP Configuration\n\n  Ethernet adapter Local Area Connection:\n    IPv4 Address. . . . . . . . . . . : 192.168.1.104\n    Public WAN IP Address . . . . . . : 81.246.12.34`;
+        } else if (mainCmd === 'cls') {
+          output.innerHTML = 'Microsoft(R) Windows 98\n(C)Copyright Microsoft Corp 1981-1998.\n';
+        } else if (mainCmd === 'admin') {
+          if (!arg) {
+            output.innerHTML += `\nError: Password required. Usage: admin <city_name>`;
+          } else if (arg === 'veurne') {
+            output.innerHTML += `\n[SUCCESS] Administrator privileges granted!\nUnlocking Control Panel...`;
+            window.isAdminUnlocked = true;
+          } else {
+            output.innerHTML += `\n[ERROR] Access Denied: Invalid administrator password.`;
+          }
+        } else if (cmd !== '') {
+          output.innerHTML += `\n'${cmd}' is not recognized as an internal or external command.`;
+        }
+
+        const container = document.querySelector('.terminal-container');
+        if (container) container.scrollTop = container.scrollHeight;
+      }
+    };
+  })();
+</script>

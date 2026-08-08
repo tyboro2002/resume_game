@@ -1,0 +1,58 @@
+<div class="window-body" style="background: #c0c0c0; padding: 8px; font-family: 'Pixelated MS Sans Serif', Arial, sans-serif; user-select: none; width: 330px; box-sizing: border-box;">
+  <div style="background: #fff; border: 2px inset #dfdfdf; padding: 4px; margin-bottom: 8px; text-align: right; font-family: monospace; font-size: 16px; height: 24px; line-height: 24px; overflow: hidden;" id="calc-display">0</div>
+  <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px;">
+    <button onclick="calcClear()" style="padding: 6px; font-size: 11px; cursor: pointer;">C</button>
+    <button onclick="calcAppend('/')" style="padding: 6px; font-size: 11px; cursor: pointer;">/</button>
+    <button onclick="calcAppend('*')" style="padding: 6px; font-size: 11px; cursor: pointer;">*</button>
+    <button onclick="calcAppend('-')" style="padding: 6px; font-size: 11px; cursor: pointer;">-</button>
+
+    <button onclick="calcAppend('7')" style="padding: 6px; font-size: 11px; cursor: pointer;">7</button>
+    <button onclick="calcAppend('8')" style="padding: 6px; font-size: 11px; cursor: pointer;">8</button>
+    <button onclick="calcAppend('9')" style="padding: 6px; font-size: 11px; cursor: pointer;">9</button>
+    <button onclick="calcAppend('+')" style="padding: 6px; font-size: 11px; cursor: pointer;">+</button>
+
+    <button onclick="calcAppend('4')" style="padding: 6px; font-size: 11px; cursor: pointer;">4</button>
+    <button onclick="calcAppend('5')" style="padding: 6px; font-size: 11px; cursor: pointer;">5</button>
+    <button onclick="calcAppend('6')" style="padding: 6px; font-size: 11px; cursor: pointer;">6</button>
+    <button onclick="calcCalculate()" style="padding: 6px; font-size: 11px; grid-row: span 2; background: #c0c0c0; cursor: pointer;">=</button>
+
+    <button onclick="calcAppend('1')" style="padding: 6px; font-size: 11px; cursor: pointer;">1</button>
+    <button onclick="calcAppend('2')" style="padding: 6px; font-size: 11px; cursor: pointer;">2</button>
+    <button onclick="calcAppend('3')" style="padding: 6px; font-size: 11px; cursor: pointer;">3</button>
+
+    <button onclick="calcAppend('0')" style="padding: 6px; font-size: 11px; grid-column: span 2; cursor: pointer;">0</button>
+    <button onclick="calcAppend('.')" style="padding: 6px; font-size: 11px; cursor: pointer;">.</button>
+  </div>
+</div>
+
+<script>
+  let calcExpression = '0';
+
+  function updateCalcDisplay() {
+    const displayEl = document.getElementById('calc-display');
+    if (displayEl) displayEl.innerText = calcExpression;
+  }
+
+  function calcAppend(val) {
+    if (calcExpression === '0' && val !== '.') {
+      calcExpression = val;
+    } else {
+      calcExpression += val;
+    }
+    updateCalcDisplay();
+  }
+
+  function calcClear() {
+    calcExpression = '0';
+    updateCalcDisplay();
+  }
+
+  function calcCalculate() {
+    try {
+      calcExpression = String(eval(calcExpression));
+    } catch (e) {
+      calcExpression = 'Error';
+    }
+    updateCalcDisplay();
+  }
+</script>

@@ -1,0 +1,60 @@
+{
+  "inbox": [
+    {
+      "id": "1",
+      "sender": "Club Brugge Ticketing",
+      "subject": "UCL Match Confirmation - Jan Breydel",
+      "date": "06/08/2026",
+      "path": "apps/mail/messages/ucl_ticket.txt"
+    },
+    {
+      "id": "2",
+      "sender": "Strava Notifications",
+      "subject": "New Personal Record Badge Unlocked!",
+      "date": "04/08/2026",
+      "path": "apps/mail/messages/strava_pb.txt"
+    },
+    {
+      "id": "3",
+      "sender": "UGent Computer Science",
+      "subject": "Software Architecture Project Update",
+      "date": "01/08/2026",
+      "path": "apps/mail/messages/ugent_project.txt"
+    },
+    {
+      "id": "4",
+      "sender": "RetroSoft Downloads",
+      "subject": "Your Shareware Key Registration",
+      "date": "30/07/2026",
+      "path": "apps/mail/messages/retro_key.txt"
+    },
+    {
+      "id": "5",
+      "sender": "The Boss",
+      "subject": "URGENT: Portfolio OS System Breach Check",
+      "date": "28/07/2026",
+      "path": "apps/mail/messages/boss_warning.txt"
+    },
+    {
+      "id": "6",
+      "sender": "GitHub Security",
+      "subject": "New personal access token generated",
+      "date": "25/07/2026",
+      "path": "apps/mail/messages/github_alert.txt"
+    },
+    {
+      "id": "7",
+      "sender": "Spotify Wrapped Preview",
+      "subject": "Your mid-year heavy rotation is ready",
+      "date": "20/07/2026",
+      "path": "apps/mail/messages/spotify_preview.txt"
+    },
+    {
+      "id": "9",
+      "sender": "Strips & Games Gent",
+      "subject": "Pre-order confirmed: Retro 90s Edition",
+      "date": "10/07/2026",
+      "path": "apps/mail/messages/retro_order.txt"
+    }
+  ]
+}

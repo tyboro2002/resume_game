@@ -1,0 +1,117 @@
+<div class="window-body" style="margin: 0; padding: 0; display: flex; flex-direction: column; height: 100%; box-sizing: border-box;">
+  <!-- Tab Header -->
+  <menu role="tablist" style="margin: 0; padding-left: 6px; display: flex;">
+    <li role="tab" aria-selected="true" onclick="
+      var w = this.closest('.window-body');
+      w.querySelectorAll('[role=tab]').forEach(function(t){ t.setAttribute('aria-selected', 'false'); });
+      this.setAttribute('aria-selected', 'true');
+      w.querySelector('#panel-general').style.display = 'block';
+      w.querySelector('#panel-hardware').style.display = 'none';
+      w.querySelector('#panel-performance').style.display = 'none';
+    "><a href="#general" onclick="return false;">General</a></li>
+
+    <li role="tab" aria-selected="false" onclick="
+      var w = this.closest('.window-body');
+      w.querySelectorAll('[role=tab]').forEach(function(t){ t.setAttribute('aria-selected', 'false'); });
+      this.setAttribute('aria-selected', 'true');
+      w.querySelector('#panel-general').style.display = 'none';
+      w.querySelector('#panel-hardware').style.display = 'block';
+      w.querySelector('#panel-performance').style.display = 'none';
+    "><a href="#hardware" onclick="return false;">Device Manager</a></li>
+
+    <li role="tab" aria-selected="false" onclick="
+      var w = this.closest('.window-body');
+      w.querySelectorAll('[role=tab]').forEach(function(t){ t.setAttribute('aria-selected', 'false'); });
+      this.setAttribute('aria-selected', 'true');
+      w.querySelector('#panel-general').style.display = 'none';
+      w.querySelector('#panel-hardware').style.display = 'none';
+      w.querySelector('#panel-performance').style.display = 'block';
+    "><a href="#performance" onclick="return false;">Performance</a></li>
+  </menu>
+
+  <!-- Tab Contents Window -->
+  <div class="window" style="position: static; border-top: none; padding: 12px; background: #c0c0c0; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+    <div>
+      <!-- 1. General Panel -->
+      <div id="panel-general" style="display: block;">
+        <fieldset style="margin-bottom: 10px;">
+          <legend>System Information</legend>
+          <div style="display: flex; gap: 10px; align-items: flex-start; margin-bottom: 8px;">
+            <div style="font-size: 28px; padding-top: 4px;">🖥️</div>
+            <div style="font-size: 11px; color: #000; line-height: 1.4;">
+              <div style="font-weight: bold;">Microsoft Windows 98.js (Portfolio Edition)</div>
+              <div>Build 4.10.2222 - Interactive Terminal Node</div>
+              <div style="margin-top: 6px;">Registered to:</div>
+              <div style="font-weight: bold;">Recruiter / Prospective Collaborator</div>
+              <div>User ID: 0x1337-WPI-NODE</div>
+            </div>
+          </div>
+          <div style="background: #fff; border: 2px inset #dfdfdf; padding: 6px; font-size: 11px; color: #000;">
+            <div>Processor: Intel Pentium III Processor (Emulated) @ 500MHz</div>
+            <div>Installed Memory: 128 MB RAM (Virtual Heap Active)</div>
+          </div>
+        </fieldset>
+      </div>
+
+      <!-- 2. Hardware Panel -->
+      <div id="panel-hardware" style="display: none;">
+        <fieldset style="margin-bottom: 10px;">
+          <legend>Hardware Devices &amp; Peripherals</legend>
+          <p style="margin: 4px 0 8px 0; color: #444; font-size: 11px;">Active hardware drivers loaded on this workspace:</p>
+          <div style="background: #fff; border: 2px inset #dfdfdf; height: 105px; overflow-y: auto; padding: 2px; margin-bottom: 8px; font-size: 11px;">
+            <div style="padding: 2px 4px; color: #000;">➕ Display Adapters (Standard PCI Graphics)</div>
+            <div style="padding: 2px 4px; color: #000;">➕ Keyboards (Enhanced 101/102-Key PS/2)</div>
+            <div style="padding: 2px 4px; color: #000;">➕ Mice and other pointing devices (HID Compatible)</div>
+            <div style="padding: 2px 4px; color: #000;">➕ Sound, video and game controllers (Sound Blaster 16)</div>
+            <div style="padding: 2px 4px; color: #000;">➕ Universal Serial Bus controllers (USB Root Hub)</div>
+          </div>
+          <div style="display: flex; justify-content: flex-end;">
+            <button disabled style="min-width: 80px;">Properties</button>
+          </div>
+        </fieldset>
+      </div>
+
+      <!-- 3. Performance Panel -->
+      <div id="panel-performance" style="display: none;">
+        <fieldset style="margin-bottom: 10px;">
+          <legend>System Resource Status</legend>
+          <p style="margin: 4px 0 8px 0; color: #444; font-size: 11px;">Performance parameters for the interactive web terminal:</p>
+          <div style="background: #fff; border: 2px inset #dfdfdf; padding: 8px; font-size: 11px; color: #000; margin-bottom: 8px;">
+            <div style="margin-bottom: 4px; display: flex; justify-content: space-between;"><span>System Resources:</span> <span style="font-weight: bold; color: #008000;">94% Free</span></div>
+            <div style="margin-bottom: 4px; display: flex; justify-content: space-between;"><span>DOM Memory Usage:</span> <span style="font-weight: bold;">14.2 MB / 512 MB</span></div>
+            <div style="display: flex; justify-content: space-between;"><span>File System Cache:</span> <span style="font-weight: bold;">Optimized</span></div>
+          </div>
+          <div class="field-row-stacked">
+            <label style="font-weight: bold;">File System Optimization:</label>
+            <input type="text" value="Network Server / Portfolio Terminal Mode" readonly style="width: 100%; background: #e0e0e0; color: #000;" />
+          </div>
+        </fieldset>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div style="display: flex; justify-content: flex-end; gap: 6px; margin-top: 8px;">
+      <button onclick="
+        var c = this.closest('.cp-container');
+        if (c) {
+          c.querySelector('#cp-grid-container').style.display = 'grid';
+          c.querySelector('#cp-prop-container').style.display = 'none';
+          c.querySelector('#cp-addr-field').innerHTML = '<img src=\'https://win98icons.alexmeub.com/icons/png/settings_gear_cool-0.png\' alt=\'\' style=\'width: 16px; height: 16px; vertical-align: middle; image-rendering: pixelated; margin-right: 4px;\'> Control Panel';
+          c.querySelector('#cp-info-box').innerHTML = 'Use the settings in Control Panel to personalize your system.<br><br>Select an item to view its description.';
+        }
+      " style="font-weight: bold; width: 75px;">OK</button>
+
+      <button onclick="
+        var c = this.closest('.cp-container');
+        if (c) {
+          c.querySelector('#cp-grid-container').style.display = 'grid';
+          c.querySelector('#cp-prop-container').style.display = 'none';
+          c.querySelector('#cp-addr-field').innerHTML = '<img src=\'https://win98icons.alexmeub.com/icons/png/settings_gear_cool-0.png\' alt=\'\' style=\'width: 16px; height: 16px; vertical-align: middle; image-rendering: pixelated; margin-right: 4px;\'> Control Panel';
+          c.querySelector('#cp-info-box').innerHTML = 'Use the settings in Control Panel to personalize your system.<br><br>Select an item to view its description.';
+        }
+      " style="width: 75px;">Cancel</button>
+
+      <button disabled style="width: 75px;">Apply</button>
+    </div>
+  </div>
+</div>

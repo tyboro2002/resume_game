@@ -1,0 +1,93 @@
+<div class="window-body" style="margin: 0; padding: 0; display: flex; flex-direction: column; height: 100%; box-sizing: border-box;">
+  <!-- Tab Header -->
+  <menu role="tablist" style="margin: 0; padding-left: 6px; display: flex;">
+    <li role="tab" aria-selected="true" onclick="
+      var w = this.closest('.window-body');
+      w.querySelectorAll('[role=tab]').forEach(function(t){ t.setAttribute('aria-selected', 'false'); });
+      this.setAttribute('aria-selected', 'true');
+      w.querySelector('#panel-speed').style.display = 'block';
+      w.querySelector('#panel-hardware-kb').style.display = 'none';
+    "><a href="#speed" onclick="return false;">Speed</a></li>
+
+    <li role="tab" aria-selected="false" onclick="
+      var w = this.closest('.window-body');
+      w.querySelectorAll('[role=tab]').forEach(function(t){ t.setAttribute('aria-selected', 'false'); });
+      this.setAttribute('aria-selected', 'true');
+      w.querySelector('#panel-speed').style.display = 'none';
+      w.querySelector('#panel-hardware-kb').style.display = 'block';
+    "><a href="#hardware" onclick="return false;">Hardware</a></li>
+  </menu>
+
+  <!-- Tab Contents Window -->
+  <div class="window" style="position: static; border-top: none; padding: 12px; background: #c0c0c0; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+    <div>
+      <!-- 1. Speed Panel -->
+      <div id="panel-speed" style="display: block;">
+        <fieldset style="margin-bottom: 10px;">
+          <legend>Character Repeat &amp; Response Rates</legend>
+
+          <div class="field-row-stacked" style="margin-bottom: 10px;">
+            <label style="font-weight: bold;">Repeat delay:</label>
+            <div style="display: flex; justify-content: space-between; font-size: 10px; color: #444;"><span>Long</span><span>Short</span></div>
+            <input type="range" min="1" max="5" value="4" style="width: 100%;" disabled />
+          </div>
+
+          <div class="field-row-stacked" style="margin-bottom: 10px;">
+            <label style="font-weight: bold;">Repeat rate:</label>
+            <div style="display: flex; justify-content: space-between; font-size: 10px; color: #444;"><span>Slow</span><span>Fast</span></div>
+            <input type="range" min="1" max="5" value="5" style="width: 100%;" disabled />
+          </div>
+
+          <div class="field-row-stacked">
+            <label style="font-weight: bold;">Click here and hold down a key to test repeat rate:</label>
+            <input type="text" value="The quick brown fox jumps over the lazy developer..." style="width: 100%; background: #fff; color: #000;" />
+          </div>
+        </fieldset>
+      </div>
+
+      <!-- 2. Hardware Panel -->
+      <div id="panel-hardware-kb" style="display: none;">
+        <fieldset style="margin-bottom: 10px;">
+          <legend>Keyboard Device Properties</legend>
+          <div class="field-row-stacked" style="margin-bottom: 8px;">
+            <label style="font-weight: bold;">Device Type:</label>
+            <input type="text" value="Enhanced 101/102-Key or Microsoft Natural Keyboard" readonly style="width: 100%; background: #e0e0e0; color: #000;" />
+          </div>
+          <div class="field-row-stacked" style="margin-bottom: 8px;">
+            <label style="font-weight: bold;">Manufacturer:</label>
+            <input type="text" value="Standard Keyboard Driver (Win98)" readonly style="width: 100%; background: #e0e0e0; color: #000;" />
+          </div>
+          <div class="field-row-stacked">
+            <label style="font-weight: bold;">Status:</label>
+            <input type="text" value="The device is working properly." readonly style="width: 100%; background: #e0e0e0; color: #000;" />
+          </div>
+        </fieldset>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div style="display: flex; justify-content: flex-end; gap: 6px; margin-top: 8px;">
+      <button onclick="
+        var c = this.closest('.cp-container');
+        if (c) {
+          c.querySelector('#cp-grid-container').style.display = 'grid';
+          c.querySelector('#cp-prop-container').style.display = 'none';
+          c.querySelector('#cp-addr-field').innerHTML = '<img src=\'https://win98icons.alexmeub.com/icons/png/settings_gear_cool-0.png\' alt=\'\' style=\'width: 16px; height: 16px; vertical-align: middle; image-rendering: pixelated; margin-right: 4px;\'> Control Panel';
+          c.querySelector('#cp-info-box').innerHTML = 'Use the settings in Control Panel to personalize your system.<br><br>Select an item to view its description.';
+        }
+      " style="font-weight: bold; width: 75px;">OK</button>
+
+      <button onclick="
+        var c = this.closest('.cp-container');
+        if (c) {
+          c.querySelector('#cp-grid-container').style.display = 'grid';
+          c.querySelector('#cp-prop-container').style.display = 'none';
+          c.querySelector('#cp-addr-field').innerHTML = '<img src=\'https://win98icons.alexmeub.com/icons/png/settings_gear_cool-0.png\' alt=\'\' style=\'width: 16px; height: 16px; vertical-align: middle; image-rendering: pixelated; margin-right: 4px;\'> Control Panel';
+          c.querySelector('#cp-info-box').innerHTML = 'Use the settings in Control Panel to personalize your system.<br><br>Select an item to view its description.';
+        }
+      " style="width: 75px;">Cancel</button>
+
+      <button disabled style="width: 75px;">Apply</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,10 @@
+From: department@ugent.be
+To: verslypetybo@gmail.com
+Subject: Software Architecture Project Update
+Date: August 1, 2026
+
+Hi Tybo,
+
+This is a reminder regarding the final code submission timeline for the distributed systems project. Ensure that your local server configuration handles static asset routing cleanly without relying on absolute pathing.
+
+Good luck with the implementation!

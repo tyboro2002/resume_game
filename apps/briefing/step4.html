@@ -1,21 +1,23 @@
 <p><strong>MISSION:</strong> Uncover the secrets locked inside this PC to learn about me.</p>
 <p style="color: green; font-weight: bold;">Step 1 Complete: You found Tybo's verified Ghent University records!</p>
 <p style="color: green; font-weight: bold;">Step 2 Complete: You cracked the secret vault!</p>
-<p><strong>Step 3:</strong> Unlock control panel.</p>
+<p style="color: green; font-weight: bold;">Step 3 Complete: You unlocked control panel!</p>
+<p><strong>Step 4:</strong> Find and unlock Tybo's blogpost on the site of his student association. And publish his draft blogpost so we could view that later.</p>
 <hr />
 <div style="margin-top: 8px;">
-  <button id="hint-btn" onclick="showNextHint()">Show Hint (1/4)</button>
+  <button id="hint-btn" onclick="showNextHint()">Show Hint (1/5)</button>
   <div id="hints-container" style="margin-top: 8px; color: #333; font-size: 11px;"></div>
 </div>
 
 <script>
   (function() {
     const hints = [
-      "<em>Hint 1:</em> Tybo uses the city he lives in as password for his admin session.",
-      "<em>Hint 2:</em> Use ipconfig to find the WAN IP.",
-      "<em>Hint 3:</em> Search the WAN IP in Internet Explorer to locate the user",
-      "<em>Hint 4:</em> You can use iplookup.com to find where the ip is located.",
-      "<strong style='color: #b22222;'>Answer:</strong> Tybo is living in <strong>Veurne</strong> (Enter <code>admin Veurne</code> in command prompt)."
+      "<em>Hint 1:</em> Search around in our newly unlocked control panel.",
+      "<em>Hint 2:</em> What network did Tybo connect to.",
+      "<em>Hint 3:</em> Tybo's student association is <strong>ZeusWPI</strong> go look at there site at <code>zeuswpi.ugent.be</code>.",
+      "<em>Hint 4:</em> Tybo was <strong>PR</strong> in this association.",
+      "<em>Hint 5:</em> Tybo's password for the site is <strong>PR</strong>",
+      "<strong style='color: #b22222;'>Answer:</strong> Tybo was <strong>PR</strong> in <strong>Zeus WPI</strong> (Enter <code>zeuswpi.ugent.be/blog/pr</code> in browser)."
     ];
     let currentHintIndex = 0;
 

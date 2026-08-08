@@ -1,0 +1,65 @@
+{
+  "name": "Personal (C:)",
+  "path": "C:\\Personal",
+  "items": [
+    {
+      "type": "folder",
+      "id": "brugge",
+      "name": "Club Brugge",
+      "icon": "https://win98icons.alexmeub.com/icons/png/directory_closed-0.png",
+      "items": [
+        {
+          "type": "file",
+          "name": "matchdays.txt",
+          "icon": "https://win98icons.alexmeub.com/icons/png/notepad-0.png",
+          "title": "matchdays.txt - Notepad",
+          "path": "apps/file_explorer/files/club_brugge/matchdays.txt"
+        },
+        {
+          "type": "file",
+          "name": "ucl_tickets.txt",
+          "icon": "https://win98icons.alexmeub.com/icons/png/notepad-0.png",
+          "title": "ucl_tickets.txt - Notepad",
+          "path": "apps/file_explorer/files/club_brugge/ucl_tickets.txt"
+        }
+      ]
+    },
+    {
+      "type": "folder",
+      "id": "running",
+      "name": "Running",
+      "icon": "https://win98icons.alexmeub.com/icons/png/directory_closed-0.png",
+      "items": [
+        {
+          "type": "file",
+          "name": "marathon_plan.txt",
+          "icon": "https://win98icons.alexmeub.com/icons/png/notepad-0.png",
+          "title": "marathon_plan.txt - Notepad",
+          "path": "apps/file_explorer/files/running/marathon_plan.txt"
+        },
+        {
+          "type": "file",
+          "name": "personal_bests.txt",
+          "icon": "https://win98icons.alexmeub.com/icons/png/notepad-0.png",
+          "title": "personal_bests.txt - Notepad",
+          "path": "apps/file_explorer/files/running/personal_bests.txt"
+        }
+      ]
+    },
+    {
+      "type": "folder",
+      "id": "reading",
+      "name": "Reading",
+      "icon": "https://win98icons.alexmeub.com/icons/png/directory_closed-0.png",
+      "items": [
+        {
+          "type": "file",
+          "name": "bookshelf_2026.txt",
+          "icon": "https://win98icons.alexmeub.com/icons/png/notepad-0.png",
+          "title": "bookshelf_2026.txt - Notepad",
+          "path": "apps/file_explorer/files/reading/bookshelf_2026.txt"
+        }
+      ]
+    }
+  ]
+}

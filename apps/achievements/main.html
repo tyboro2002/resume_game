@@ -1,0 +1,158 @@
+<div class="window-body" style="margin: 0; padding: 0; display: flex; flex-direction: column; height: 100%; box-sizing: border-box; background: #c0c0c0; user-select: none;">
+
+  <!-- Tab Bar -->
+  <menu role="tablist" style="margin: 0; padding-left: 6px; display: flex;">
+    <li role="tab" aria-selected="true" onclick="
+      var w = this.closest('.window-body');
+      w.querySelectorAll('[role=tab]').forEach(function(t){ t.setAttribute('aria-selected', 'false'); });
+      this.setAttribute('aria-selected', 'true');
+      w.querySelector('#tab-life').style.display = 'block';
+      w.querySelector('#tab-games').style.display = 'none';
+    "><a href="#life" onclick="return false;">Game: Life</a></li>
+
+    <li role="tab" aria-selected="false" onclick="
+      var w = this.closest('.window-body');
+      w.querySelectorAll('[role=tab]').forEach(function(t){ t.setAttribute('aria-selected', 'false'); });
+      this.setAttribute('aria-selected', 'true');
+      w.querySelector('#tab-life').style.display = 'none';
+      w.querySelector('#tab-games').style.display = 'block';
+    "><a href="#games" onclick="return false;">Arcade Easter Eggs</a></li>
+  </menu>
+
+  <!-- Content Window Shell -->
+  <div class="window" style="position: static; border-top: none; padding: 12px; background: #c0c0c0; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+    <div>
+
+      <!-- TAB 1: Real Life Achievements -->
+      <div id="tab-life" style="display: block;">
+        <fieldset style="margin-bottom: 10px;">
+          <legend>Trophy Case: Real-Life Milestones</legend>
+          <p style="margin: 4px 0 8px 0; color: #444; font-size: 11px;">Unlocked achievements in the simulation known as <strong>"Life"</strong>:</p>
+
+          <div style="background: #fff; border: 2px inset #dfdfdf; height: 230px; overflow-y: auto; padding: 4px;">
+
+            <!-- 2026: Cyber On Board -->
+            <div style="display: flex; gap: 8px; align-items: center; padding: 6px; border-bottom: 1px solid #e0e0e0; background: #fcfcfc;">
+              <span style="font-size: 22px;">🚢</span>
+              <div style="flex-grow: 1;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <strong style="font-size: 11px; color: #000080;">Cyber On Board</strong>
+                  <span style="font-size: 10px; background: #28a745; color: #fff; padding: 1px 4px; font-weight: bold;">2026</span>
+                </div>
+                <div style="font-size: 11px; color: #333;">Achieved 9th place in maritime cybersecurity challenge.</div>
+              </div>
+            </div>
+
+            <!-- 2026: CSCBE 2026 -->
+            <div style="display: flex; gap: 8px; align-items: center; padding: 6px; border-bottom: 1px solid #e0e0e0; background: #fcfcfc;">
+              <span style="font-size: 22px;">⚓</span>
+              <div style="flex-grow: 1;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <strong style="font-size: 11px; color: #000080;">CSCBE 2026 Finalist</strong>
+                  <span style="font-size: 10px; background: #28a745; color: #fff; padding: 1px 4px; font-weight: bold;">2026</span>
+                </div>
+                <div style="font-size: 11px; color: #333;">10th Place + Naval Prize winner at Cyber Security Challenge Belgium.</div>
+              </div>
+            </div>
+
+            <!-- 2025: CSCBE 2025 -->
+            <div style="display: flex; gap: 8px; align-items: center; padding: 6px; border-bottom: 1px solid #e0e0e0; background: #fcfcfc;">
+              <span style="font-size: 22px;">🛡️</span>
+              <div style="flex-grow: 1;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <strong style="font-size: 11px; color: #000080;">CSCBE 2025 Finalist</strong>
+                  <span style="font-size: 10px; background: #28a745; color: #fff; padding: 1px 4px; font-weight: bold;">2025</span>
+                </div>
+                <div style="font-size: 11px; color: #333;">Qualified as national finalist in Cyber Security Challenge Belgium.</div>
+              </div>
+            </div>
+
+            <!-- 2025: DSA Best PR Stunt -->
+            <div style="display: flex; gap: 8px; align-items: center; padding: 6px; border-bottom: 1px solid #e0e0e0; background: #fcfcfc;">
+              <span style="font-size: 22px;">📣</span>
+              <div style="flex-grow: 1;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <strong style="font-size: 11px; color: #000080;">DSA Award: Best PR Stunt</strong>
+                  <span style="font-size: 10px; background: #28a745; color: #fff; padding: 1px 4px; font-weight: bold;">2025</span>
+                </div>
+                <div style="font-size: 11px; color: #333;">Awarded for executing the most creative promotional campaign.</div>
+              </div>
+            </div>
+
+            <!-- 2024: DSA Best Poster -->
+            <div style="display: flex; gap: 8px; align-items: center; padding: 6px; background: #fcfcfc;">
+              <span style="font-size: 22px;">🎨</span>
+              <div style="flex-grow: 1;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <strong style="font-size: 11px; color: #000080;">DSA Award: Best Poster for an Activity</strong>
+                  <span style="font-size: 10px; background: #28a745; color: #fff; padding: 1px 4px; font-weight: bold;">2024</span>
+                </div>
+                <div style="font-size: 11px; color: #333;">Honored for outstanding graphical artwork and event poster design.</div>
+              </div>
+            </div>
+
+          </div>
+        </fieldset>
+      </div>
+
+      <!-- TAB 2: Retro Arcade Games -->
+      <div id="tab-games" style="display: none;">
+        <fieldset style="margin-bottom: 10px;">
+          <legend>Arcade &amp; Mini-Game Badges</legend>
+          <p style="margin: 4px 0 8px 0; color: #444; font-size: 11px;">In-game achievements for built-in desktop apps:</p>
+
+          <div style="background: #fff; border: 2px inset #dfdfdf; height: 230px; overflow-y: auto; padding: 4px;">
+
+            <!-- Snake Achievement -->
+            <div style="display: flex; gap: 8px; align-items: center; padding: 6px; border-bottom: 1px solid #e0e0e0; background: #fcfcfc;">
+              <span style="font-size: 22px;">🍎</span>
+              <div style="flex-grow: 1;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <strong style="font-size: 11px; color: #008000;">Snake: Delicious First Byte</strong>
+                  <span style="font-size: 9px; background: #28a745; color: #fff; padding: 1px 4px; border-radius: 2px; font-weight: bold;">UNLOCKED</span>
+                </div>
+                <div style="font-size: 11px; color: #333;">Eat your very first apple in Snake.exe without running into yourself.</div>
+              </div>
+            </div>
+
+            <!-- Minesweeper Achievement -->
+          <div style="display: flex; gap: 8px; align-items: center; padding: 6px; background: #fcfcfc;">
+              <span style="font-size: 22px;">💣</span>
+              <div style="flex-grow: 1;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <strong style="font-size: 11px; color: #555;">Minesweeper: First Click Lucky</strong>
+                  <span style="font-size: 9px; background: #808080; color: #fff; padding: 1px 4px; border-radius: 2px; font-weight: bold;">LOCKED</span>
+                </div>
+                <div style="font-size: 11px; color: #666;">Clear a 3x3 open grid without triggering a mine on tile 1.</div>
+              </div>
+            </div>
+
+            <!-- Terminal Easter Egg -->
+            <div style="display: flex; gap: 8px; align-items: center; padding: 6px; border-bottom: 1px solid #e0e0e0; background: #fcfcfc;">
+              <span style="font-size: 22px;">💻</span>
+              <div style="flex-grow: 1;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <strong style="font-size: 11px; color: #008000;">MS-DOS: Hacker Spirit</strong>
+                  <span style="font-size: 9px; background: #28a745; color: #fff; padding: 1px 4px; border-radius: 2px; font-weight: bold;">UNLOCKED</span>
+                </div>
+                <div style="font-size: 11px; color: #333;">Type 'help' inside Command Prompt.</div>
+              </div>
+            </div>
+
+          </div>
+        </fieldset>
+      </div>
+
+    </div>
+
+    <!-- Footer Controls -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px;">
+      <span style="font-size: 10px; color: #555;">System Achievements v1.0</span>
+      <button onclick="
+        var w = this.closest('.window');
+        if (w) w.style.display = 'none';
+      " style="width: 75px; font-weight: bold;">Close</button>
+    </div>
+  </div>
+
+</div>

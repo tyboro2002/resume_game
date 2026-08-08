@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OASIS - Ghent University</title>
   <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow-y: auto; /* Force internal scrolling */
+    }
+
     body {
       font-family: Arial, Helvetica, sans-serif;
       margin: 0;
@@ -29,9 +36,11 @@
       gap: 12px;
     }
 
-    .ugent-crest-svg {
-      width: 42px;
+    .ugent-crest-img {
       height: 48px;
+      width: auto;
+      display: block;
+      object-fit: contain;
     }
 
     .ugent-text {
@@ -73,17 +82,12 @@
       display: none;
     }
 
-    .lang-link {
-      color: white;
-      text-decoration: none;
-      font-size: 12px;
-    }
-
     /* Main Container */
     .main-container {
       max-width: 980px;
       margin: 0 auto;
-      padding: 30px 20px;
+      padding: 30px 20px 60px 20px;
+      box-sizing: border-box;
     }
 
     .welcome-title {
@@ -209,13 +213,14 @@
     .page-subtitle {
       font-size: 13px;
       color: #555555;
-      margin: 0 0 25px 0;
+      margin: 0 0 20px 0;
     }
 
     .results-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 20px;
+      margin-bottom: 35px;
     }
 
     .degree-card {
@@ -265,31 +270,41 @@
       display: inline-block;
     }
 
-    .ugent-crest-img {
-      height: 48px;
-      width: auto;
-      display: block;
-      object-fit: contain;
+    .badge-score {
+      background-color: #1e64c8;
+      color: white;
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 3px;
+      font-weight: bold;
+      display: inline-block;
+    }
+
+    .project-card {
+      border: 1px solid #d0d0d0;
+      background-color: #fafafa;
+      padding: 20px 24px;
+      box-sizing: border-box;
     }
   </style>
 </head>
 <body>
 
   <!-- Top Navigation Header -->
-    <div class="top-header">
-      <div class="ugent-logo-container">
-        <img src="../../assets/images/UGENT.png" alt="Ghent University" class="ugent-crest-img" />
-        <div class="ugent-text">
-          Ghent<br>University
-        </div>
-      </div>
-      <div class="oasis-banner">
-        <div class="oasis-title">OASIS</div>
-        <div class="banner-right">
-          <span id="user-display" class="user-name-display">Tybo Verslype</span>
-        </div>
+  <div class="top-header">
+    <div class="ugent-logo-container">
+      <img src="../../assets/images/UGENT.png" alt="Ghent University" class="ugent-crest-img" />
+      <div class="ugent-text">
+        Ghent<br>University
       </div>
     </div>
+    <div class="oasis-banner">
+      <div class="oasis-title">OASIS</div>
+      <div class="banner-right">
+        <span id="user-display" class="user-name-display">Tybo Verslype</span>
+      </div>
+    </div>
+  </div>
 
   <!-- Main Content Body -->
   <div class="main-container">
@@ -323,7 +338,6 @@
       <p class="page-subtitle">Verified educational credentials registered under Ghent University.</p>
 
       <div class="results-grid">
-
         <!-- Card 1: Master of Science -->
         <div class="degree-card">
           <div>
@@ -347,8 +361,26 @@
             <div class="degree-institution">Ghent University</div>
           </div>
         </div>
-
       </div>
+
+      <!-- Course Projects & Scores Section -->
+      <h2 class="page-section-title">Course Projects & Evaluation Scores</h2>
+      <p class="page-subtitle">Practical engineering project evaluations and university transcript scores.</p>
+
+      <div class="project-card">
+        <div class="degree-header-row">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span class="degree-year" style="font-size: 18px;">2023 – 2024</span>
+            <span class="degree-title" style="margin: 0; font-size: 16px;">Ypovoli - Software Engineer</span>
+          </div>
+          <span class="badge-score">Score: 18 / 20</span>
+        </div>
+        <div class="degree-institution" style="margin-bottom: 8px;">Ghent University Course Project</div>
+        <p style="font-size: 13px; color: #444; line-height: 1.5; margin: 0;">
+          A custom web application to streamline project submissions with features like submission structure validation, customizable checks including code tests, and flexible submission acceptance criteria.
+        </p>
+      </div>
+
     </div>
 
   </div>
@@ -361,7 +393,6 @@
         const recordsScreen = document.getElementById('records-screen');
         const userDisplay = document.getElementById('user-display');
 
-        // Remove leading/trailing spaces, reduce multiple inner spaces to 1, and make case-insensitive
         const sanitizedInput = input.trim().replace(/\s+/g, ' ').toLowerCase();
 
         if (sanitizedInput === 'tybo verslype') {

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GeoIP Lookup Tool</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      padding: 16px;
+      background: #f4f4f4;
+      margin: 0;
+    }
+    .card {
+      background: white;
+      border: 2px inset #dfdfdf;
+      padding: 12px;
+      max-width: 400px;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+    .ip-header {
+      font-size: 14px;
+      font-weight: bold;
+      color: navy;
+      margin-bottom: 8px;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 4px;
+    }
+    .search-box {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    .search-box input {
+      flex-grow: 1;
+      padding: 4px;
+      font-size: 12px;
+      border: 2px inset #dfdfdf;
+    }
+    .search-box button {
+      padding: 4px 8px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    .data-row {
+      display: flex;
+      justify-content: space-between;
+      margin: 6px 0;
+      border-bottom: 1px dashed #eee;
+      padding-bottom: 2px;
+    }
+    #result-container {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <div class="ip-header">🌐 GeoIP Location Lookup Tool</div>
+
+  <div class="search-box">
+    <input type="text" id="ip-input" placeholder="Enter IP address (e.g. 000.000.000.000)..." />
+    <button onclick="performLookup()">Search</button>
+  </div>
+
+  <div id="result-container">
+    <div class="data-row"><span>Target IP:</span> <strong id="res-ip">-</strong></div>
+    <div class="data-row"><span>Country:</span> <strong id="res-country">-</strong></div>
+    <div class="data-row"><span>Region:</span> <strong id="res-region">-</strong></div>
+    <div class="data-row"><span>City:</span> <strong id="res-city" style="font-size: 13px;">-</strong></div>
+    <div class="data-row"><span>ISP:</span> <strong id="res-isp">-</strong></div>
+  </div>
+</div>
+
+<script>
+  const validTargetIPs = ["81.246.12.34", "192.168.1.104"];
+
+  const dummyLocations = [
+    { country: "United States 🇺🇸", region: "California", city: "Los Angeles", isp: "Comcast Cable" },
+    { country: "Japan 🇯🇵", region: "Kanto", city: "Tokyo", isp: "NTT Communications" },
+    { country: "Germany 🇩🇪", region: "Bavaria", city: "Munich", isp: "Deutsche Telekom" },
+    { country: "United Kingdom 🇬🇧", region: "Greater London", city: "London", isp: "BT Group" },
+    { country: "Australia 🇦🇺", region: "New South Wales", city: "Sydney", isp: "Telstra" },
+    { country: "Brazil 🇧🇷", region: "São Paulo", city: "São Paulo", isp: "Claro Brasil" },
+    { country: "France 🇫🇷", region: "Île-de-France", city: "Paris", isp: "Orange S.A." }
+  ];
+
+  // IP normalization logic ensuring max 3 digits per octet
+  function normalizeIP(input) {
+    const parts = input.split('.');
+    if (parts.length !== 4) return null;
+
+    const normalizedParts = [];
+    for (const part of parts) {
+      // Must be strictly 1 to 3 numeric digits (rejects > 3 chars e.g. "0081")
+      if (!/^\d{1,3}$/.test(part)) return null;
+
+      const num = parseInt(part, 10);
+      if (num < 0 || num > 255) return null;
+
+      normalizedParts.push(num);
+    }
+    return normalizedParts.join('.');
+  }
+
+  function performLookup() {
+    const input = document.getElementById('ip-input').value.trim();
+    if (!input) return;
+
+    const resContainer = document.getElementById('result-container');
+    const resIp = document.getElementById('res-ip');
+    const resCountry = document.getElementById('res-country');
+    const resRegion = document.getElementById('res-region');
+    const resCity = document.getElementById('res-city');
+    const resIsp = document.getElementById('res-isp');
+
+    resIp.innerText = input;
+
+    const normalizedInput = normalizeIP(input);
+
+    if (normalizedInput && validTargetIPs.includes(normalizedInput)) {
+      resCountry.innerText = "Belgium 🇧🇪";
+      resRegion.innerText = "Flanders";
+      resCity.innerText = "Veurne";
+      resCity.style.color = "darkred";
+      resIsp.innerText = "Proximus Broadband";
+    } else {
+      const randomIndex = Math.floor(Math.random() * dummyLocations.length);
+      const dummy = dummyLocations[randomIndex];
+
+      resCountry.innerText = dummy.country;
+      resRegion.innerText = dummy.region;
+      resCity.innerText = dummy.city;
+      resCity.style.color = "black";
+      resIsp.innerText = dummy.isp;
+    }
+
+    resContainer.style.display = 'block';
+  }
+
+  document.getElementById('ip-input').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') performLookup();
+  });
+</script>
+
+</body>
+</html>

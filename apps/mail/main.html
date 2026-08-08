@@ -1,0 +1,197 @@
+<div class="window-body" style="margin: 0; padding: 0; display: flex; flex-direction: column; height: 400px; box-sizing: border-box; background: #c0c0c0; user-select: none;">
+  <!-- Outlook Menu Bar -->
+  <div style="display: flex; gap: 12px; padding: 2px 6px; background: #c0c0c0; border-bottom: 1px solid #808080; font-size: 11px; color: #000; flex-shrink: 0;">
+    <span style="cursor: pointer;"><u>F</u>ile</span>
+    <span style="cursor: pointer;"><u>E</u>dit</span>
+    <span style="cursor: pointer;"><u>V</u>iew</span>
+    <span style="cursor: pointer;"><u>T</u>ools</span>
+    <span style="cursor: pointer;"><u>M</u>essage</span>
+    <span style="cursor: pointer;"><u>H</u>elp</span>
+  </div>
+
+  <!-- Toolbar -->
+  <div style="display: flex; align-items: center; gap: 4px; padding: 3px 6px; background: #c0c0c0; border-bottom: 2px inset #fff; font-size: 11px; flex-shrink: 0;">
+    <button style="padding: 2px 8px; font-size: 11px; cursor: pointer;">✉ New Mail</button>
+    <button style="padding: 2px 8px; font-size: 11px; cursor: pointer;">↩ Reply</button>
+    <button style="padding: 2px 8px; font-size: 11px; cursor: pointer;">↪ Forward</button>
+    <div style="width: 1px; height: 16px; background: #808080; margin: 0 4px;"></div>
+    <button style="padding: 2px 8px; font-size: 11px; cursor: pointer;">❌ Delete</button>
+    <button style="padding: 2px 8px; font-size: 11px; cursor: pointer;" onclick="checkForNewMail()">🔄 Send/Recv</button>
+  </div>
+
+  <!-- Mail Interface Split Body: 50/50 Side-by-Side -->
+  <div style="display: flex; flex-direction: row; flex-grow: 1; min-height: 0; background: #fff; border: 2px inset #dfdfdf; overflow: hidden; position: relative;">
+
+    <!-- Left Pane: Mail List Table (Fixed 50% width) -->
+    <div style="width: 50%; min-width: 50%; max-width: 50%; border-right: 2px solid #808080; overflow-y: auto; overflow-x: hidden; background: #fff; box-sizing: border-box; height: 100%;">
+      <table style="width: 100%; table-layout: fixed; border-collapse: collapse; font-size: 11px; text-align: left;">
+        <thead>
+          <tr style="background: #c0c0c0; border-bottom: 1px solid #808080; position: sticky; top: 0; z-index: 1;">
+            <th style="width: 32%; padding: 3px 4px; border-right: 1px solid #808080; font-weight: normal; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">From</th>
+            <th style="width: 43%; padding: 3px 4px; border-right: 1px solid #808080; font-weight: normal; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Subject</th>
+            <th style="width: 25%; padding: 3px 4px; font-weight: normal; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Received</th>
+          </tr>
+        </thead>
+        <tbody id="mail-list-tbody">
+          <!-- Dynamic mails load here -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Right Pane: Mail Content Details Viewer (Fixed 50% width) -->
+    <div style="width: 50%; min-width: 50%; max-width: 50%; display: flex; flex-direction: column; background: #ffffff; height: 100%; overflow: hidden; box-sizing: border-box;">
+      <div id="mail-headers" style="padding: 8px; background: #f0f0f0; border-bottom: 1px solid #dfdfdf; font-size: 11px; color: #333; display: none; flex-shrink: 0;">
+        <div id="mail-subject-display" style="font-weight: bold; font-size: 12px; margin-bottom: 4px; color: #000; word-break: break-word;"></div>
+        <div id="mail-sender-display" style="word-break: break-word;"></div>
+      </div>
+      <div id="mail-body-content" style="padding: 12px; font-size: 11px; font-family: 'Courier New', monospace; white-space: pre-wrap; word-break: break-word; color: #000; flex-grow: 1; overflow-y: auto; min-height: 0;">
+        Select an email message from the list on the left to read its contents.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Status Bar -->
+  <div style="display: flex; justify-content: space-between; padding: 2px 6px; background: #c0c0c0; border-top: 1px solid #fff; font-size: 11px; color: #000; flex-shrink: 0;">
+    <span id="mail-status-count">0 message(s), 0 unread</span>
+    <span>Outlook Express</span>
+  </div>
+</div>
+
+<script>
+  let mailData = [];
+  let selectedRow = null;
+  let localVirusTriggered = false;
+  let digidokterReceived = false;
+
+  function loadMailInbox() {
+    fetch('apps/mail/maillist.json')
+      .then(res => res.json())
+      .then(data => {
+        mailData = data.inbox;
+        renderMailList();
+        updateStatusBar();
+      })
+      .catch(err => {
+        console.error('Error loading maillist.json:', err);
+        document.getElementById('mail-list-tbody').innerHTML = '<tr><td colspan="3" style="color:red; padding:8px;">Failed to load inbox messages.</td></tr>';
+      });
+  }
+
+  function renderMailList() {
+    const tbody = document.getElementById('mail-list-tbody');
+    tbody.innerHTML = '';
+
+    mailData.forEach((mail) => {
+      const tr = document.createElement('tr');
+      tr.style.cssText = "cursor: pointer; border-bottom: 1px solid #f0f0f0;";
+
+      if (selectedRow && selectedRow.dataset.id === mail.id) {
+        tr.style.background = '#000080';
+        tr.style.color = '#fff';
+        selectedRow = tr;
+      }
+
+      tr.onmouseover = () => {
+        if (tr !== selectedRow) {
+          tr.style.background = '#e0e0e0';
+          tr.style.color = '#000';
+        }
+      };
+      tr.onmouseout = () => {
+        if (tr !== selectedRow) {
+          tr.style.background = '#fff';
+          tr.style.color = '#000';
+        }
+      };
+
+      tr.dataset.id = mail.id;
+      tr.innerHTML = `
+        <td style="width: 32%; padding: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${mail.sender}</td>
+        <td style="width: 43%; padding: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${mail.subject}</td>
+        <td style="width: 25%; padding: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${mail.date}</td>
+      `;
+
+      tr.onclick = () => handleMailClick(mail, tr);
+      tbody.appendChild(tr);
+    });
+    updateStatusBar();
+  }
+
+  function updateStatusBar() {
+    const statusEl = document.getElementById('mail-status-count');
+    if (statusEl) {
+      statusEl.innerText = `${mailData.length} message(s), 0 unread`;
+    }
+  }
+
+  function handleMailClick(mail, rowElement) {
+    if (selectedRow) {
+      selectedRow.style.background = '#fff';
+      selectedRow.style.color = '#000';
+    }
+    selectedRow = rowElement;
+    selectedRow.style.background = '#000080';
+    selectedRow.style.color = '#fff';
+
+    const triggerFn = window.triggerVirusSpamAndModal;
+
+    if (!localVirusTriggered) {
+      localVirusTriggered = true;
+      if (typeof triggerFn === 'function') {
+        // Store pending mail to load after closing the Digidokter modal
+        window.pendingMailToLoad = mail;
+        triggerFn(mail, () => {
+          // Content and Digidokter mail are deferred until closeDigidokterModal runs
+        });
+      } else {
+        loadMailContentBody(mail);
+      }
+    } else {
+      loadMailContentBody(mail);
+    }
+  }
+
+  function receiveDigidokterMail() {
+    if (digidokterReceived) return;
+    digidokterReceived = true;
+
+    const digidokterMail = {
+      id: "digidokter-alert",
+      sender: "Digidokter Support",
+      subject: "System diagnostic alert - Action Required",
+      date: "08/08/2026",
+      path: "apps/mail/messages/digidokter_alert.txt"
+    };
+
+    mailData.unshift(digidokterMail);
+    renderMailList();
+
+    const playNotif = window.playNotificationSound;
+    if (typeof playNotif === 'function') {
+      playNotif();
+    }
+  }
+
+  window.receiveDigidokterMail = receiveDigidokterMail;
+
+  async function loadMailContentBody(mail) {
+    try {
+      const res = await fetch(mail.path);
+      if (!res.ok) throw new Error('Could not fetch mail text file');
+      const textContent = await res.text();
+
+      document.getElementById('mail-headers').style.display = 'block';
+      document.getElementById('mail-subject-display').innerText = mail.subject;
+      document.getElementById('mail-sender-display').innerHTML = `<strong>From:</strong> ${mail.sender} &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Date:</strong> ${mail.date}`;
+      document.getElementById('mail-body-content').innerText = textContent;
+    } catch (err) {
+      console.warn('Error loading mail content:', err);
+      document.getElementById('mail-body-content').innerText = 'Error: Could not load email message body from ' + mail.path;
+    }
+  }
+
+  window.loadMailContentBody = loadMailContentBody;
+
+  loadMailInbox();
+</script>

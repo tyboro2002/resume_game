@@ -1,21 +1,24 @@
 <p><strong>MISSION:</strong> Uncover the secrets locked inside this PC to learn about me.</p>
 <p style="color: green; font-weight: bold;">Step 1 Complete: You found Tybo's verified Ghent University records!</p>
 <p style="color: green; font-weight: bold;">Step 2 Complete: You cracked the secret vault!</p>
-<p><strong>Step 3:</strong> Unlock control panel.</p>
+<p style="color: green; font-weight: bold;">Step 3 Complete: You unlocked control panel!</p>
+<p style="color: green; font-weight: bold;">Step 4 Complete: You published the blog post!</p>
+<p><strong>Step 5:</strong> Find and unlock tybo's mails and read them</p>
 <hr />
 <div style="margin-top: 8px;">
-  <button id="hint-btn" onclick="showNextHint()">Show Hint (1/4)</button>
+  <button id="hint-btn" onclick="showNextHint()">Show Hint (1/5)</button>
   <div id="hints-container" style="margin-top: 8px; color: #333; font-size: 11px;"></div>
 </div>
 
 <script>
   (function() {
     const hints = [
-      "<em>Hint 1:</em> Tybo uses the city he lives in as password for his admin session.",
-      "<em>Hint 2:</em> Use ipconfig to find the WAN IP.",
-      "<em>Hint 3:</em> Search the WAN IP in Internet Explorer to locate the user",
-      "<em>Hint 4:</em> You can use iplookup.com to find where the ip is located.",
-      "<strong style='color: #b22222;'>Answer:</strong> Tybo is living in <strong>Veurne</strong> (Enter <code>admin Veurne</code> in command prompt)."
+      "<em>Hint 1:</em> Maybe look in the recycle bin.",
+      "<em>Hint 2:</em> In the recycle bin is a file called <code>passwords.txt</code>.",
+      "<em>Hint 3:</em> Download the mail client and open it.",
+      "<em>Hint 4:</em> Make sure you download the mail client from exactly <strong>http://www.retro-soft.be/downloads.html</strong> otherwise it will give a 404",
+      "<em>Hint 5:</em> Try reading a mail",
+      "<strong style='color: #b22222;'>Answer:</strong> You download the mail client from <strong>http://www.retro-soft.be/downloads.html</strong>, open it and read a mail"
     ];
     let currentHintIndex = 0;
 

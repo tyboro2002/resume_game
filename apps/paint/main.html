@@ -1,0 +1,124 @@
+<div class="window-body" style="background: #c0c0c0; padding: 4px; display: flex; flex-direction: column; height: 330px; box-sizing: border-box; font-family: 'Pixelated MS Sans Serif', Arial, sans-serif; user-select: none;">
+  <!-- Paint Menu Bar -->
+  <div style="display: flex; gap: 10px; padding: 2px 4px; font-size: 11px; border-bottom: 1px solid #808080; margin-bottom: 4px;">
+    <span style="cursor: pointer;" onclick="clearCanvas()"><u>F</u>ile (Clear)</span>
+    <span><u>E</u>dit</span>
+    <span><u>V</u>iew</span>
+    <span><u>I</u>mage</span>
+    <span><u>O</u>ptions</span>
+    <span><u>H</u>elp</span>
+  </div>
+
+  <div style="display: flex; flex-grow: 1; gap: 4px; min-height: 0;">
+    <!-- Toolbox Sidebar (Made wider so text buttons fit comfortably) -->
+    <div style="width: 74px; background: #c0c0c0; border: 2px outset #fff; display: flex; flex-direction: column; gap: 4px; padding: 4px; align-items: center; flex-shrink: 0;">
+      <button id="tool-pencil" onclick="setTool('pencil')" style="width: 62px; height: 24px; font-size: 11px; cursor: pointer; background: #dfdfdf; border: 2px inset #fff; display: flex; align-items: center; justify-content: center;" title="Pencil">Pencil</button>
+      <button id="tool-brush" onclick="setTool('brush')" style="width: 62px; height: 24px; font-size: 11px; cursor: pointer; background: #c0c0c0; border: 2px outset #fff; display: flex; align-items: center; justify-content: center;" title="Brush">Brush</button>
+      <button id="tool-eraser" onclick="setTool('eraser')" style="width: 62px; height: 24px; font-size: 11px; cursor: pointer; background: #c0c0c0; border: 2px outset #fff; display: flex; align-items: center; justify-content: center;" title="Eraser">Eraser</button>
+      <button onclick="clearCanvas()" style="width: 62px; height: 24px; font-size: 11px; cursor: pointer; background: #c0c0c0; border: 2px outset #fff; display: flex; align-items: center; justify-content: center;" title="Clear">Clear</button>
+    </div>
+
+    <!-- Canvas Area with HTML5 Canvas -->
+    <div style="flex-grow: 1; background: #fff; border: 2px inset #dfdfdf; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; cursor: crosshair;">
+      <canvas id="paint-canvas" width="240" height="230" style="background: #ffffff; display: block;"></canvas>
+    </div>
+  </div>
+
+  <!-- Color Palette Footer -->
+  <div style="display: flex; gap: 4px; padding-top: 4px; align-items: center;">
+    <div id="active-color-indicator" style="width: 22px; height: 22px; background: #000000; border: 2px inset #fff;" title="Active Color"></div>
+    <div style="display: flex; gap: 2px; flex-wrap: wrap;">
+      <div class="color-swatch" onclick="setColor('#000000', this)" style="width: 16px; height: 16px; background: #000000; border: 2px outset #fff; cursor: pointer;"></div>
+      <div class="color-swatch" onclick="setColor('#808080', this)" style="width: 16px; height: 16px; background: #808080; border: 2px outset #fff; cursor: pointer;"></div>
+      <div class="color-swatch" onclick="setColor('#800000', this)" style="width: 16px; height: 16px; background: #800000; border: 2px outset #fff; cursor: pointer;"></div>
+      <div class="color-swatch" onclick="setColor('#000080', this)" style="width: 16px; height: 16px; background: #000080; border: 2px outset #fff; cursor: pointer;"></div>
+      <div class="color-swatch" onclick="setColor('#008000', this)" style="width: 16px; height: 16px; background: #008000; border: 2px outset #fff; cursor: pointer;"></div>
+      <div class="color-swatch" onclick="setColor('#ff0000', this)" style="width: 16px; height: 16px; background: #ff0000; border: 2px outset #fff; cursor: pointer;"></div>
+      <div class="color-swatch" onclick="setColor('#ffff00', this)" style="width: 16px; height: 16px; background: #ffff00; border: 2px outset #fff; cursor: pointer;"></div>
+      <div class="color-swatch" onclick="setColor('#ffffff', this)" style="width: 16px; height: 16px; background: #ffffff; border: 2px outset #fff; cursor: pointer;"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const canvas = document.getElementById('paint-canvas');
+  const ctx = canvas.getContext('2d');
+
+  let painting = false;
+  let currentTool = 'pencil';
+  let currentColor = '#000000';
+
+  // Fill initial background white
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  function setTool(tool) {
+    currentTool = tool;
+    ['pencil', 'brush', 'eraser'].forEach(t => {
+      const btn = document.getElementById('tool-' + t);
+      if (btn) {
+        if (t === tool) {
+          btn.style.background = '#dfdfdf';
+          btn.style.border = '2px inset #fff';
+        } else {
+          btn.style.background = '#c0c0c0';
+          btn.style.border = '2px outset #fff';
+        }
+      }
+    });
+  }
+
+  function setColor(color, element) {
+    currentColor = color;
+    document.getElementById('active-color-indicator').style.background = color;
+  }
+
+  function clearCanvas() {
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
+
+  function getMousePos(evt) {
+    const rect = canvas.getBoundingClientRect();
+    return {
+      x: evt.clientX - rect.left,
+      y: evt.clientY - rect.top
+    };
+  }
+
+  canvas.addEventListener('mousedown', (e) => {
+    const pos = getMousePos(e);
+    painting = true;
+    ctx.beginPath();
+    ctx.moveTo(pos.x, pos.y);
+
+    if (currentTool === 'eraser') {
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 12;
+    } else if (currentTool === 'brush') {
+      ctx.strokeStyle = currentColor;
+      ctx.lineWidth = 5;
+    } else {
+      ctx.strokeStyle = currentColor;
+      ctx.lineWidth = 1;
+    }
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+  });
+
+  canvas.addEventListener('mousemove', (e) => {
+    if (!painting) return;
+    const pos = getMousePos(e);
+
+    ctx.lineTo(pos.x, pos.y);
+    ctx.stroke();
+  });
+
+  window.addEventListener('mouseup', () => {
+    painting = false;
+  });
+
+  canvas.addEventListener('mouseleave', () => {
+    painting = false;
+  });
+</script>

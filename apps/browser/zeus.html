@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Zeus WPI - Computer Science Association Gent</title>
+  <style>
+    body {
+      background-color: #c0c0c0;
+      color: #000000;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 12px;
+      margin: 8px;
+      padding: 0;
+      user-select: none;
+    }
+
+    a {
+      color: #cc6600;
+      text-decoration: underline;
+    }
+    a:visited {
+      color: #804000;
+    }
+    a:hover {
+      color: #ff7f00;
+    }
+
+    /* Top Auth Bar */
+    .z-topbar {
+      background: #222222;
+      color: #ffffff;
+      padding: 4px 8px;
+      border: 2px outset #ffffff;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 6px;
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+    }
+    .z-topbar input[type="password"] {
+      padding: 2px 4px;
+      font-size: 11px;
+      border: 1px solid #808080;
+      width: 110px;
+    }
+    .z-topbar button {
+      background: #ff7f00;
+      color: #ffffff;
+      border: 1px outset #ffffff;
+      font-weight: bold;
+      font-size: 11px;
+      cursor: pointer;
+      padding: 2px 8px;
+    }
+    .z-topbar button:active {
+      border-style: inset;
+    }
+
+    /* Web 1.0 Retro Containers */
+    .z-header {
+      background: #ff7f00;
+      color: #ffffff;
+      padding: 10px;
+      border: 2px outset #ffffff;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+    .z-header h1 {
+      margin: 0;
+      font-size: 22px;
+      font-family: Arial, sans-serif;
+      letter-spacing: 1px;
+    }
+    .z-header p {
+      margin: 4px 0 0 0;
+      font-size: 11px;
+      color: #ffffff;
+    }
+
+    .z-layout {
+      display: flex;
+      gap: 8px;
+    }
+
+    .z-sidebar {
+      width: 150px;
+      min-width: 150px;
+      background: #e0e0e0;
+      border: 2px inset #ffffff;
+      padding: 8px;
+      box-sizing: border-box;
+    }
+
+    .z-menu-title {
+      font-weight: bold;
+      background: #ff7f00;
+      color: #ffffff;
+      padding: 2px 4px;
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      margin-bottom: 6px;
+    }
+
+    .z-menu-list {
+      list-style-type: square;
+      padding-left: 18px;
+      margin: 0 0 12px 0;
+      line-height: 1.6;
+    }
+
+    .z-main {
+      flex-grow: 1;
+      background: #ffffff;
+      border: 2px inset #ffffff;
+      padding: 12px;
+      box-sizing: border-box;
+    }
+
+    .z-box {
+      border: 2px outset #ffffff;
+      background: #f4f4f4;
+      padding: 8px;
+      margin-bottom: 12px;
+    }
+    .z-box-title {
+      font-weight: bold;
+      font-family: Arial, sans-serif;
+      color: #ff7f00;
+      border-bottom: 1px solid #808080;
+      padding-bottom: 2px;
+      margin-bottom: 6px;
+    }
+
+    table.z-roster {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+      font-family: Arial, sans-serif;
+    }
+    table.z-roster th {
+      background: #ff7f00;
+      color: #ffffff;
+      text-align: left;
+      padding: 4px;
+    }
+    table.z-roster td {
+      padding: 5px 4px;
+      border-bottom: 1px solid #c0c0c0;
+    }
+    .highlight-row {
+      background-color: #fff2e6;
+    }
+
+    .z-badge {
+      display: inline-block;
+      background: #ff7f00;
+      color: #ffffff;
+      font-weight: bold;
+      font-size: 9px;
+      padding: 1px 3px;
+      margin-left: 4px;
+      border: 1px solid #000;
+    }
+
+    /* Protected Draft Post Box */
+    #draft-post-box {
+      display: none;
+      border: 2px solid #ff7f00;
+      background: #fff8f0;
+    }
+
+    .z-footer {
+      margin-top: 12px;
+      text-align: center;
+      font-size: 10px;
+      color: #555;
+      border-top: 1px dashed #808080;
+      padding-top: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Login Bar -->
+  <div class="z-topbar">
+    <span id="login-status-label">Board Portal:</span>
+    <input type="password" id="pass-input" placeholder="Enter password...">
+    <button onclick="handleLogin()">Login</button>
+  </div>
+
+  <!-- Site Banner Header -->
+  <div class="z-header">
+      <img src="https://zinc.zeus.gent/black" alt="Zeus WPI Logo" style="height: 50px; max-width: 100%; display: block; margin: 0 auto 6px auto;">
+      <p>Werkgroep Computerwetenschappen UGent (Ghent University)</p>
+    </div>
+
+  <!-- Scrolling News Ticker -->
+  <marquee style="background: #000; color: #ff7f00; font-family: monospace; padding: 2px; margin-bottom: 8px;" scrollamount="4">
+    *** WELCOME TO ZEUS WPI OFFICIAL ARCHIVE *** BOARD ROSTER UPDATED FOR THIS TERM *** LOG IN AT TOP ***
+  </marquee>
+
+  <div class="z-layout">
+    <!-- Left Navigation Sidebar -->
+    <div class="z-sidebar">
+      <div class="z-menu-title">Navigation</div>
+      <ul class="z-menu-list">
+        <li><a href="#" onclick="return false;">Home</a></li>
+        <li><a href="#team">Board Roster</a></li>
+        <li><a href="#" onclick="return false;">Projects</a></li>
+        <li><a href="#" onclick="return false;">Events & 12h</a></li>
+        <li><a href="#" onclick="return false;">IRC & Discord</a></li>
+      </ul>
+
+      <div class="z-menu-title">Web Info</div>
+      <div style="font-size: 10px; text-align: center; margin-top: 6px;">
+        Best viewed in<br>
+        <strong>Netscape 4.0</strong><br>
+        at 800x600 resolution<br><br>
+        <div style="background: #000; color: #ff7f00; padding: 2px; font-family: monospace; border: 1px solid #808080;">
+          VISITORS: 004821
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="z-main">
+      <div class="z-box">
+        <div class="z-box-title">About Zeus WPI</div>
+        <p style="margin: 0; line-height: 1.4;">
+          Zeus WPI is the official student association for Computer Science at Ghent University. We organize hackathons, tech talks, open-source workshops, and legendary social events!
+        </p>
+      </div>
+
+      <!-- Board Members Table -->
+      <div class="z-box" id="team">
+        <div class="z-box-title">Active Board Members & Officers</div>
+        <table class="z-roster">
+          <thead>
+            <tr>
+              <th>Role</th>
+              <th>Member</th>
+              <th>Status / Focus</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>President</strong></td>
+              <td>Jan Janssens</td>
+              <td>Club Management &amp; Strategy</td>
+            </tr>
+            <tr>
+              <td><strong>Vice-President</strong></td>
+              <td>Eva De Smet</td>
+              <td>Internal Operations</td>
+            </tr>
+            <tr>
+              <td><strong>Sysadmin</strong></td>
+              <td>Filip van den Wever</td>
+              <td>SysAdmin Guild</td>
+            </tr>
+            <tr>
+              <td><strong>Public Relations</strong></td>
+              <td>Tybo Verslype</td>
+              <td>External Relations, Social Campaigns &amp; Event Promo</td>
+            </tr>
+            <tr>
+              <td><strong>Finance</strong></td>
+              <td>Lucas Peeters</td>
+              <td>Treasury &amp; Budgeting</td>
+            </tr>
+            <tr>
+              <td><strong>Events Lead</strong></td>
+              <td>Sophie Martens</td>
+              <td>Socials &amp; 12h Hackathon Ops</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Protected PR Draft Post Box -->
+    <div class="z-box" id="draft-post-box">
+  <div class="z-box-title" style="color: #ff7f00;">PR Draft: "Haldis een prijsje"</div>
+  <p style="margin: 4px 0 8px 0; font-size: 11px; color: #555;">
+    <em>[UNPUBLISHED DRAFT]</em>
+  </p>
+  <div style="padding: 10px; background: #fff; border: 1px inset #dfdfdf; font-family: Arial, sans-serif;">
+    <h3 style="margin: 0 0 8px 0; font-size: 13px; color: #333;">Draft: PR Reflections & "Haldis een prijsje" Showcase</h3>
+
+    <p style="margin: 0 0 8px 0; line-height: 1.4; color: #222;">
+      Hey Zeus members! As PR for Zeus WPI, I managed both internal and external communication. My responsibilities included delivering presentations to engage students, maintaining the website and social media platforms, designing promotional materials such as graphical posters, and coordinating with event organizers to ensure effective communication. But for this one I did something no one expected.
+    </p>
+
+    <p style="margin: 0 0 10px 0; line-height: 1.4; color: #222; background: #fff8f0; padding: 6px; border-left: 3px solid #ff7f00;">
+      <strong>"Haldis een prijsje"</strong> is a dockerized Python/Flask Zeus WPI project that automates menu and price scraping from restaurant websites. By parsing this data into a custom format, it integrates seamlessly with Haldis, an internal ordering system used by Zeus WPI to streamline group food orders. The project automates menu retrieval, reduces manual input and ensures accurate pricing.
+    </p>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; border-top: 1px dashed #ccc; padding-top: 6px;">
+      <button onclick="
+        if (typeof parent.completeStep4 === 'function') parent.completeStep4();
+        else if (typeof window.completeStep4 === 'function') window.completeStep4();
+        this.innerText = 'Published!';
+        this.disabled = true;
+      " style="background: #ff7f00; color: #ffffff; border: 1px outset #ffffff; font-weight: bold; font-size: 11px; cursor: pointer; padding: 3px 8px;">
+        Publish
+      </button>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+
+  <div class="z-footer">
+    &copy; Zeus WPI Ghent University | Hosted on retro-sys infrastructure
+  </div>
+
+  <script>
+    function handleLogin() {
+      const passwordInput = document.getElementById('pass-input').value;
+      const draftBox = document.getElementById('draft-post-box');
+      const statusLabel = document.getElementById('login-status-label');
+
+      if (passwordInput === "PR") {
+        draftBox.style.display = "block";
+        statusLabel.innerHTML = "<strong style='color:#00ff00;'>Logged in as PR</strong>";
+      } else {
+        statusLabel.innerHTML = "<strong style='color:#d71940;'>Wrong Password</strong>";
+      }
+    }
+  </script>
+
+</body>
+</html>
