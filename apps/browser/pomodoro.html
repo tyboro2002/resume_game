@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pomodoro Timer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #ba4949;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .timer-box {
+      background: rgba(0, 0, 0, 0.15);
+      padding: 20px 40px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .modes {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      justify-content: center;
+    }
+    .mode-btn {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.6);
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 11px;
+    }
+    .mode-btn.active {
+      background: rgba(255,255,255,0.2);
+      font-weight: bold;
+      border-color: #fff;
+    }
+    .time-display {
+      font-size: 48px;
+      font-weight: bold;
+      margin: 15px 0;
+      letter-spacing: 2px;
+    }
+    .controls {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+    .ctrl-btn {
+      background: #fff;
+      color: #ba4949;
+      border: none;
+      padding: 8px 20px;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .ctrl-btn:hover {
+      background: #f0f0f0;
+    }
+  </style>
+</head>
+<body>
+  <div class="timer-box">
+    <div class="modes">
+      <button class="mode-btn active" onclick="setMode(25, this)">Pomodoro</button>
+      <button class="mode-btn" onclick="setMode(5, this)">Short Break</button>
+      <button class="mode-btn" onclick="setMode(15, this)">Long Break</button>
+    </div>
+    <div class="time-display" id="timer">25:00</div>
+    <div class="controls">
+      <button class="ctrl-btn" id="start-pause-btn" onclick="toggleTimer()">START</button>
+      <button class="ctrl-btn" onclick="resetTimer()" style="background: transparent; color: #fff; border: 1px solid #fff;">RESET</button>
+    </div>
+  </div>
+
+  <script>
+    let timeLeft = 25 * 60;
+    let timerId = null;
+    let isRunning = false;
+    let currentMinutes = 25;
+
+    function updateDisplay() {
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+      document.getElementById('timer').innerText =
+        `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    function toggleTimer() {
+      const btn = document.getElementById('start-pause-btn');
+      if (isRunning) {
+        clearInterval(timerId);
+        isRunning = false;
+        btn.innerText = 'START';
+      } else {
+        isRunning = true;
+        btn.innerText = 'PAUSE';
+        timerId = setInterval(() => {
+          if (timeLeft > 0) {
+            timeLeft--;
+            updateDisplay();
+          } else {
+            clearInterval(timerId);
+            isRunning = false;
+            btn.innerText = 'START';
+            try {
+              window.parent.showModalError('Pomodoro Timer', 'Session completed! Time for a break or next task.');
+            } catch(e) {
+              alert('Session completed!');
+            }
+          }
+        }, 1000);
+      }
+    }
+
+    function resetTimer() {
+      clearInterval(timerId);
+      isRunning = false;
+      document.getElementById('start-pause-btn').innerText = 'START';
+      timeLeft = currentMinutes * 60;
+      updateDisplay();
+    }
+
+    function setMode(minutes, btnElement) {
+      clearInterval(timerId);
+      isRunning = false;
+      document.getElementById('start-pause-btn').innerText = 'START';
+      currentMinutes = minutes;
+      timeLeft = minutes * 60;
+      updateDisplay();
+
+      document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+      btnElement.classList.add('active');
+    }
+
+    updateDisplay();
+  </script>
+</body>
+</html>

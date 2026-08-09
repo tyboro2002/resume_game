@@ -199,6 +199,71 @@
   </style>
 </head>
 <body>
+  <!-- Login Screen Intro Overlay -->
+  <div id="intro-overlay" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 99999; background: #008080; display: flex; justify-content: center; align-items: center; overflow: hidden; font-family: Tahoma, Arial, sans-serif; transition: opacity 0.8s ease;">
+
+  <!-- Login Dialog Box -->
+  <div style="width: 380px; background: #c0c0c0; border-top: 2px solid #dfdfdf; border-left: 2px solid #dfdfdf; border-right: 2px solid #404040; border-bottom: 2px solid #404040; box-shadow: 4px 4px 15px rgba(0,0,0,0.6); z-index: 2;">
+    <!-- Title Bar -->
+    <div style="background: linear-gradient(90deg, #000080, #1084d0); color: white; padding: 4px 6px; font-weight: bold; font-size: 11px; display: flex; justify-content: space-between; align-items: center;">
+      <span>Enter Windows Password</span>
+    </div>
+    <!-- Body -->
+    <div style="padding: 16px;">
+      <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 14px;">
+        <img src="https://win98icons.alexmeub.com/icons/png/computer_explorer-0.png" alt="PC" style="width: 32px; height: 32px;" />
+        <div style="font-size: 11px; color: #000;">
+          Welcome, Please log in to initialize the Portfolio OS session.
+        </div>
+      </div>
+
+      <div style="margin-bottom: 8px;">
+        <label style="font-weight: bold; font-size: 11px; display: block; margin-bottom: 2px;">User name:</label>
+        <input type="text" value="User" readonly style="width: 100%; background: #e0e0e0; color: #000; border: 2px inset #dfdfdf; padding: 4px; font-size: 11px; box-sizing: border-box;" />
+      </div>
+
+      <div style="margin-bottom: 14px;">
+        <label for="login-password" style="font-weight: bold; font-size: 11px; display: block; margin-bottom: 2px;">Password:</label>
+        <input type="password" id="login-password" placeholder="Enter password..." style="width: 100%; background: #fff; color: #000; border: 2px inset #dfdfdf; padding: 4px; font-size: 11px; box-sizing: border-box;" onkeydown="if(event.key === 'Enter') checkLogin()" />
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 6px;">
+        <button onclick="checkLogin()" style="width: 75px; font-weight: bold; background: #c0c0c0; border-top: 2px solid #dfdfdf; border-left: 2px solid #dfdfdf; border-right: 2px solid #404040; border-bottom: 2px solid #404040; padding: 4px; cursor: pointer; font-size: 11px;">OK</button>
+        <button onclick="document.getElementById('login-password').value='1337'" style="width: 75px; background: #c0c0c0; border-top: 2px solid #dfdfdf; border-left: 2px solid #dfdfdf; border-right: 2px solid #404040; border-bottom: 2px solid #404040; padding: 4px; cursor: pointer; font-size: 11px;">Hint</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Post-it Note Stuck to the Screen -->
+  <div style="position: absolute; top: 40px; right: 50px; width: 140px; height: 130px; background: #fffa75; padding: 12px; box-shadow: 3px 5px 10px rgba(0,0,0,0.3); transform: rotate(4deg); font-family: 'Comic Sans MS', cursive, sans-serif; font-size: 12px; color: #333; z-index: 3; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; border-top: 15px solid #f4ee5e;">
+    <div style="font-weight: bold; font-size: 11px; color: #d9534f;">NOTE:</div>
+    <div>Use password: <br><strong style="font-size: 14px; color: #000;">1337</strong></div>
+    <div style="font-size: 9px; text-align: right; color: #666;">- Me</div>
+  </div>
+
+  </div>
+
+    <!-- Windows 98 Boot / Loading Screen -->
+    <div id="boot-screen" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 99998; background: #7baee3; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.5s ease; overflow: hidden;">
+
+    <!-- Local Windows 98 Startup Image -->
+    <img src="assets/images/windows-98-boot-screen.webp" alt="Windows 98 Startup" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;" />
+
+    <div style="position: absolute; bottom: 15px; width: 280px; display: flex; flex-direction: column; align-items: center; z-index: 2;">
+      <div style="width: 100%; height: 18px; background: #c0c0c0; border-top: 2px solid #808080; border-left: 2px solid #808080; border-right: 2px solid #ffffff; border-bottom: 2px solid #ffffff; padding: 2px; box-sizing: border-box; display: flex; gap: 2px; box-shadow: 2px 2px 0px #000000; border-radius: 0;">
+        <div class="boot-block" style="flex: 1; background: #ffffff; height: 100%; border-radius: 0;"></div>
+        <div class="boot-block" style="flex: 1; background: #ffffff; height: 100%; border-radius: 0;"></div>
+        <div class="boot-block" style="flex: 1; background: #ffffff; height: 100%; border-radius: 0;"></div>
+        <div class="boot-block" style="flex: 1; background: #ffffff; height: 100%; border-radius: 0;"></div>
+        <div class="boot-block" style="flex: 1; background: #ffffff; height: 100%; border-radius: 0;"></div>
+        <div class="boot-block" style="flex: 1; background: #ffffff; height: 100%; border-radius: 0;"></div>
+        <div class="boot-block" style="flex: 1; background: #ffffff; height: 100%; border-radius: 0;"></div>
+        <div class="boot-block" style="flex: 1; background: #ffffff; height: 100%; border-radius: 0;"></div>
+        <div class="boot-block" style="flex: 1; background: #ffffff; height: 100%; border-radius: 0;"></div>
+        <div class="boot-block" style="flex: 1; background: #ffffff; height: 100%; border-radius: 0;"></div>
+      </div>
+    </div>
+  </div>
 
   <!-- Desktop Icons Container -->
   <div id="desktop"></div>
@@ -231,7 +296,7 @@
   <!-- Unlocked Control Panel Shell -->
   <div id="control-panel-unlocked" class="window" style="width: 630px; height: 450px; top: 70px; left: 140px; z-index: 3000; display: none;">
     <div class="title-bar">
-      <div class="title-bar-text">⚙️ Control Panel - Administrator Mode</div>
+      <div class="title-bar-text">Control Panel - Administrator Mode</div>
       <div class="title-bar-controls">
         <button aria-label="Close" onclick="closeWindow('control-panel-unlocked')"></button>
       </div>
@@ -271,14 +336,14 @@
         </div>
 
         <div class="menu-item-dark" onclick="openWindow('resume-window'); toggleStartMenu();">
-          📁 My Documents
+          <img src="https://win98icons.alexmeub.com/icons/png/directory_closed_cool-3.png" alt="" style="width: 16px; height: 16px; vertical-align: middle; image-rendering: pixelated; margin-right: 4px;"> My Documents
         </div>
         <div class="menu-item-dark" onclick="openControlPanel(); toggleStartMenu();">
-          ⚙️ Control Panel
+          <img src="https://win98icons.alexmeub.com/icons/png/settings_gear-4.png" alt="" style="width: 16px; height: 16px; vertical-align: middle; image-rendering: pixelated; margin-right: 4px;"> Control Panel
         </div>
         <!-- Hidden by default until step 5 / Digidokter mail is read -->
         <div class="menu-item-dark" id="logoff-menu-item" style="display: none;" onclick="openWindow('victory-window'); toggleStartMenu();">
-          🔒 Log Off
+          <img src="https://win98icons.alexmeub.com/icons/png/key_padlock-0.png" alt="" style="width: 16px; height: 16px; vertical-align: middle; image-rendering: pixelated; margin-right: 4px;"> Log Off
         </div>
       </div>
     </div>
@@ -579,12 +644,14 @@
                 <button aria-label="Close" onclick="closeWindow('${app.id}')"></button>
               </div>
             </div>
-            <div class="window-body" style="display: flex; flex-direction: column; height: calc(100% - 36px); gap: 6px;">
+            <div class="window-body" style="display: flex; flex-direction: column; height: calc(100% - 36px); gap: 6px; position: relative;">
               <div style="display: flex; gap: 4px; align-items: center;">
                 <button onclick="resetBrowserHome()">🏠</button>
                 <input type="text" id="address-bar" value="https://www.google.com" placeholder="Type URL..." style="flex-grow: 1;" onkeydown="if(event.key === 'Enter') navigateToUrl()" />
                 <button onclick="navigateToUrl()" style="font-weight: bold;">Go</button>
+                <button onclick="toggleBookmarksMenu(event)" title="Favorites / Bookmarks">⭐ Bookmarks</button>
               </div>
+              <div id="bookmarks-dropdown" style="display: none; position: absolute; top: 38px; right: 4px; z-index: 1000; width: 200px; box-shadow: 2px 2px 6px rgba(0,0,0,0.3);"></div>
               <iframe id="browser-frame" src="${app.startPage}" style="width: 100%; flex-grow: 1; border: 2px inset #dfdfdf; background: white;"></iframe>
             </div>`;
         } else {
@@ -652,7 +719,7 @@
       window.step5Done = true;
       window.isGameWon = true;
 
-      // Use the showNotification function with step 5 complete notification file
+      loadWindowContent('clues-window', 'apps/briefing/step6.html');
       showNotification('apps/notifications/step5_complete.html', '💬 Message from The Boss');
 
       // Reveal the logout button in the Start Menu
@@ -703,7 +770,31 @@
         frame.src = 'apps/browser/zeus.html';
         document.getElementById('address-bar').value = 'https://zeus.ugent.be/';
         title.innerText = 'Internet Explorer - Zeus WPI site';
-      } else {
+      } else if (input.includes('www.clubbrugge.be')) {
+        frame.src = 'apps/browser/clubbrugge.html';
+        document.getElementById('address-bar').value = 'https://www.clubbrugge.be';
+        title.innerText = 'Internet Explorer - Club Brugge Official';
+      } else if (input.includes('www.chess.com')) {
+        frame.src = 'apps/browser/chess.html';
+        document.getElementById('address-bar').value = 'https://www.chess.com';
+        title.innerText = 'Internet Explorer - Chess.com';
+      } else if (input.includes('sporza.be/nl/categorie/voetbal/')) {
+        frame.src = 'apps/browser/sporza.html';
+        document.getElementById('address-bar').value = 'https://sporza.be/nl/categorie/voetbal/';
+        title.innerText = 'Internet Explorer - Sporza Voetbal';
+      } else if (input.includes('www.bibliotheek.be')) {
+        frame.src = 'apps/browser/bib.html';
+        document.getElementById('address-bar').value = 'https://www.bibliotheek.be';
+        title.innerText = 'Internet Explorer - Bibliotheek';
+      } else if (input.includes('pomofocus.io')) {
+        frame.src = 'apps/browser/pomodoro.html';
+        document.getElementById('address-bar').value = 'https://pomofocus.io';
+        title.innerText = 'Internet Explorer - Pomodoro Timer';
+      } else if (input.includes('leetcode.com')) {
+        frame.src = 'apps/browser/leetcode.html';
+        document.getElementById('address-bar').value = 'https://www.leetcode.com';
+        title.innerText = 'Internet Explorer - LeetCode';
+      }else {
         frame.srcdoc = `
           <html>
             <body style="font-family: Arial, sans-serif; padding: 20px; text-align: center; color: #555;">
@@ -722,6 +813,52 @@
       frame.removeAttribute('srcdoc');
       frame.src = 'apps/browser/start_page.html';
     }
+
+    function toggleBookmarksMenu(event) {
+      event.stopPropagation();
+      const dropdown = document.getElementById('bookmarks-dropdown');
+      if (!dropdown) return;
+
+      if (dropdown.style.display === 'block') {
+        dropdown.style.display = 'none';
+      } else {
+        dropdown.style.display = 'block';
+        if (!dropdown.innerHTML.trim()) {
+          fetch('apps/browser/bookmarks.html')
+            .then(res => res.text())
+            .then(html => {
+              dropdown.innerHTML = html;
+              dropdown.querySelectorAll('script').forEach(oldScript => {
+                const newScript = document.createElement('script');
+                Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+                newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+                oldScript.parentNode.replaceChild(newScript, oldScript);
+              });
+            })
+            .catch(() => {
+              dropdown.innerHTML = '<div style="padding: 6px; background: #c0c0c0; color: red;">Error loading bookmarks</div>';
+            });
+        }
+      }
+    }
+
+    function navigateBookmark(url) {
+      const addressBar = document.getElementById('address-bar');
+      const dropdown = document.getElementById('bookmarks-dropdown');
+      if (addressBar) {
+        addressBar.value = url;
+        navigateToUrl();
+      }
+      if (dropdown) {
+        dropdown.style.display = 'none';
+      }
+    }
+    window.navigateBookmark = navigateBookmark;
+
+    document.addEventListener('click', () => {
+      const dropdown = document.getElementById('bookmarks-dropdown');
+      if (dropdown) dropdown.style.display = 'none';
+    });
 
     function toggleStartMenu() {
       const menu = document.getElementById('start-menu');
@@ -973,6 +1110,87 @@
     window.closeDigidokterModal = closeDigidokterModal;
 
     document.addEventListener('DOMContentLoaded', initOS);
+
+    function checkLogin() {
+      const passInput = document.getElementById('login-password');
+      const overlay = document.getElementById('intro-overlay');
+      const bootScreen = document.getElementById('boot-screen');
+
+      if (passInput && passInput.value.trim() === '1337') {
+        if (typeof playNotificationSound === 'function') {
+          playNotificationSound();
+        }
+
+        // Fade out and remove login overlay
+        if (overlay) {
+          overlay.style.opacity = '0';
+          setTimeout(() => overlay.remove(), 500);
+        }
+
+        // Show Windows 98 Boot Screen
+        if (bootScreen) {
+          bootScreen.style.display = 'flex';
+          setTimeout(() => { bootScreen.style.opacity = '1'; }, 50);
+
+          // Reset blocks to white
+          const blocks = document.querySelectorAll('.boot-block');
+          blocks.forEach(b => b.style.background = '#fff');
+
+          // Animate blocks one by one every 300ms (3 seconds total for 10 blocks)
+          let currentBlock = 0;
+          const blockInterval = setInterval(() => {
+            if (currentBlock < blocks.length) {
+              blocks[currentBlock].style.background = '#000080';
+              currentBlock++;
+            } else {
+              clearInterval(blockInterval);
+            }
+          }, 300);
+
+          // Fade out boot screen after 3.5 seconds
+          setTimeout(() => {
+            bootScreen.style.opacity = '0';
+            setTimeout(() => bootScreen.remove(), 500);
+          }, 3500);
+        }
+
+      } else {
+        playErrorSound();
+        if (passInput) {
+          passInput.focus();
+          passInput.select();
+        }
+      }
+    }
+
+    function showModalError(title, message) {
+      const modal = document.getElementById('control-panel-error');
+      if (!modal) return;
+
+      playErrorSound();
+      modal.style.display = 'block';
+      modal.style.zIndex = '5000';
+
+      const titleBarText = modal.querySelector('.title-bar-text');
+      if (titleBarText) titleBarText.innerText = title;
+
+      const winBody = modal.querySelector('.window-body');
+      if (winBody) {
+        winBody.innerHTML = `
+          <div style="display: flex; gap: 12px; align-items: center; padding: 8px;">
+            <img src="https://win98icons.alexmeub.com/icons/png/msg_warning-0.png" alt="Warning" style="width: 32px; height: 32px;" />
+            <div>
+              <p style="margin: 0; font-weight: bold; color: darkred;">${title}</p>
+              <p style="margin: 4px 0 0 0; font-size: 11px; color: #333;">${message}</p>
+            </div>
+          </div>
+          <div style="text-align: right; padding: 8px 0 0 0;">
+            <button onclick="closeWindow('control-panel-error')">OK</button>
+          </div>
+        `;
+      }
+    }
+    window.showModalError = showModalError;
   </script>
 </body>
 </html>

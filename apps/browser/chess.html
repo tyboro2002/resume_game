@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chess.com - Play & Learn</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #312e2b;
+      color: #eee;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 15px;
+    }
+    header {
+      width: 100%;
+      max-width: 400px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #403d39;
+      padding-bottom: 8px;
+    }
+    .logo {
+      color: #769656;
+      font-weight: bold;
+      font-size: 16px;
+    }
+    .main-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    .status-text {
+      font-size: 12px;
+      color: #b9b2a8;
+      text-align: center;
+      min-height: 18px;
+    }
+    /* Chess Board Grid */
+    .chessboard {
+      display: grid;
+      grid-template-columns: repeat(8, 42px);
+      grid-template-rows: repeat(8, 42px);
+      border: 3px solid #262421;
+      border-radius: 4px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+    .square {
+      width: 42px;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .light { background-color: #eeeed2; }
+    .dark { background-color: #769656; }
+    .square.selected {
+      background-color: #baca44 !important;
+    }
+    .btn {
+      background: #81b64c;
+      color: white;
+      border: none;
+      padding: 6px 14px;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 11px;
+    }
+    .btn:hover {
+      background: #71a63c;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Chess.com Tactical Puzzle</div>
+    <div style="font-size: 11px; color: #888;">Rating: 900</div>
+  </header>
+
+  <div class="main-container">
+    <div class="status-text" id="status">White to move. Find the checkmate in 1!</div>
+    
+    <div class="chessboard" id="board"></div>
+
+    <button class="btn" onclick="resetPuzzle()">Reset Puzzle</button>
+  </div>
+
+  <script>
+    let initialBoardState = [
+      ['r', '.', 'k', '.', 'r', '.', '.', '.'],
+      ['p', 'p', '.', 'p', 'p', 'p', 'p', 'p'],
+      ['.', '.', 'n', '.', '.', 'n', '.', '.'],
+      ['.', '.', '.', '.', '.', '.', 'Q', '.'],
+      ['.', '.', 'P', '.', 'P', '.', '.', '.'],
+      ['.', '.', '.', '.', '.', 'N', '.', 'P'],
+      ['P', 'P', '.', 'P', '.', 'P', 'P', '.'],
+      ['R', '.', 'B', 'K', '.', 'B', '.', 'R']
+    ];
+
+    let boardState = JSON.parse(JSON.stringify(initialBoardState));
+    let selectedSquare = null;
+    let isSolved = false;
+
+    const pieceSymbols = {
+      'r': '♜', 'n': '♞', 'b': '♝', 'q': '♛', 'k': '♚', 'p': '♟',
+      'R': '♖', 'N': '♘', 'B': '♗', 'Q': '♕', 'K': '♔', 'P': '♙',
+      '.': ''
+    };
+
+    function renderBoard() {
+      const boardEl = document.getElementById('board');
+      boardEl.innerHTML = '';
+
+      for (let r = 0; r < 8; r++) {
+        for (let c = 0; c < 8; c++) {
+          const square = document.createElement('div');
+          const isDark = (r + c) % 2 === 1;
+          square.className = `square ${isDark ? 'dark' : 'light'}`;
+
+          if (selectedSquare && selectedSquare.row === r && selectedSquare.col === c) {
+            square.classList.add('selected');
+          }
+
+          const piece = boardState[r][c];
+          square.innerText = pieceSymbols[piece] || '';
+
+          if (piece !== '.' && piece === piece.toUpperCase()) {
+            square.style.color = '#fff';
+            square.style.textShadow = '0 1px 2px #000';
+          } else {
+            square.style.color = '#222';
+          }
+
+          square.onclick = () => handleSquareClick(r, c);
+          boardEl.appendChild(square);
+        }
+      }
+    }
+
+    function handleSquareClick(r, c) {
+      if (isSolved) return;
+
+      const piece = boardState[r][c];
+
+      if (selectedSquare) {
+        if (selectedSquare.row === r && selectedSquare.col === c) {
+          selectedSquare = null;
+          renderBoard();
+          return;
+        }
+
+        // Allow switching selection to another white piece
+        if (piece !== '.' && piece === piece.toUpperCase()) {
+          selectedSquare = { row: r, col: c };
+          renderBoard();
+          return;
+        }
+
+        // Check if correct winning move: Queen from (3,6) to (1,6)
+        if (selectedSquare.row === 3 && selectedSquare.col === 6 && r === 1 && c === 6) {
+          boardState[1][6] = 'Q';
+          boardState[3][6] = '.';
+          selectedSquare = null;
+          isSolved = true;
+          renderBoard();
+
+          const statusEl = document.getElementById('status');
+          statusEl.innerText = 'Correct! Checkmate in 1 - Puzzle Solved!';
+          statusEl.style.color = '#81b64c';
+          statusEl.style.fontWeight = 'bold';
+        } else {
+          // Wrong move handler
+          selectedSquare = null;
+          renderBoard();
+          const statusEl = document.getElementById('status');
+          statusEl.innerText = 'Incorrect move! Try again.';
+          statusEl.style.color = '#e74c3c';
+          statusEl.style.fontWeight = 'bold';
+        }
+
+      } else {
+        if (piece !== '.' && piece === piece.toUpperCase()) {
+          selectedSquare = { row: r, col: c };
+          renderBoard();
+        }
+      }
+    }
+
+    function resetPuzzle() {
+      boardState = JSON.parse(JSON.stringify(initialBoardState));
+      selectedSquare = null;
+      isSolved = false;
+      const statusEl = document.getElementById('status');
+      statusEl.innerText = 'White to move. Find the checkmate in 1!';
+      statusEl.style.color = '#b9b2a8';
+      statusEl.style.fontWeight = 'normal';
+      renderBoard();
+    }
+
+    renderBoard();
+  </script>
+</body>
+</html>

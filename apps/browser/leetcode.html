@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LeetCode - Profile & Problems</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #1a1a1a;
+      color: #ffffff;
+    }
+    header {
+      background-color: #282828;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #ffa116;
+    }
+    .logo {
+      color: #ffa116;
+      font-weight: bold;
+      font-size: 16px;
+    }
+    .container {
+      max-width: 700px;
+      margin: 20px auto;
+      padding: 0 10px;
+    }
+    .stats-card {
+      background: #262626;
+      border: 1px solid #333;
+      padding: 15px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .stats-number {
+      font-size: 24px;
+      font-weight: bold;
+      color: #ffa116;
+    }
+    .problem-list {
+      background: #262626;
+      border: 1px solid #333;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .problem-item {
+      padding: 12px 15px;
+      border-bottom: 1px solid #333;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .problem-item:hover {
+      background: #333;
+    }
+    .problem-item:last-child {
+      border-bottom: none;
+    }
+    .badge-easy { color: #00b8a3; font-weight: bold; }
+    .badge-medium { color: #ffc01e; font-weight: bold; }
+    .badge-hard { color: #ff375f; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">LeetCode Profile</div>
+    <div style="font-size: 12px; color: #aaa;">Tybo Verslype</div>
+  </header>
+
+  <div class="container">
+    <div class="stats-card">
+      <div>
+        <div style="font-size: 12px; color: #aaa;">Total Solved Questions</div>
+        <div class="stats-number">114</div>
+      </div>
+      <div style="font-size: 11px; color: #888; text-align: right;">
+        Platform Rating: 1650<br>
+        Streak: Active
+      </div>
+    </div>
+
+    <h3 style="font-size: 13px; color: #ffa116; margin-bottom: 8px;">Select a Problem to Review:</h3>
+    <div class="problem-list">
+      <div class="problem-item" onclick="window.parent.showModalError('LeetCode Problem', 'Loading problem: Two Sum')">
+        <span>1. Two Sum</span>
+        <span class="badge-easy">Easy</span>
+      </div>
+      <div class="problem-item" onclick="window.parent.showModalError('LeetCode Problem', 'Loading problem: Longest Substring Without Repeating Characters')">
+        <span>3. Longest Substring Without Repeating Characters</span>
+        <span class="badge-medium">Medium</span>
+      </div>
+      <div class="problem-item" onclick="window.parent.showModalError('LeetCode Problem', 'Loading problem: Median of Two Sorted Arrays')">
+        <span>4. Median of Two Sorted Arrays</span>
+        <span class="badge-hard">Hard</span>
+      </div>
+      <div class="problem-item" onclick="window.parent.showModalError('LeetCode Problem', 'Loading problem: Valid Parentheses')">
+        <span>20. Valid Parentheses</span>
+        <span class="badge-easy">Easy</span>
+      </div>
+      <div class="problem-item" onclick="window.parent.showModalError('LeetCode Problem', 'Loading problem: Merge Two Sorted Lists')">
+        <span>21. Merge Two Sorted Lists</span>
+        <span class="badge-easy">Easy</span>
+      </div>
+      <div class="problem-item" onclick="window.parent.showModalError('LeetCode Problem', 'Loading problem: Reverse Linked List')">
+        <span>206. Reverse Linked List</span>
+        <span class="badge-easy">Easy</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

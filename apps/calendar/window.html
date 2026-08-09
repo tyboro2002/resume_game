@@ -68,6 +68,11 @@
     font-weight: bold;
     color: #000;
   }
+  .cal-day.has-event {
+    background: #e6f2ff;
+    font-weight: bold;
+    color: #004080;
+  }
   .event-card {
     margin-top: 8px;
     padding: 8px;
@@ -99,6 +104,20 @@
     const birthMonth = 5; // June (0-indexed)
     const birthDay = 22;
 
+    // Database of custom events with explicit emojis
+    const eventsDB = {
+      "0-15": { emoji: "📦", title: "Retro-Soft v1.0 Release", desc: "Release of the retro-Soft V1.0 game" },
+      "1-14": { emoji: "💖", title: "Valentine's Day", desc: "Buy flowers" },
+      "2-14": { emoji: "🥧", title: "Pi Day", desc: "Bake a pie, calculate digits of Pi, and optimize algorithms." },
+      "3-1": { emoji: "🃏", title: "April Fools Prank", desc: "Watch out for pranks." },
+      "4-2": { emoji: "🪄", title: "Harry Potter Day", desc: "Remember the final defeat of Voldemort in 1998" },
+      "5-22": { type: "birthday" }, // Handled dynamically for age calculation
+      "6-21": { emoji: "🍫", title: "Belgian National Holiday", desc: "System maintenance scheduled. Time for waffles and relaxation." },
+      "8-1": { emoji: "🎓", title: "UGent Academic Year Start", desc: "New semester lectures, labs, and student association meetups." },
+      "9-31": { emoji: "🎃", title: "Halloween LAN Party", desc: "Spooky packet sniffing, costume contests, and retro gaming tournament." },
+      "11-25": { emoji: "🎄", title: "Christmas Day", desc: "System idle mode engaged. Happy Holidays to all developers!" }
+    };
+
     window.changeCalMonth = function(offset) {
       currentCalDate.setMonth(currentCalDate.getMonth() + offset);
       renderCalendar();
@@ -118,6 +137,9 @@
       const dayEl = document.getElementById(`cal-day-${day}`);
       if (dayEl) dayEl.classList.add('selected');
 
+      const eventKey = `${month}-${day}`;
+      const eventData = eventsDB[eventKey];
+
       if (month === birthMonth && day === birthDay) {
         const age = year - birthYear;
         eventBox.innerHTML = `
@@ -125,6 +147,11 @@
           <div style="font-size: 11px; color: #333;">
             Already <strong>${age} years</strong> today... 2002 feels like yesterday!
           </div>
+        `;
+      } else if (eventData) {
+        eventBox.innerHTML = `
+          <div style="font-weight: bold; color: #000080; margin-bottom: 4px;">${eventData.emoji} ${eventData.title}</div>
+          <div style="font-size: 11px; color: #333;">${eventData.desc}</div>
         `;
       } else {
         const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -172,11 +199,17 @@
 
         const isToday = (today.getFullYear() === year && today.getMonth() === month && today.getDate() === d);
         const isBirthday = (month === birthMonth && d === birthDay);
+        const eventKey = `${month}-${d}`;
+        const eventData = eventsDB[eventKey];
 
         if (isToday) dayDiv.classList.add('today');
+
         if (isBirthday) {
           dayDiv.classList.add('birthday');
           dayDiv.innerHTML = `🎂 ${d}`;
+        } else if (eventData) {
+          dayDiv.classList.add('has-event');
+          dayDiv.innerHTML = `${eventData.emoji} ${d}`;
         } else {
           dayDiv.innerText = d;
         }
@@ -185,7 +218,7 @@
         grid.appendChild(dayDiv);
       }
 
-      // Default selection logic: select today's date if viewing the current month, else default to day 1
+      // Default selection logic: select today's date if viewing current month, else default to day 1
       if (today.getFullYear() === year && today.getMonth() === month) {
         selectCalDay(today.getDate());
       } else {

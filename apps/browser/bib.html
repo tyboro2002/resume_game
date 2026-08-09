@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <title>Mijn Bibliotheek - Uitgeleende Items</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f8f9fa;
+      color: #333;
+    }
+    header {
+      background-color: #2b5b84;
+      color: white;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-weight: bold;
+      font-size: 15px;
+    }
+    .container {
+      max-width: 650px;
+      margin: 20px auto;
+      padding: 15px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    h2 {
+      color: #2b5b84;
+      margin-top: 0;
+      font-size: 15px;
+      border-bottom: 2px solid #2b5b84;
+      padding-bottom: 6px;
+    }
+    .loan-item {
+      padding: 10px 8px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+    }
+    .loan-item:last-child {
+      border-bottom: none;
+    }
+    .item-title {
+      font-weight: bold;
+      color: #222;
+    }
+    .item-category {
+      color: #666;
+      font-size: 11px;
+      margin-top: 2px;
+    }
+    .status {
+      color: #008000;
+      font-weight: bold;
+      background: #e6f4ea;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Mijn Bibliotheek - Account</div>
+    <div style="font-size: 12px;">Pasnummer: #482910</div>
+  </header>
+
+  <div class="container">
+    <h2>Actieve Uitleningen (4 items)</h2>
+
+    <div class="loan-item">
+      <div>
+        <div class="item-title">FC Kampioenen</div>
+        <div class="item-category">Strips / Vlaamse Humor</div>
+      </div>
+      <span class="status">Nog 14 dagen</span>
+    </div>
+
+    <div class="loan-item">
+      <div>
+        <div class="item-title">Jommeke</div>
+        <div class="item-category">Strips / Jeugdavonturen</div>
+      </div>
+      <span class="status">Nog 14 dagen</span>
+    </div>
+
+    <div class="loan-item">
+      <div>
+        <div class="item-title">Harry Potter (Collectie)</div>
+        <div class="item-category">Boeken / Fantasy</div>
+      </div>
+      <span class="status">Nog 7 dagen</span>
+    </div>
+
+    <div class="loan-item">
+      <div>
+        <div class="item-title">De Kriegels - Marc de Bel</div>
+        <div class="item-category">Jeugdliteratuur / Romans</div>
+      </div>
+      <span class="status">Nog 21 dagen</span>
+    </div>
+  </div>
+</body>
+</html>
